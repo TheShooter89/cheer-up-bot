@@ -114,6 +114,12 @@ version = "0.0.0"
 [[package]]
 name = "cheer-up-manager"
 version = "0.0.0"
+dependencies = [
+ "dotenvy",
+ "log",
+ "teloxide",
+ "tokio",
+]
 
 [[package]]
 name = "chrono"
