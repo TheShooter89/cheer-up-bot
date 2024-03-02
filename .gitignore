@@ -5,6 +5,8 @@
 
 # custom testing or temporary files
 *.testing.*
+_EXTRA/
+_common_data/
 
 # database files
 static/db/*
