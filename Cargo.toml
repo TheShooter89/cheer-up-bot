@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "cheer-up",
+    "cheer-up-core",
+    "cheer-up-manager",
+    "cheer-up-api",
+]
