@@ -6,7 +6,7 @@ this is the "backend" bot of the application. User can upload a video note, view
 
 ## Setup
 
-create a Telegram bot using [@BotFather](https://t.me/botfather), for further help follow [official docs](https://core.telegram.org/bots/tutorial#getting-ready)) and copy the provided bot key
+create a Telegram bot using [@BotFather](https://t.me/botfather) and copy the provided bot key, for further help follow [official docs](https://core.telegram.org/bots/tutorial#getting-ready)
 
 set `TELOXIDE_TOKEN` environment variable inside `.env` file:
 
