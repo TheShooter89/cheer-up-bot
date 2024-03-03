@@ -6,7 +6,7 @@ this is the "frontend" bot of the application. User can press a button and recei
 
 ## Setup
 
-create a Telegram bot using [@BotFather](https://t.me/botfather), for further help follow [official docs](https://core.telegram.org/bots/tutorial#getting-ready)) and copy the provided bot key
+create a Telegram bot using [@BotFather](https://t.me/botfather) and copy the provided bot key, for further help follow [official docs](https://core.telegram.org/bots/tutorial#getting-ready)
 
 set `TELOXIDE_TOKEN` environment variable inside `.env` file:
 
