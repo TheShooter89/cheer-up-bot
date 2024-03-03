@@ -1,37 +1,42 @@
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
-# rust-against-humanity
+# CheerUp MANAGER bot
 
-small web-app clone of Cards Against Humanity card game
+this is the "backend" bot of the application. User can upload a video note, view their own uploaded videonotes and delete them 
 
+## Setup
 
-## Usage/Examples
+create a Telegram bot using [@BotFather](https://t.me/botfather), for further help follow [official docs](https://core.telegram.org/bots/tutorial#getting-ready)) and copy the provided bot key
 
-clone this repo and `cd` into it and use `cargo run` to run it
+set `TELOXIDE_TOKEN` environment variable inside `.env` file:
+
+```bash
+TELOXIDE_TOKEN=0123456789:XXxXXXXxxXXXxXXxXXxX-XxXXXxxXXxXXxx
+```
+
+## Usage
+
+`cd` into this folder and use `cargo run` to run the bot
 
 ```bash
 RUST_ENV=debug cargo run
 ```
 
+or, if you have `cargo-watch` installed
+
+```bash
+RUST_ENV=debug cargo watch -x run
+```
+
 alternatively, if on Linux, you can use `make` to run it
 
 ```bash
-make install
-
 make run
+
+make watch
 ```
 
-## Build client Typescript code
-
-move into `client/js` folder and use `npm` to build the `main.ts` file holding client code
-
-```bash
-cd client/js
-
-npm run build
-```
-
-now you can run the application with `cargo run` from project root folder
+open the bot in your Telegram app and type `/start`
 
 ## License
 
