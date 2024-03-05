@@ -4,6 +4,47 @@ use log;
 use teloxide::{net::Download, prelude::*, types::InputFile, RequestError};
 use tokio::fs;
 
+#[derive(Debug)]
+pub enum MessageType {
+    VideoNote,
+    Text,
+    Photo,
+    Video,
+    Voice,
+    Audio,
+    Unknown,
+}
+
+impl MessageType {
+    pub fn from_msg(msg: Message) -> MessageType {
+        if let Some(_) = msg.video_note() {
+            return MessageType::VideoNote;
+        }
+
+        if let Some(_) = msg.text() {
+            return MessageType::Text;
+        }
+
+        if let Some(_) = msg.photo() {
+            return MessageType::Photo;
+        }
+
+        if let Some(_) = msg.video() {
+            return MessageType::Video;
+        }
+
+        if let Some(_) = msg.voice() {
+            return MessageType::Voice;
+        }
+
+        if let Some(_) = msg.audio() {
+            return MessageType::Audio;
+        }
+
+        MessageType::Unknown
+    }
+}
+
 async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(), RequestError> {
     let file = bot.get_file(file_id).await?;
 
