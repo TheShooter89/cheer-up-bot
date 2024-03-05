@@ -42,3 +42,16 @@ Available commands:
 <code>/credits</code> - show bot credits with author profile and code repository links"
     )
 }
+
+fn credits_page(author: &str, profile_name: &str, profile_url: &str, repo_url: &str) -> String {
+    format!(
+        r"<b>Help & Commands</b>
+This bot has been created in March 2024 by {author} as open source software, all code is published on Github
+
+Author: {profile_name} - {profile_url}
+Code: {repo_url}
+
+#supportukraine
+Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to"
+    )
+}
