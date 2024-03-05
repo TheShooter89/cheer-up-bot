@@ -16,3 +16,16 @@ impl Templates {
         }
     }
 }
+
+fn start_page(user: &str) -> String {
+    format!(
+        r"<b>Hi {user}!</b>
+This bot is a manitenance bot used to upload and handle your video notes for CheerUp bot so that your friend can use the main CheerUp bot to receive a random video notes from all video notes you uploaded using this maintenance bot
+Just send a video note (aka bubble videos) to this bot and it will be ready to go
+
+To get every video note you already type <code>/list</code>
+For further help and additional commands type <code>/help</code>
+
+created with 💛️💙️ by tanque - see <code>/credits</code>"
+    )
+}
