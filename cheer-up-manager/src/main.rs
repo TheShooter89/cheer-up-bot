@@ -72,11 +72,11 @@ enum Command {
 
 async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
     match cmd {
-        Command::Start => println!("Start Command"),
-        Command::List => println!("List Command"),
-        Command::Erase => println!("Erase Command"),
-        Command::Help => println!("Help Command"),
-        Command::Credits => println!("Credits Command"),
+        Command::Start => start_command(bot, msg).await?,
+        Command::List => list_command(bot, msg).await?,
+        Command::Erase => erase_command(bot, msg).await?,
+        Command::Help => help_command(bot, msg).await?,
+        Command::Credits => credits_command(bot, msg).await?,
     }
 
     Ok(())
