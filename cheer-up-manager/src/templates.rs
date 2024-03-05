@@ -29,3 +29,16 @@ For further help and additional commands type <code>/help</code>
 created with 💛️💙️ by tanque - see <code>/credits</code>"
     )
 }
+
+fn help_page() -> String {
+    format!(
+        r"<b>Help & Commands</b>
+This bot handles video notes only. If you enter any textual message bot will respond with starting welcome message, sending other media (picture, audio, regular videos, and so on) will fail with an error message
+
+Available commands:
+<code>/start</code> - get the bot starting page
+<code>/list</code> - list all video notes you uploaded
+<code>/erase</code> - ⚠️ delete all video notes at once ⚠️
+<code>/credits</code> - show bot credits with author profile and code repository links"
+    )
+}
