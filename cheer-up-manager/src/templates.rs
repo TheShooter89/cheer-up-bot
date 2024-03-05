@@ -1,6 +1,6 @@
 use dotenvy as dotenv;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Templates {
     StartPage(String),
     HelpPage,
@@ -16,11 +16,11 @@ impl Templates {
         let profile_name = dotenv::var("AUTHOR_PROFILE_NAME")
             .expect("error loading author from envirenment variables");
 
-        let profile_url = dotenv::var("AUTHOR-PROFILE-URL")
-            .expect("error loading author from envirenment variables");
+        let profile_url = dotenv::var("AUTHOR_PROFILE_URL")
+            .expect("error loading author profile url from envirenment variables");
 
-        let repo_url =
-            dotenv::var("CODE_REPO_URL").expect("error loading author from envirenment variables");
+        let repo_url = dotenv::var("CODE_REPO_URL")
+            .expect("error loading code repo url from envirenment variables");
 
         match self {
             Templates::StartPage(user) => start_page(user),

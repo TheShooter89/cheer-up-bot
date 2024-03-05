@@ -2,7 +2,11 @@ use std::io::Error;
 
 use log;
 use teloxide::{
-    net::Download, prelude::*, types::InputFile, utils::command::BotCommands, RequestError,
+    net::Download,
+    prelude::*,
+    types::{InputFile, ParseMode},
+    utils::command::BotCommands,
+    RequestError,
 };
 use tokio::fs;
 
@@ -83,8 +87,16 @@ async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult
 }
 
 async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::StartPage(msg.chat.id.to_string());
-    println!("{}", template.render());
+    let username = match msg.chat.username() {
+        Some(username) => username,
+        None => "Unknown User",
+    };
+
+    let template = Templates::StartPage(username.to_string());
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .await?;
     Ok(())
 }
 
@@ -125,6 +137,7 @@ async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(),
 
 #[tokio::main]
 async fn main() {
+    pretty_env_logger::init();
     log::info!("Starting throw dice bot...");
     dotenvy::dotenv().ok();
 
