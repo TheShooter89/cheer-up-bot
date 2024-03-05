@@ -4,7 +4,7 @@ use log;
 use teloxide::{net::Download, prelude::*, types::InputFile, RequestError};
 use tokio::fs;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum MessageType {
     VideoNote,
     Text,
