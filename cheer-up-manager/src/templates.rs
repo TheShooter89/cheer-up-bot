@@ -1,3 +1,5 @@
+use dotenvy as dotenv;
+
 #[derive(Debug)]
 pub enum Templates {
     StartPage(String),
@@ -8,11 +10,23 @@ pub enum Templates {
 
 impl Templates {
     pub fn render(&self) -> String {
+        let author =
+            dotenv::var("AUTHOR").expect("error loading author from envirenment variables");
+
+        let profile_name = dotenv::var("AUTHOR_PROFILE_NAME")
+            .expect("error loading author from envirenment variables");
+
+        let profile_url = dotenv::var("AUTHOR-PROFILE-URL")
+            .expect("error loading author from envirenment variables");
+
+        let repo_url =
+            dotenv::var("CODE_REPO_URL").expect("error loading author from envirenment variables");
+
         match self {
-            Templates::StartPage(user) => start_page(user).to_string(),
-            Templates::HelpPage => "Help page".to_string(),
-            Templates::CreditsPage => "Credits page".to_string(),
-            Templates::EraseConfirmationPage => "EraseConfirmation page".to_string(),
+            Templates::StartPage(user) => start_page(user),
+            Templates::HelpPage => help_page(),
+            Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
+            Templates::EraseConfirmationPage => erase_confirmation_page(),
         }
     }
 }
