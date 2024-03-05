@@ -55,3 +55,13 @@ Code: {repo_url}
 Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to"
     )
 }
+
+fn erase_confirmation_page() -> String {
+    r"🚨️ <b>ERASE ALL VIDEO NOTES</b> 🚨️
+
+⚠️ <b>WARNING</b> ⚠️
+This operation will <b>permanently delete all your notes</b>
+
+Do you confirm?"
+        .to_string()
+}
