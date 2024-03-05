@@ -82,6 +82,11 @@ async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult
     Ok(())
 }
 
+async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+    let template = Templates::StartPage;
+    Ok(())
+}
+
 async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(), RequestError> {
     let file = bot.get_file(file_id).await?;
 
