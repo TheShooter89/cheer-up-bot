@@ -1,7 +1,9 @@
 use std::io::Error;
 
 use log;
-use teloxide::{net::Download, prelude::*, types::InputFile, RequestError};
+use teloxide::{
+    net::Download, prelude::*, types::InputFile, utils::command::BotCommands, RequestError,
+};
 use tokio::fs;
 
 #[derive(Debug, Clone, Copy)]
@@ -50,6 +52,33 @@ impl MessageType {
     }
 }
 
+#[derive(Debug, BotCommands, Clone)]
+#[command(rename_rule = "lowercase")]
+enum Command {
+    #[command(description = "CheerUp Bot starting page")]
+    Start,
+    #[command(description = "List all uploaded video notes")]
+    List,
+    #[command(description = "Erase all video notes")]
+    Erase,
+    #[command(description = "Show help and available commands")]
+    Help,
+    #[command(description = "Show credits and code repo links")]
+    Credits,
+}
+
+async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
+    match cmd {
+        Command::Start => println!("Start Command"),
+        Command::List => println!("List Command"),
+        Command::Erase => println!("Erase Command"),
+        Command::Help => println!("Help Command"),
+        Command::Credits => println!("Credits Command"),
+    }
+
+    Ok(())
+}
+
 async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(), RequestError> {
     let file = bot.get_file(file_id).await?;
 
@@ -70,35 +99,5 @@ async fn main() {
 
     let bot = Bot::from_env();
 
-    teloxide::repl(bot, |bot: Bot, msg: Message| async move {
-        log::info!("Throwing dice bot...");
-        println!("Throwing dice bot...");
-        println!("msg.video_note(): {:?}", msg.video_note());
-        match msg.video_note() {
-            Some(vnote) => {
-                //
-                let vnote_file_id = vnote.file.id.clone();
-                println!("vnote: {:?}", vnote);
-                println!("vnote.id: {:?}", vnote.file.id);
-
-                // bot.send_video_note(msg.chat.id, InputFile::file_id(vnote_file_id.clone()))
-                //     .await?;
-
-                println!("vnote sent to {:?}", msg.chat.id.to_string());
-
-                match download_vnote(&bot, &vnote_file_id, msg.chat.id).await {
-                    Ok(res) => println!("video note succefully downloaded, result: {:?}", res),
-                    Err(e) => println!("error while downloading video note, error: {:?}", e),
-                };
-                bot.send_message(msg.chat.id, "Specchio riflesso, come alle elementari LOL")
-                    .await
-                    .unwrap();
-                ()
-            }
-            None => println!("msg is not a video note"),
-        }
-        // bot.send_dice(msg.chat.id).await?;
-        Ok(())
-    })
-    .await;
+    Command::repl(bot, handle_commands).await;
 }
