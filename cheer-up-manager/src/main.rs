@@ -83,31 +83,29 @@ async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult
 }
 
 async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::StartPage;
+    let template = Templates::StartPage(msg.chat.id.to_string());
     println!("{}", template.render());
     Ok(())
 }
 
 async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::StartPage;
-    println!("{}", template.render());
+    println!("List Command");
     Ok(())
 }
 
 async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::StartPage;
-    println!("{}", template.render());
+    println!("Erase Command");
     Ok(())
 }
 
 async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::StartPage;
+    let template = Templates::HelpPage;
     println!("{}", template.render());
     Ok(())
 }
 
 async fn credits_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::StartPage;
+    let template = Templates::CreditsPage;
     println!("{}", template.render());
     Ok(())
 }
