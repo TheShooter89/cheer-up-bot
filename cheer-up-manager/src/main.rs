@@ -84,6 +84,7 @@ async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult
 
 async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::StartPage;
+    println!("{}", template.render());
     Ok(())
 }
 
