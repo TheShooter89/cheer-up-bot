@@ -12,6 +12,7 @@ pub enum MessageType {
     Video,
     Voice,
     Audio,
+    Document,
     Unknown,
 }
 
@@ -39,6 +40,10 @@ impl MessageType {
 
         if let Some(_) = msg.audio() {
             return MessageType::Audio;
+        }
+
+        if let Some(_) = msg.document() {
+            return MessageType::Document;
         }
 
         MessageType::Unknown
