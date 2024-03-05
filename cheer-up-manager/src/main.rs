@@ -6,6 +6,9 @@ use teloxide::{
 };
 use tokio::fs;
 
+mod templates;
+use templates::Templates;
+
 #[derive(Debug, Clone, Copy)]
 pub enum MessageType {
     VideoNote,
