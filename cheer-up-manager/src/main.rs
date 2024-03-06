@@ -3,6 +3,7 @@ use std::io::Error;
 use log;
 use teloxide::{
     net::Download,
+    payloads::SendMessageSetters,
     prelude::*,
     types::{InputFile, ParseMode},
     utils::command::BotCommands,
@@ -101,7 +102,17 @@ async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
 }
 
 async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    println!("List Command");
+    bot.send_message(
+        msg.chat.id,
+        format!(
+            r"<b>List Videonotes</b>
+
+<i>work in progress</i>"
+        ),
+    )
+    .parse_mode(ParseMode::Html)
+    .await?;
+
     Ok(())
 }
 
@@ -112,13 +123,22 @@ async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
 
 async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::HelpPage;
-    println!("{}", template.render());
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .await?;
+
     Ok(())
 }
 
 async fn credits_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::CreditsPage;
-    println!("{}", template.render());
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .disable_web_page_preview(true)
+        .await?;
+
     Ok(())
 }
 
