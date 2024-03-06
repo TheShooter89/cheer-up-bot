@@ -117,7 +117,12 @@ async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
 }
 
 async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    println!("Erase Command");
+    let template = Templates::EraseConfirmationPage;
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .await?;
+
     Ok(())
 }
 
