@@ -27,7 +27,7 @@ pub enum MessageType {
 }
 
 impl MessageType {
-    pub fn from_msg(msg: Message) -> MessageType {
+    pub fn from_msg(msg: &Message) -> MessageType {
         if let Some(_) = msg.video_note() {
             return MessageType::VideoNote;
         }
@@ -75,7 +75,26 @@ enum Command {
     Credits,
 }
 
+impl Command {
+    pub fn parse_str(cmd: &str) -> Command {
+        match cmd {
+            "/start" => Command::Start,
+            "/list" => Command::List,
+            "/erase" => Command::Erase,
+            "/help" => Command::List,
+            "/credits" => Command::Credits,
+            _ => Command::Start,
+        }
+    }
+}
+
 async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
+    if let Some(text) = msg.text() {
+        println!("message received is text: {:?}", text);
+        let parsed_cmd = Command::parse_str(&text);
+        println!("message received is command: {:?}", parsed_cmd);
+    }
+
     match cmd {
         Command::Start => start_command(bot, msg).await?,
         Command::List => list_command(bot, msg).await?,
@@ -147,6 +166,23 @@ async fn credits_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
+async fn handle_input(bot: Bot, msg: Message) -> ResponseResult<()> {
+    let message_type = MessageType::from_msg(&msg);
+    println!("Message type you sent: {:?}", message_type);
+
+    let parsed_cmd = Command::parse_str(msg.text().unwrap_or("none"));
+    println!("Command you sent: {:?}", parsed_cmd);
+
+    handle_commands(bot.clone(), parsed_cmd, msg.clone()).await;
+
+    bot.send_message(
+        msg.chat.id,
+        format!("Message type you sent: {:?}", message_type),
+    )
+    .await?;
+    Ok(())
+}
+
 async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(), RequestError> {
     let file = bot.get_file(file_id).await?;
 
@@ -161,12 +197,29 @@ async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(),
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), RequestError> {
     pretty_env_logger::init();
     log::info!("Starting throw dice bot...");
     dotenvy::dotenv().ok();
 
     let bot = Bot::from_env();
 
-    Command::repl(bot, handle_commands).await;
+    teloxide::repl(bot, handle_input).await;
+    // Command::repl(bot, handle_commands).await;
+
+    // Command::repl(bot, handle_commands).await;
+
+    //     teloxide::repl(cloned_bot, |bot: Bot, msg: Message| async move {
+    //         //
+    //         log::info!("tanque chat_id: {:?}", msg.chat.id);
+    //         let id = msg.chat.id;
+    //         bot.send_message(msg.chat.id, "shit... I'm still alive...")
+    //             .await?;
+    //         Ok(())
+    //     })
+    //     .await;
+
+    // let listener = teloxide::repl(bot, handle_input);
+    // tokio::spawn(listener)
+    Ok(())
 }
