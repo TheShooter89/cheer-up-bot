@@ -6,7 +6,7 @@ use teloxide::{
     payloads::SendMessageSetters,
     prelude::*,
     types::{InputFile, ParseMode},
-    utils::command::BotCommands,
+    utils::command::{self, BotCommands},
     RequestError,
 };
 use tokio::fs;
@@ -58,6 +58,19 @@ impl MessageType {
 
         MessageType::Unknown
     }
+
+    pub fn name(&self) -> &str {
+        match self {
+            MessageType::VideoNote => "videonote",
+            MessageType::Text => "text",
+            MessageType::Photo => "photo",
+            MessageType::Video => "video",
+            MessageType::Voice => "voice",
+            MessageType::Audio => "audio",
+            MessageType::Document => "document",
+            MessageType::Unknown => "unknown",
+        }
+    }
 }
 
 #[derive(Debug, BotCommands, Clone)]
@@ -76,25 +89,19 @@ enum Command {
 }
 
 impl Command {
-    pub fn parse_str(cmd: &str) -> Command {
+    pub fn parse_str(cmd: &str) -> Option<Command> {
         match cmd {
-            "/start" => Command::Start,
-            "/list" => Command::List,
-            "/erase" => Command::Erase,
-            "/help" => Command::List,
-            "/credits" => Command::Credits,
-            _ => Command::Start,
+            "/start" => Some(Command::Start),
+            "/list" => Some(Command::List),
+            "/erase" => Some(Command::Erase),
+            "/help" => Some(Command::Help),
+            "/credits" => Some(Command::Credits),
+            _ => None,
         }
     }
 }
 
 async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
-    if let Some(text) = msg.text() {
-        println!("message received is text: {:?}", text);
-        let parsed_cmd = Command::parse_str(&text);
-        println!("message received is command: {:?}", parsed_cmd);
-    }
-
     match cmd {
         Command::Start => start_command(bot, msg).await?,
         Command::List => list_command(bot, msg).await?,
@@ -170,17 +177,42 @@ async fn handle_input(bot: Bot, msg: Message) -> ResponseResult<()> {
     let message_type = MessageType::from_msg(&msg);
     println!("Message type you sent: {:?}", message_type);
 
-    let parsed_cmd = Command::parse_str(msg.text().unwrap_or("none"));
-    println!("Command you sent: {:?}", parsed_cmd);
+    let chat_id = msg.chat.id;
 
-    handle_commands(bot.clone(), parsed_cmd, msg.clone()).await;
+    match message_type {
+        MessageType::VideoNote => {
+            println!("received video note");
+            Ok(())
+        }
+        MessageType::Text => {
+            let command = Command::parse_str(msg.text().unwrap_or("none"));
 
-    bot.send_message(
-        msg.chat.id,
-        format!("Message type you sent: {:?}", message_type),
-    )
-    .await?;
-    Ok(())
+            println!("Text you sent: {:?}", msg.text().unwrap_or("NONE"));
+
+            if let Some(cmd) = command {
+                println!("Command you sent: {:?}", cmd);
+                handle_commands(bot.clone(), cmd, msg.clone()).await?;
+
+                return Ok(());
+            }
+
+            start_command(bot.clone(), msg.clone()).await?;
+
+            Ok(())
+        }
+        _ => {
+            bot.send_message(
+                chat_id,
+                Templates::UnsupportedInputPage(message_type.name().to_string()).render(),
+            )
+            .parse_mode(ParseMode::Html)
+            .await?;
+
+            Ok(())
+        }
+    }
+
+    // Ok(())
 }
 
 async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(), RequestError> {

@@ -6,6 +6,7 @@ pub enum Templates {
     HelpPage,
     CreditsPage,
     EraseConfirmationPage,
+    UnsupportedInputPage(String),
 }
 
 impl Templates {
@@ -27,6 +28,7 @@ impl Templates {
             Templates::HelpPage => help_page(),
             Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
             Templates::EraseConfirmationPage => erase_confirmation_page(),
+            Templates::UnsupportedInputPage(input) => unsupported_input_page(input),
         }
     }
 }
@@ -76,4 +78,28 @@ This operation will <b>permanently delete all your notes</b>
 
 Do you confirm?"
         .to_string()
+}
+
+fn unsupported_input_page(input_type: &str) -> String {
+    let media_input = match input_type {
+        "photo" => Some("a photo"),
+        "video" => Some("a video"),
+        "voice" => Some("a voice recording"),
+        "audio" => Some("an audio file"),
+        "document" => Some("a document"),
+        _ => None,
+    };
+
+    if let Some(input) = media_input {
+        return format!(
+            r"⚠️ <b>WARNING</b> ⚠️
+<b>This bot can't receive a {}. Check /help for instructions.</b>",
+            input
+        );
+    }
+
+    format!(
+        r"⚠️ <b>WARNING</b> ⚠️
+<b>Unsupported media. Check /help for instructions.</b>"
+    )
 }
