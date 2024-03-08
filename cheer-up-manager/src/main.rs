@@ -182,6 +182,13 @@ async fn handle_input(bot: Bot, msg: Message) -> ResponseResult<()> {
     match message_type {
         MessageType::VideoNote => {
             println!("received video note");
+            let vnote = msg.video_note().unwrap();
+            let vnote_file_id = vnote.file.id.clone();
+
+            match download_vnote(&bot, &vnote_file_id, chat_id).await {
+                Ok(res) => println!("vnote succefully saved: {:?}", res),
+                Err(e) => println!("error while saving video note: {:?}", e),
+            }
             Ok(())
         }
         MessageType::Text => {
@@ -218,11 +225,15 @@ async fn handle_input(bot: Bot, msg: Message) -> ResponseResult<()> {
 async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(), RequestError> {
     let file = bot.get_file(file_id).await?;
 
-    let mut output_file = fs::File::create("_EXTRA/test.mpeg").await?;
+    // let folder_name = chat_id.to_string();
+    let folder_name = "../_common_data/videonotes";
+    let file_name = format!("{}/{}.mpeg", folder_name, file_id);
+
+    let mut output_file = fs::File::create(file_name.clone()).await?;
 
     bot.download_file(&file.path, &mut output_file).await?;
 
-    bot.send_video_note(chat_id, InputFile::file("../_common_data//test.mpeg"))
+    bot.send_video_note(chat_id, InputFile::file(file_name))
         .await;
 
     Ok(())
