@@ -6,13 +6,15 @@ use teloxide::{
     payloads::SendMessageSetters,
     prelude::*,
     types::{InputFile, ParseMode},
-    utils::command::{self, BotCommands},
     RequestError,
 };
 use tokio::fs;
 
 mod templates;
 use templates::Templates;
+
+mod commands;
+use commands::*;
 
 #[derive(Debug, Clone, Copy)]
 pub enum MessageType {
@@ -73,106 +75,6 @@ impl MessageType {
     }
 }
 
-#[derive(Debug, BotCommands, Clone)]
-#[command(rename_rule = "lowercase")]
-enum Command {
-    #[command(description = "CheerUp Bot starting page")]
-    Start,
-    #[command(description = "List all uploaded video notes")]
-    List,
-    #[command(description = "Erase all video notes")]
-    Erase,
-    #[command(description = "Show help and available commands")]
-    Help,
-    #[command(description = "Show credits and code repo links")]
-    Credits,
-}
-
-impl Command {
-    pub fn parse_str(cmd: &str) -> Option<Command> {
-        match cmd {
-            "/start" => Some(Command::Start),
-            "/list" => Some(Command::List),
-            "/erase" => Some(Command::Erase),
-            "/help" => Some(Command::Help),
-            "/credits" => Some(Command::Credits),
-            _ => None,
-        }
-    }
-}
-
-async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
-    match cmd {
-        Command::Start => start_command(bot, msg).await?,
-        Command::List => list_command(bot, msg).await?,
-        Command::Erase => erase_command(bot, msg).await?,
-        Command::Help => help_command(bot, msg).await?,
-        Command::Credits => credits_command(bot, msg).await?,
-    }
-
-    Ok(())
-}
-
-async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let username = match msg.chat.username() {
-        Some(username) => username,
-        None => "Unknown User",
-    };
-
-    let template = Templates::StartPage(username.to_string());
-
-    bot.send_message(msg.chat.id, template.render())
-        .parse_mode(ParseMode::Html)
-        .await?;
-    Ok(())
-}
-
-async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    bot.send_message(
-        msg.chat.id,
-        format!(
-            r"<b>List Videonotes</b>
-
-<i>work in progress</i>"
-        ),
-    )
-    .parse_mode(ParseMode::Html)
-    .await?;
-
-    Ok(())
-}
-
-async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::EraseConfirmationPage;
-
-    bot.send_message(msg.chat.id, template.render())
-        .parse_mode(ParseMode::Html)
-        .await?;
-
-    Ok(())
-}
-
-async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::HelpPage;
-
-    bot.send_message(msg.chat.id, template.render())
-        .parse_mode(ParseMode::Html)
-        .await?;
-
-    Ok(())
-}
-
-async fn credits_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::CreditsPage;
-
-    bot.send_message(msg.chat.id, template.render())
-        .parse_mode(ParseMode::Html)
-        .disable_web_page_preview(true)
-        .await?;
-
-    Ok(())
-}
-
 async fn handle_input(bot: Bot, msg: Message) -> ResponseResult<()> {
     let message_type = MessageType::from_msg(&msg);
     println!("Message type you sent: {:?}", message_type);
@@ -218,8 +120,6 @@ async fn handle_input(bot: Bot, msg: Message) -> ResponseResult<()> {
             Ok(())
         }
     }
-
-    // Ok(())
 }
 
 async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(), RequestError> {
@@ -248,21 +148,5 @@ async fn main() -> Result<(), RequestError> {
     let bot = Bot::from_env();
 
     teloxide::repl(bot, handle_input).await;
-    // Command::repl(bot, handle_commands).await;
-
-    // Command::repl(bot, handle_commands).await;
-
-    //     teloxide::repl(cloned_bot, |bot: Bot, msg: Message| async move {
-    //         //
-    //         log::info!("tanque chat_id: {:?}", msg.chat.id);
-    //         let id = msg.chat.id;
-    //         bot.send_message(msg.chat.id, "shit... I'm still alive...")
-    //             .await?;
-    //         Ok(())
-    //     })
-    //     .await;
-
-    // let listener = teloxide::repl(bot, handle_input);
-    // tokio::spawn(listener)
     Ok(())
 }
