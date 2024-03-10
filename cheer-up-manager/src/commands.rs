@@ -84,14 +84,8 @@ async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
 async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::EraseConfirmationPage;
 
-    let confirm_button = KeyboardButton::new("CONFIRM_ERASE");
-    let abort_button = KeyboardButton::new("ABORT");
-    let keyboard_buttons: Vec<Vec<KeyboardButton>> = vec![vec![confirm_button, abort_button]];
-    let keyboard = KeyboardMarkup::new(keyboard_buttons).one_time_keyboard(true);
-
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
-        .reply_markup(keyboard)
         .await?;
 
     Ok(())
