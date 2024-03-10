@@ -19,6 +19,8 @@ pub enum Command {
     List,
     #[command(description = "Erase all video notes")]
     Erase,
+    #[command(description = "Confirm to erase all video notes")]
+    EraseAll,
     #[command(description = "Show help and available commands")]
     Help,
     #[command(description = "Show credits and code repo links")]
@@ -33,8 +35,7 @@ impl Command {
             "/erase" => Some(Command::Erase),
             "/help" => Some(Command::Help),
             "/credits" => Some(Command::Credits),
-            "CONFIRM_ERASE" => Some(Command::List),
-            "ABORT" => Some(Command::Start),
+            "/eraseall" => Some(Command::EraseAll),
             _ => None,
         }
     }
@@ -45,6 +46,7 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
         Command::Start => start_command(bot, msg).await?,
         Command::List => list_command(bot, msg).await?,
         Command::Erase => erase_command(bot, msg).await?,
+        Command::EraseAll => start_command(bot, msg).await?,
         Command::Help => help_command(bot, msg).await?,
         Command::Credits => credits_command(bot, msg).await?,
     }
