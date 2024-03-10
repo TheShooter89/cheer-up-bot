@@ -76,7 +76,7 @@ fn erase_confirmation_page() -> String {
 ⚠️ <b>WARNING</b> ⚠️
 This operation will <b>permanently delete all your notes</b>
 
-Do you confirm?"
+To confirm, manually type <code>/eraseall CONFIRM_ERASE</code>"
         .to_string()
 }
 
