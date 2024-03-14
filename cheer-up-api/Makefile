@@ -1,8 +1,5 @@
 run:
-	RUST_ENV=debug cargo run
+	RUST_LOG=trace cargo run
 
-buildrun:
-	cd client && npm run build &&	cd - && sass --update --no-source-map static/scss/custom:static/css && RUST_ENV=debug cargo run
-
-install:
-	npm -g install sass
+watch:
+	RUST_LOG=trace cargo watch -x run
