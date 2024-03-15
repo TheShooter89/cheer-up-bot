@@ -26,3 +26,8 @@ pub struct NewUser {
     first_name: String,
     last_name: Option<String>,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+struct UserBody<T> {
+    user: T,
+}
