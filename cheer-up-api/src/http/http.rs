@@ -11,7 +11,7 @@ use crate::http::users;
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 pub async fn serve(db_pool: SqlitePool) -> Result<()> {
-    let app = Router::new().with_state(db_pool);
+    let app = api_router(db_pool);
 
     let listener = TcpListener::bind("0.0.0.0:1989")
         .await
@@ -24,5 +24,6 @@ pub async fn serve(db_pool: SqlitePool) -> Result<()> {
 }
 
 fn api_router(pool: SqlitePool) -> Router {
-    Router::new()
+    Router::new().merge(users::router(pool.clone()))
+    // .merge(notes::router(pool))
 }
