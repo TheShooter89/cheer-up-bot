@@ -1,4 +1,5 @@
 use axum::{
+    body::{self, Bytes},
     http::StatusCode,
     response::{IntoResponse, Response},
 };
@@ -26,18 +27,23 @@ impl Error {
 
 impl IntoResponse for Error {
     fn into_response(self) -> Response {
-        match self {
+        let body = match self {
             Self::Sqlx(ref e) => {
                 // TODO: USE TRACER
                 log::error!("SQLx error: {:?}", e);
+                format!("SQLx error: {:?}", e)
             }
             Self::Anyhow(ref e) => {
                 // TODO: USE TRACER
                 log::error!("Generic error: {:?}", e);
+                format!("Generic error: {:?}", e)
             }
-            _ => (),
-        }
+            _ => {
+                //
+                format!("API error")
+            }
+        };
 
-        (self.status_code(), self.to_string()).into_response()
+        (self.status_code(), body).into_response()
     }
 }
