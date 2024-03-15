@@ -1,3 +1,3 @@
-mod error;
-mod http;
-mod notes;
+pub mod error;
+pub mod http;
+pub mod notes;

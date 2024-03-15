@@ -3,6 +3,9 @@ extern crate pretty_env_logger;
 use anyhow::Ok;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
 
+mod http;
+use cheer_up_api::http::error;
+
 #[macro_use]
 extern crate log;
 
