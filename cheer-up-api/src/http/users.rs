@@ -1,5 +1,5 @@
 use axum::{
-    extract::State,
+    extract::{Path, State},
     routing::{get, post},
     Extension, Json, Router,
 };
@@ -50,6 +50,7 @@ pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
         .route("/api/users", get(get_users_list))
         .route("/api/users/", get(get_users_list))
+        .route("/api/users/:user_id", get(get_user))
         .with_state(pool)
 }
 
@@ -66,4 +67,23 @@ ORDER BY id
     .await?;
 
     Ok(Json(UserListBody { users }))
+}
+
+async fn get_user(
+    Path(user_id): Path<String>,
+    State(pool): State<SqlitePool>,
+) -> Result<Json<UserBody<User>>> {
+    let user: User = sqlx::query_as!(
+        User,
+        r#"
+SELECT id, telegram_id, username, first_name, last_name
+FROM users
+WHERE id = ?
+    "#,
+        user_id
+    )
+    .fetch_one(&pool)
+    .await?;
+
+    Ok(Json(UserBody { user }))
 }
