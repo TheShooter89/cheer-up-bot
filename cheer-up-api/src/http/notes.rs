@@ -33,7 +33,7 @@ struct UpdateNote {
     file_name: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct NewNote {
     user_id: i64,
     file_name: String,
@@ -51,9 +51,9 @@ struct NoteListBody<T> {
 
 pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
-        .route("/api/notes", get(get_notes_list))
+        .route("/api/notes", get(get_notes_list).post(create_note))
         // TODO: sure as hell there's a better way to do this without duplication
-        .route("/api/notes/", get(get_notes_list))
+        .route("/api/notes/", get(get_notes_list).post(create_note))
         .route("/api/notes/:note_id", get(get_note).delete(delete_note))
         .route(
             "/api/notes/user/:user_id",
@@ -80,6 +80,29 @@ WHERE id = ?
     .await?;
 
     Ok(Json(NoteBody { note }))
+}
+
+async fn create_note(
+    State(pool): State<SqlitePool>,
+    Json(note): Json<NewNote>,
+) -> Result<Json<NoteBody<Note>>> {
+    let new_note = sqlx::query_as!(
+        Note,
+        r#"
+INSERT INTO notes (user_id, file_name)
+VALUES (?, ?);
+
+SELECT id, user_id, file_name
+FROM notes
+WHERE id = last_insert_rowid()
+    "#,
+        note.user_id,
+        note.file_name
+    )
+    .fetch_one(&pool)
+    .await?;
+
+    Ok(Json(NoteBody { note: new_note }))
 }
 
 async fn delete_note(
