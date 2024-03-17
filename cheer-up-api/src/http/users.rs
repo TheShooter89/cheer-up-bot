@@ -41,20 +41,29 @@ struct UserBody<T> {
     user: T,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct UserListBody<T> {
+    users: Vec<T>,
+}
+
 pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
-        .route("/api/user", get(get_user))
+        .route("/api/users", get(get_users_list))
+        .route("/api/users/", get(get_users_list))
         .with_state(pool)
 }
 
-pub async fn get_user(State(pool): State<SqlitePool>) -> Result<Json<UserBody<User>>> {
-    Ok(Json(UserBody {
-        user: User {
-            id: 2,
-            telegram_id: 12,
-            username: "tanqueshen".to_string(),
-            first_name: "francesco".to_string(),
-            last_name: None,
-        },
-    }))
+async fn get_users_list(State(pool): State<SqlitePool>) -> Result<Json<UserListBody<User>>> {
+    let users: Vec<User> = sqlx::query_as!(
+        User,
+        r#"
+SELECT id, telegram_id, username, first_name, last_name
+FROM users
+ORDER BY id
+    "#,
+    )
+    .fetch_all(&pool)
+    .await?;
+
+    Ok(Json(UserListBody { users }))
 }
