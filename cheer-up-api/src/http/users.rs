@@ -50,7 +50,7 @@ pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
         .route("/api/users", get(get_users_list).post(create_user))
         .route("/api/users/", get(get_users_list).post(create_user))
-        .route("/api/users/:user_id", get(get_user))
+        .route("/api/users/:user_id", get(get_user).delete(delete_user))
         .with_state(pool)
 }
 
@@ -111,4 +111,22 @@ WHERE id = last_insert_rowid()
     .await?;
 
     Ok(Json(UserBody { user }))
+}
+
+async fn delete_user(
+    Path(user_id): Path<String>,
+    State(pool): State<SqlitePool>,
+) -> Result<Json<UserBody<String>>> {
+    let _user = sqlx::query_as!(
+        User,
+        r#"
+DELETE FROM users
+WHERE id = ?
+    "#,
+        user_id
+    )
+    .execute(&pool)
+    .await?;
+
+    Ok(Json(UserBody { user: user_id }))
 }
