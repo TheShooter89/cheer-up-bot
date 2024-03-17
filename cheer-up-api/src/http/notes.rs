@@ -1,10 +1,10 @@
 use axum::{
-    extract::State,
+    extract::{Path, State},
     routing::{get, post},
-    Extension, Json, Router,
+    Json, Router,
 };
 use serde::{Deserialize, Serialize};
-use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
+use sqlx::SqlitePool;
 
 use crate::http::error::Error;
 use crate::http::http::Result;
@@ -45,7 +45,27 @@ struct NoteListBody<T> {
 pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
         .route("/api/notes", get(get_notes_list))
+        .route("/api/note/:note_id", get(get_note))
         .with_state(pool)
+}
+
+async fn get_note(
+    Path(note_id): Path<String>,
+    State(pool): State<SqlitePool>,
+) -> Result<Json<NoteBody<Note>>> {
+    let note: Note = sqlx::query_as!(
+        Note,
+        r#"
+SELECT id, user_id, file_name
+FROM notes
+WHERE id = ?
+    "#,
+        note_id
+    )
+    .fetch_one(&pool)
+    .await?;
+
+    Ok(Json(NoteBody { note }))
 }
 
 pub async fn get_notes_list(State(pool): State<SqlitePool>) -> Result<Json<NoteListBody<Note>>> {
