@@ -51,7 +51,7 @@ struct NoteListBody<T> {
 
 pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
-        .route("/api/notes", get(get_notes_list))
+        .route("/api/notes", get(get_notes_list).post(create_note))
         // TODO: sure as hell there's a better way to do this without duplication
         .route("/api/notes/", get(get_notes_list).post(create_note))
         .route("/api/notes/:note_id", get(get_note).delete(delete_note))
