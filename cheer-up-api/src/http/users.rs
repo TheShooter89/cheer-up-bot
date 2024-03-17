@@ -48,8 +48,8 @@ struct UserListBody<T> {
 
 pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
-        .route("/api/users", get(get_users_list))
-        .route("/api/users/", get(get_users_list))
+        .route("/api/users", get(get_users_list).post(create_user))
+        .route("/api/users/", get(get_users_list).post(create_user))
         .route("/api/users/:user_id", get(get_user))
         .with_state(pool)
 }
@@ -81,6 +81,31 @@ FROM users
 WHERE id = ?
     "#,
         user_id
+    )
+    .fetch_one(&pool)
+    .await?;
+
+    Ok(Json(UserBody { user }))
+}
+
+async fn create_user(
+    State(pool): State<SqlitePool>,
+    Json(user): Json<NewUser>,
+) -> Result<Json<UserBody<User>>> {
+    let user: User = sqlx::query_as!(
+        User,
+        r#"
+INSERT INTO users (telegram_id, username, first_name, last_name)
+VALUES (?, ?, ?, ?);
+
+SELECT id, telegram_id, username, first_name, last_name
+FROM users
+WHERE id = last_insert_rowid()
+    "#,
+        user.telegram_id,
+        user.username,
+        user.first_name,
+        user.last_name,
     )
     .fetch_one(&pool)
     .await?;
