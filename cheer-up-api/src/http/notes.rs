@@ -48,6 +48,7 @@ pub fn router(pool: SqlitePool) -> Router<()> {
         // TODO: sure as hell there's a better way to do this without duplication
         .route("/api/notes/", get(get_notes_list))
         .route("/api/notes/:note_id", get(get_note))
+        .route("/api/notes/random", get(get_random_note))
         .with_state(pool)
 }
 
@@ -83,4 +84,20 @@ ORDER BY id
     .await?;
 
     Ok(Json(NoteListBody { notes }))
+}
+
+async fn get_random_note(State(pool): State<SqlitePool>) -> Result<Json<NoteBody<Note>>> {
+    let note: Note = sqlx::query_as!(
+        Note,
+        r#"
+SELECT id, user_id, file_name
+FROM notes
+ORDER BY RANDOM()
+LIMIT 1
+    "#,
+    )
+    .fetch_one(&pool)
+    .await?;
+
+    Ok(Json(NoteBody { note }))
 }
