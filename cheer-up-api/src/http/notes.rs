@@ -55,7 +55,10 @@ pub fn router(pool: SqlitePool) -> Router<()> {
         // TODO: sure as hell there's a better way to do this without duplication
         .route("/api/notes/", get(get_notes_list))
         .route("/api/notes/:note_id", get(get_note).delete(delete_note))
-        .route("/api/notes/user/:user_id", get(get_notes_list_by_user))
+        .route(
+            "/api/notes/user/:user_id",
+            get(get_notes_list_by_user).delete(delete_all_user_notes),
+        )
         .route("/api/notes/random", get(get_random_note))
         .with_state(pool)
 }
@@ -130,6 +133,24 @@ ORDER BY id
     .await?;
 
     Ok(Json(NoteListBody { notes }))
+}
+
+async fn delete_all_user_notes(
+    Path(user_id): Path<String>,
+    State(pool): State<SqlitePool>,
+) -> Result<Json<NoteBody<String>>> {
+    let _notes = sqlx::query_as!(
+        Note,
+        r#"
+DELETE FROM notes
+WHERE user_id = ?
+    "#,
+        user_id,
+    )
+    .execute(&pool)
+    .await?;
+
+    Ok(Json(NoteBody { note: user_id }))
 }
 
 async fn get_random_note(State(pool): State<SqlitePool>) -> Result<Json<NoteBody<Note>>> {
