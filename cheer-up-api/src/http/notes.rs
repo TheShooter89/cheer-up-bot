@@ -37,14 +37,19 @@ struct NoteBody<T> {
     note: T,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct NoteListBody<T> {
+    note: Vec<T>,
+}
+
 pub fn router(pool: SqlitePool) -> Router<()> {
     Router::new()
-        .route("/api/note", get(get_user))
+        .route("/api/notes", get(get_notes_list))
         .with_state(pool)
 }
 
-pub async fn get_user(State(pool): State<SqlitePool>) -> Result<Json<NoteBody<Note>>> {
-    let users = sqlx::query_as!(
+pub async fn get_notes_list(State(pool): State<SqlitePool>) -> Result<Json<NoteListBody<Note>>> {
+    let users: Vec<Note> = sqlx::query_as!(
         Note,
         r#"
 SELECT id, user_id, file_name
@@ -52,16 +57,8 @@ FROM notes
 ORDER BY id
     "#,
     )
-    .fetch_one(&pool)
+    .fetch_all(&pool)
     .await?;
 
-    Ok(Json(NoteBody { note: users }))
-
-    // Ok(Json(NoteBody {
-    //     note: Note {
-    //         id: 9,
-    //         user_id: 28,
-    //         file_name: "harlock".to_string(),
-    //     },
-    // }))
+    Ok(Json(NoteListBody { note: users }))
 }
