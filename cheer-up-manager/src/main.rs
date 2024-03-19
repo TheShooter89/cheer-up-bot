@@ -22,6 +22,9 @@ use messages::*;
 mod videonotes;
 use videonotes::*;
 
+mod user;
+use user::*;
+
 mod utils;
 use utils::*;
 
@@ -37,9 +40,15 @@ async fn handle_input(bot: Bot, msg: Message) -> ResponseResult<()> {
             let vnote = msg.video_note().unwrap();
             let vnote_file_id = vnote.file.id.clone();
 
-            create_user_folder(&msg.chat).await;
-
-            let _upvn = upload_vnote(&bot, &vnote, &msg.chat).await?;
+            let save_user = save_user_to_db(&msg.chat).await;
+            if save_user.is_err() {
+                println!("an error occurred while saving user to db")
+            }
+            upload_vnote(&bot, vnote, &msg.chat).await?;
+            let save_vnote = save_vnote_to_db(vnote, &msg.chat).await;
+            if save_vnote.is_err() {
+                println!("an error occurred while saving note");
+            }
 
             match download_vnote(&bot, &vnote_file_id, chat_id).await {
                 Ok(res) => println!("vnote succefully saved: {:?}", res),
