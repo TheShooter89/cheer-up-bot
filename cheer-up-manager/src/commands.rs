@@ -3,12 +3,14 @@ use std::io::Error;
 use teloxide::{
     payloads::SendMessageSetters,
     prelude::*,
-    types::{KeyboardButton, KeyboardMarkup, ParseMode},
+    types::{InputFile, KeyboardButton, KeyboardMarkup, ParseMode},
     utils::command::BotCommands,
 };
 use tokio::fs;
 
-use crate::templates::Templates;
+use crate::{
+    templates::Templates, utils::get_user_folder_path, videonotes::get_vnote_list_from_db,
+};
 
 #[derive(Debug, BotCommands, Clone)]
 #[command(rename_rule = "lowercase")]
@@ -69,13 +71,20 @@ pub async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
 }
 
 async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+    let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
+    println!("vnote_list is: {:?}", vnote_list);
+
+    let user_folder = get_user_folder_path(&msg.chat);
+
+    for vnote in &vnote_list {
+        let file_path = format!("{}/{}", user_folder, vnote.file_name);
+        bot.send_video_note(msg.chat.id, InputFile::file(file_path))
+            .await?;
+    }
+
     bot.send_message(
         msg.chat.id,
-        format!(
-            r"<b>List Videonotes</b>
-
-<i>work in progress</i>"
-        ),
+        format!(r"You uploaded <b>{}</b> video notes", vnote_list.len()),
     )
     .parse_mode(ParseMode::Html)
     .await?;
