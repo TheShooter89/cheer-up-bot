@@ -51,6 +51,10 @@ pub fn router(pool: SqlitePool) -> Router<()> {
         .route("/api/users", get(get_users_list).post(create_user))
         .route("/api/users/", get(get_users_list).post(create_user))
         .route("/api/users/:user_id", get(get_user).delete(delete_user))
+        .route(
+            "/api/users/name/:username",
+            get(get_user_by_telegram_username),
+        )
         .with_state(pool)
 }
 
@@ -81,6 +85,25 @@ FROM users
 WHERE id = ?
     "#,
         user_id
+    )
+    .fetch_one(&pool)
+    .await?;
+
+    Ok(Json(UserBody { user }))
+}
+
+async fn get_user_by_telegram_username(
+    Path(username): Path<String>,
+    State(pool): State<SqlitePool>,
+) -> Result<Json<UserBody<User>>> {
+    let user: User = sqlx::query_as!(
+        User,
+        r#"
+SELECT id, telegram_id, username, first_name, last_name
+FROM users
+WHERE username = ?
+    "#,
+        username
     )
     .fetch_one(&pool)
     .await?;
