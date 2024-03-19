@@ -92,3 +92,24 @@ pub async fn save_vnote_to_db(vnote: &VideoNote, author: &Chat) -> ResponseResul
 
     Ok(())
 }
+
+pub async fn get_vnote_list_from_db(author: &Chat) -> ResponseResult<Vec<Note>> {
+    let client = Client::new();
+
+    let vnote_author = match get_user_by_telegram_id(author).await {
+        Ok(user) => user,
+        Err(_) => save_user_to_db(&author).await?,
+    };
+
+    let vnote_list = client
+        .get(format!(
+            "http://0.0.0.0:1989/api/notes/user/{}",
+            vnote_author.id
+        ))
+        .send()
+        .await?
+        .json::<NoteListBody<Note>>()
+        .await?;
+
+    Ok(vnote_list.notes)
+}
