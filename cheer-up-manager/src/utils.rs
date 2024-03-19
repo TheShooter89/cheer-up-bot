@@ -1,6 +1,6 @@
 use dotenvy as dotenv;
 
-use teloxide::types::Chat;
+use teloxide::types::{Chat, VideoNote};
 use tokio::fs;
 
 pub async fn create_user_folder(user: &Chat) -> Result<String, std::io::Error> {
@@ -19,4 +19,10 @@ pub fn get_user_folder_path(user: &Chat) -> String {
     );
 
     folder_path
+}
+
+pub fn get_vnote_filename(vnote: &VideoNote) -> String {
+    let filename = format!("{}.mpeg", vnote.file.id,);
+
+    filename
 }
