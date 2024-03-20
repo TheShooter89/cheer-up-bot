@@ -9,7 +9,9 @@ use teloxide::{
 use tokio::fs;
 
 use crate::{
-    templates::Templates, utils::get_user_folder_path, videonotes::get_vnote_list_from_db,
+    templates::Templates,
+    utils::get_user_folder_path,
+    videonotes::{delete_all_user_vnotes, get_vnote_list_from_db},
 };
 
 #[derive(Debug, BotCommands, Clone)]
@@ -37,7 +39,7 @@ impl Command {
             "/erase" => Some(Command::Erase),
             "/help" => Some(Command::Help),
             "/credits" => Some(Command::Credits),
-            "/eraseall" => Some(Command::EraseAll),
+            "/eraseall CONFIRM_ERASE" => Some(Command::EraseAll),
             _ => None,
         }
     }
@@ -48,7 +50,7 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
         Command::Start => start_command(bot, msg).await?,
         Command::List => list_command(bot, msg).await?,
         Command::Erase => erase_command(bot, msg).await?,
-        Command::EraseAll => start_command(bot, msg).await?,
+        Command::EraseAll => erase_confirmation_command(bot, msg).await?,
         Command::Help => help_command(bot, msg).await?,
         Command::Credits => credits_command(bot, msg).await?,
     }
@@ -98,6 +100,27 @@ async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
         .await?;
+
+    Ok(())
+}
+
+async fn erase_confirmation_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+    match delete_all_user_vnotes(&msg.chat).await {
+        Ok(_) => {
+            let template = Templates::EraseConfirmationCompletedPage;
+
+            bot.send_message(msg.chat.id, template.render())
+                .parse_mode(ParseMode::Html)
+                .await?;
+        }
+        Err(_) => {
+            let template = Templates::EraseConfirmationErrorPage;
+
+            bot.send_message(msg.chat.id, template.render())
+                .parse_mode(ParseMode::Html)
+                .await?;
+        }
+    };
 
     Ok(())
 }
