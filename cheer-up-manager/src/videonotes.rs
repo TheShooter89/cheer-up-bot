@@ -113,3 +113,24 @@ pub async fn get_vnote_list_from_db(author: &Chat) -> ResponseResult<Vec<Note>> 
 
     Ok(vnote_list.notes)
 }
+
+pub async fn delete_all_user_vnotes(author: &Chat) -> ResponseResult<()> {
+    let client = Client::new();
+
+    let vnote_author = match get_user_by_telegram_id(author).await {
+        Ok(user) => user,
+        Err(_) => save_user_to_db(&author).await?,
+    };
+
+    let _deleted_vnote = client
+        .delete(format!(
+            "http://0.0.0.0:1989/api/notes/user/{}",
+            vnote_author.id
+        ))
+        .send()
+        .await?
+        .json::<NoteBody<String>>()
+        .await?;
+
+    Ok(())
+}
