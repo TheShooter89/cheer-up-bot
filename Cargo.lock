@@ -251,6 +251,10 @@ version = "0.0.0"
 dependencies = [
  "dotenvy",
  "log",
+ "pretty_env_logger",
+ "reqwest",
+ "serde",
+ "serde_json",
  "teloxide",
  "tokio",
 ]
