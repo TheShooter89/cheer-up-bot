@@ -38,7 +38,7 @@ impl Templates {
 }
 
 fn start_page(user: &str) -> String {
-    format!("{}", t!("start_page", locale = "en", user = user))
+    format!("{}", t!("start_page", user = user))
 }
 
 fn help_page() -> String {

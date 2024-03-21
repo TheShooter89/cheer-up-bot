@@ -4,6 +4,7 @@ use std::io::Error;
 #[macro_use]
 extern crate rust_i18n;
 rust_i18n::i18n!("locales", fallback = "en");
+use rust_i18n::set_locale;
 
 use log;
 use teloxide::{
@@ -110,8 +111,10 @@ async fn download_vnote(bot: &Bot, file_id: &str, chat_id: ChatId) -> Result<(),
 #[tokio::main]
 async fn main() -> Result<(), RequestError> {
     pretty_env_logger::init();
-    log::info!("Starting throw dice bot...");
     dotenvy::dotenv().ok();
+
+    let app_locale = dotenvy::var("LOCALE").unwrap_or("en".to_string());
+    set_locale(&app_locale);
 
     let bot = Bot::from_env();
 
