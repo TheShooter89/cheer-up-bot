@@ -1,0 +1,10 @@
+_version: 1
+start_page: |
+  <b>Ciao Alessia!</b>
+  Questo bot è un bot di manutenzione utilizzato per caricare e gestire le tue note video per il bot CheerUp in modo che il tuo amico possa utilizzare il bot CheerUp principale per ricevere una nota video casuale da tutte le note video che hai caricato utilizzando questo bot di manutenzione.
+  Basta inviare una nota video (alias video a bolle) a questo bot e sarà pronto per essere utilizzato.
+
+  Per ottenere ogni nota video che hai già digitato /list
+  Per ulteriori aiuti e comandi aggiuntivi digitare /help
+
+  creato con 💛️💙️ da tanque - vedere /credits
