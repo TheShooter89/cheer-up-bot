@@ -3,7 +3,10 @@ use std::io::Error;
 use teloxide::{
     payloads::SendMessageSetters,
     prelude::*,
-    types::{InputFile, KeyboardButton, KeyboardMarkup, ParseMode},
+    types::{
+        InlineKeyboardButton, InlineKeyboardMarkup, InputFile, KeyboardButton, KeyboardMarkup,
+        ParseMode,
+    },
     utils::command::BotCommands,
 };
 use tokio::fs;
@@ -66,8 +69,16 @@ pub async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
 
     let template = Templates::StartPage(username.to_string());
 
+    let button_text = t!("start_page.button");
+    let keyboard_buttons = vec![vec![InlineKeyboardButton::new(
+        button_text,
+        teloxide::types::InlineKeyboardButtonKind::CallbackData("START".to_string()),
+    )]];
+    let keyboard = InlineKeyboardMarkup::new(keyboard_buttons);
+
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
         .await?;
     Ok(())
 }
