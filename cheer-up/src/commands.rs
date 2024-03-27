@@ -53,7 +53,7 @@ impl Command {
 
 pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
     match cmd {
-        Command::Start => start_command(bot, msg).await?,
+        Command::Start => start_command(&bot, msg).await?,
         Command::List => list_command(bot, msg).await?,
         Command::Erase => erase_command(bot, msg).await?,
         Command::EraseAll => erase_confirmation_command(bot, msg).await?,
@@ -64,7 +64,7 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
     Ok(())
 }
 
-pub async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let username = msg.chat.username().unwrap_or("Unknown User");
 
     let template = Templates::StartPage(username.to_string());
@@ -72,7 +72,8 @@ pub async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
 
     let callback_data = QueryData {
         topic: Topic::RandomNote,
-        payload: Some(Payload::Text("prova".to_string())),
+        // payload: Some(Payload::Text("prova".to_string())),
+        payload: None,
     };
     let serialized_callback_data =
         serde_json::to_string(&callback_data).unwrap_or("none".to_string());

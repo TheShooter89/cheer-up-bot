@@ -1,3 +1,4 @@
+use log::*;
 use teloxide::{
     prelude::*,
     types::{CallbackQuery, Chat},
@@ -7,7 +8,7 @@ use teloxide::{
 use serde::{self, Deserialize, Serialize};
 use serde_json;
 
-use crate::user::UserId;
+use crate::{commands, user::UserId};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct QueryData {
@@ -45,6 +46,7 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
     // suppress waiting spinner from button after user taps it
     bot.answer_callback_query(query.id).await?;
 
+    let message = query.message.clone();
     let chat = match query.message {
         Some(msg) => Some(msg.chat),
         None => None,
@@ -65,7 +67,7 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
 
             // INFO: call handlers based on query topic passing optional payload
             match topic {
-                Topic::RandomNote => handle_random_note(&bot, chat, data.payload).await?,
+                Topic::RandomNote => handle_random_note(&bot, message, chat, data.payload).await?,
                 _ => println!("other"),
             }
 
@@ -80,6 +82,7 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
 
 async fn handle_random_note(
     bot: &Bot,
+    msg: Option<teloxide::types::Message>,
     target: Option<Chat>,
     payload: Option<Payload>,
 ) -> ResponseResult<()> {
@@ -87,22 +90,30 @@ async fn handle_random_note(
         Some(chat) => {
             match payload {
                 Some(data) => match data {
-                    Payload::Text(text) => {
-                        bot.send_message(
-                            chat.id,
-                            format!(
-                                "you requested a random videonote, and your payload is: {}",
-                                text
-                            ),
-                        )
-                        .await?;
+                    Payload::Text(_text) => {
+                        // bot.send_message(
+                        //     chat.id,
+                        //     format!(
+                        //         "you requested a random videonote, and your payload is: {}",
+                        //         text
+                        //     ),
+                        // )
+                        // .await?;
+
+                        // INFO: we can safely unwrap msg, since chat is extracted from query.message
+                        // iteslf
+                        commands::start_command(bot, msg.unwrap()).await?;
                         Ok(())
                     }
                     // RandomNote callback needs Payload::Text only
-                    _ => Ok(()),
+                    _ => {
+                        warn!("payload provided is not Payload::Text");
+                        Ok(())
+                    }
                 },
                 None => {
                     // no Payload provided
+                    warn!("no Payload provided");
                     bot.send_message(
                         chat.id,
                         "you requested a random videonote without a payload",
@@ -113,6 +124,9 @@ async fn handle_random_note(
             }
         }
         // No target Chat available
-        None => Ok(()),
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
     }
 }

@@ -102,7 +102,7 @@ pub async fn handle_message(bot: Bot, msg: Message, me: Me) -> ResponseResult<()
                 return Ok(());
             }
 
-            start_command(bot.clone(), msg.clone()).await?;
+            start_command(&bot, msg.clone()).await?;
 
             Ok(())
         }
