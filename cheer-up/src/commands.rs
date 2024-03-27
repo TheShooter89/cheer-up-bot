@@ -26,12 +26,10 @@ use crate::{
 pub enum Command {
     #[command(description = "CheerUp Bot starting page")]
     Start,
+    #[command(description = "Show Extra page")]
+    Extra,
     #[command(description = "List all uploaded video notes")]
     List,
-    #[command(description = "Erase all video notes")]
-    Erase,
-    #[command(description = "Confirm to erase all video notes")]
-    EraseAll,
     #[command(description = "Show help and available commands")]
     Help,
     #[command(description = "Show credits and code repo links")]
@@ -42,11 +40,10 @@ impl Command {
     pub fn parse_str(cmd: &str) -> Option<Command> {
         match cmd {
             "/start" => Some(Command::Start),
+            "/extra" => Some(Command::Extra),
             "/list" => Some(Command::List),
-            "/erase" => Some(Command::Erase),
             "/help" => Some(Command::Help),
             "/credits" => Some(Command::Credits),
-            "/eraseall CONFIRM_ERASE" => Some(Command::EraseAll),
             _ => None,
         }
     }
@@ -55,9 +52,8 @@ impl Command {
 pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
     match cmd {
         Command::Start => start_command(&bot, msg).await?,
+        Command::Extra => extra_command(&bot, msg).await?,
         Command::List => list_command(bot, msg).await?,
-        Command::Erase => erase_command(bot, msg).await?,
-        Command::EraseAll => erase_confirmation_command(bot, msg).await?,
         Command::Help => help_command(bot, msg).await?,
         Command::Credits => credits_command(bot, msg).await?,
     }
@@ -77,9 +73,9 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     };
 
     let go_to_extra_callback_data = QueryData {
-        topic: Topic::RandomNote,
-        payload: Some(Payload::Text("prova".to_string())),
-        // payload: None,
+        topic: Topic::GoExtraPage,
+        // payload: Some(Payload::Text("prova".to_string())),
+        payload: None,
     };
 
     let keyboard = keyboards::start_page(&ask_friend_callback_data, &go_to_extra_callback_data);
@@ -88,6 +84,25 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .await?;
+    Ok(())
+}
+
+pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
+    let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
+    println!("vnote_list is: {:?}", vnote_list);
+
+    let template = Templates::ExtraPage(
+        "tanqueshen".to_string(),
+        // "42".to_string(),
+        vnote_list.len().to_string(),
+        "3".to_string(),
+        "@tanqueshen uploaded 9 notes\n@che uploaded 6 notes".to_string(),
+    );
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .await?;
+
     Ok(())
 }
 

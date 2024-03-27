@@ -14,3 +14,21 @@ start_page.buttons.ask_friend: |
 
 start_page.buttons.go_extra: |
   додатковий
+
+extra_page: |
+  <b>Привіт %{user}!</b>
+  Багато друзів зробили внесок у цей проект, ви можете перелічити всі відеонотатки, натиснувши кнопку нижче або за допомогою /list
+  Є %{total_notes} відеонотаток від %{total_users} друзів!
+
+  %{user_videonotes_list}
+
+  Для подальшої довідки та додаткових команд введіть /help
+
+extra_page.buttons.list_notes: |
+  УСІ ПРИМІТКИ
+
+extra_page.buttons.help: |
+  ДОПОМОГА
+
+extra_page.buttons.credits: |
+  КРЕДИТИ

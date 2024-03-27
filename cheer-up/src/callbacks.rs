@@ -26,7 +26,7 @@ pub enum Payload {
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Topic {
     RandomNote,
-    ExtraPage,
+    GoExtraPage,
     ShowId,
     Unknown,
 }
@@ -35,7 +35,7 @@ impl Topic {
     pub fn name(&self) -> String {
         match self {
             Topic::RandomNote => "#random_note".to_string(),
-            Topic::ExtraPage => "#extra".to_string(),
+            Topic::GoExtraPage => "#extra".to_string(),
             Topic::ShowId => "#show_id".to_string(),
             Topic::Unknown => "none".to_string(),
         }
@@ -68,6 +68,9 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
             // INFO: call handlers based on query topic passing optional payload
             match topic {
                 Topic::RandomNote => handle_random_note(&bot, message, chat, data.payload).await?,
+                Topic::GoExtraPage => {
+                    handle_go_extra_page(&bot, message, chat, data.payload).await?
+                }
                 _ => warn!("unkwnown topic"),
             }
 
@@ -119,6 +122,34 @@ async fn handle_random_note(
                         "you requested a random videonote without a payload",
                     )
                     .await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
+async fn handle_go_extra_page(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    warn!("Payload provided, but not needed");
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::extra_command(&bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }

@@ -3,6 +3,7 @@ use dotenvy as dotenv;
 #[derive(Debug, Clone)]
 pub enum Templates {
     StartPage(String),
+    ExtraPage(String, String, String, String),
     HelpPage,
     CreditsPage,
     EraseConfirmationPage,
@@ -27,6 +28,9 @@ impl Templates {
 
         match self {
             Templates::StartPage(user) => start_page(user),
+            Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
+                extra_page(user, total_notes, total_users, user_videonotes_list)
+            }
             Templates::HelpPage => help_page(),
             Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
             Templates::EraseConfirmationPage => erase_confirmation_page(),
@@ -39,6 +43,24 @@ impl Templates {
 
 fn start_page(user: &str) -> String {
     format!("{}", t!("start_page", user = user))
+}
+
+fn extra_page(
+    user: &str,
+    total_notes: &str,
+    total_users: &str,
+    user_videonotes_list: &str,
+) -> String {
+    format!(
+        "{}",
+        t!(
+            "extra_page",
+            user = user,
+            total_notes = total_notes,
+            total_users = total_users,
+            user_videonotes_list = user_videonotes_list
+        )
+    )
 }
 
 fn help_page() -> String {

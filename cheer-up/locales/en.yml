@@ -14,3 +14,21 @@ start_page.buttons.ask_friend: |
 
 start_page.buttons.go_extra: |
   EXTRA
+
+extra_page: |
+  <b>Hi %{user}!</b>
+  Many friends contributed to this project, you can list all videonotes by clicking the button below or with /list
+  There are %{total_notes} videonotes from %{total_users} friends!
+
+  %{user_videonotes_list}
+
+  For further help and additional commands type /help
+
+extra_page.buttons.list_notes: |
+  LIST ALL VIDEONOTES
+
+extra_page.buttons.help: |
+  HELP
+
+extra_page.buttons.credits: |
+  CREDITS
