@@ -9,5 +9,8 @@ start_page: |
 
   створено з 💛️💙️ від tanque - дивитися /credits
 
-start_page.button: |
+start_page.buttons.ask_friend: |
   запитайте друга
+
+start_page.buttons.go_extra: |
+  додатковий

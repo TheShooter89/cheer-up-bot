@@ -70,13 +70,19 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let template = Templates::StartPage(username.to_string());
 
-    let callback_data = QueryData {
+    let ask_friend_callback_data = QueryData {
         topic: Topic::RandomNote,
         payload: Some(Payload::Text("prova".to_string())),
         // payload: None,
     };
 
-    let keyboard = keyboards::start_page(&callback_data);
+    let go_to_extra_callback_data = QueryData {
+        topic: Topic::RandomNote,
+        payload: Some(Payload::Text("prova".to_string())),
+        // payload: None,
+    };
+
+    let keyboard = keyboards::start_page(&ask_friend_callback_data, &go_to_extra_callback_data);
 
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
