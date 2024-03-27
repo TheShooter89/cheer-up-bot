@@ -9,6 +9,7 @@ use teloxide::{prelude::*, RequestError};
 
 mod callbacks;
 mod commands;
+mod keyboards;
 mod messages;
 mod templates;
 mod user;

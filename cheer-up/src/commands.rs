@@ -14,6 +14,7 @@ use tokio::fs;
 
 use crate::{
     callbacks::{Payload, QueryData, Topic},
+    keyboards,
     templates::Templates,
     user::UserId,
     utils::get_user_folder_path,
@@ -68,22 +69,14 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let username = msg.chat.username().unwrap_or("Unknown User");
 
     let template = Templates::StartPage(username.to_string());
-    let button_text = t!("start_page.button");
 
     let callback_data = QueryData {
         topic: Topic::RandomNote,
-        // payload: Some(Payload::Text("prova".to_string())),
-        payload: None,
+        payload: Some(Payload::Text("prova".to_string())),
+        // payload: None,
     };
-    let serialized_callback_data =
-        serde_json::to_string(&callback_data).unwrap_or("none".to_string());
 
-    let keyboard_buttons = vec![vec![InlineKeyboardButton::new(
-        button_text,
-        teloxide::types::InlineKeyboardButtonKind::CallbackData(serialized_callback_data),
-    )]];
-
-    let keyboard = InlineKeyboardMarkup::new(keyboard_buttons);
+    let keyboard = keyboards::start_page(&callback_data);
 
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
