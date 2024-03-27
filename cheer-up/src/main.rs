@@ -7,26 +7,13 @@ use rust_i18n::set_locale;
 // use log;
 use teloxide::{prelude::*, RequestError};
 
+mod callbacks;
 mod commands;
 mod messages;
 mod templates;
 mod user;
 mod utils;
 mod videonotes;
-
-async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), RequestError> {
-    let cq_data = match query.data {
-        Some(data) => data,
-        None => "none".to_string(),
-    };
-    println!("callback query data is: {:#?}", cq_data);
-    bot.answer_callback_query(query.id).await?;
-
-    bot.send_message(query.message.unwrap().chat.id, cq_data)
-        .await?;
-
-    Ok(())
-}
 
 #[tokio::main]
 async fn main() -> Result<(), RequestError> {
@@ -41,7 +28,7 @@ async fn main() -> Result<(), RequestError> {
     // teloxide::repl(bot, handle_input).await;
     let handler = dptree::entry()
         .branch(Update::filter_message().endpoint(messages::handle_message))
-        .branch(Update::filter_callback_query().endpoint(handle_callback));
+        .branch(Update::filter_callback_query().endpoint(callbacks::handle_callback));
     Dispatcher::builder(bot, handler)
         .enable_ctrlc_handler()
         .build()

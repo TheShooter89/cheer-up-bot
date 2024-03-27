@@ -2,6 +2,9 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use teloxide::{requests::ResponseResult, types::Chat};
 
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+pub struct UserId(i64);
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
     pub id: i64,

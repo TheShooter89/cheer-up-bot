@@ -1,5 +1,6 @@
 use std::io::Error;
 
+use serde_json::json;
 use teloxide::{
     payloads::SendMessageSetters,
     prelude::*,
@@ -12,7 +13,9 @@ use teloxide::{
 use tokio::fs;
 
 use crate::{
+    callbacks::{Payload, QueryData, Topic},
     templates::Templates,
+    user::UserId,
     utils::get_user_folder_path,
     videonotes::{delete_all_user_vnotes, get_vnote_list_from_db},
 };
@@ -62,18 +65,23 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
 }
 
 pub async fn start_command(bot: Bot, msg: Message) -> ResponseResult<()> {
-    let username = match msg.chat.username() {
-        Some(username) => username,
-        None => "Unknown User",
-    };
+    let username = msg.chat.username().unwrap_or("Unknown User");
 
     let template = Templates::StartPage(username.to_string());
-
     let button_text = t!("start_page.button");
+
+    let callback_data = QueryData {
+        topic: Topic::RandomNote,
+        payload: Some(Payload::Text("prova".to_string())),
+    };
+    let serialized_callback_data =
+        serde_json::to_string(&callback_data).unwrap_or("none".to_string());
+
     let keyboard_buttons = vec![vec![InlineKeyboardButton::new(
         button_text,
-        teloxide::types::InlineKeyboardButtonKind::CallbackData("START".to_string()),
+        teloxide::types::InlineKeyboardButtonKind::CallbackData(serialized_callback_data),
     )]];
+
     let keyboard = InlineKeyboardMarkup::new(keyboard_buttons);
 
     bot.send_message(msg.chat.id, template.render())
