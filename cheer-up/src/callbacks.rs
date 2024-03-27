@@ -68,7 +68,7 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
             // INFO: call handlers based on query topic passing optional payload
             match topic {
                 Topic::RandomNote => handle_random_note(&bot, message, chat, data.payload).await?,
-                _ => println!("other"),
+                _ => warn!("unkwnown topic"),
             }
 
             Ok(())
