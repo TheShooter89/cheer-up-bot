@@ -25,19 +25,23 @@ pub enum Payload {
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Topic {
-    RandomNote,
+    GetRandomNote,
+    ListAllNotes,
+    GoHomePage,
     GoExtraPage,
-    ShowId,
-    Unknown,
+    GoCreditsPage,
+    GoHelpPage,
 }
 
 impl Topic {
     pub fn name(&self) -> String {
         match self {
-            Topic::RandomNote => "#random_note".to_string(),
+            Topic::GetRandomNote => "#random_note".to_string(),
+            Topic::ListAllNotes => "#list".to_string(),
+            Topic::GoHomePage => "#home".to_string(),
             Topic::GoExtraPage => "#extra".to_string(),
-            Topic::ShowId => "#show_id".to_string(),
-            Topic::Unknown => "none".to_string(),
+            Topic::GoCreditsPage => "#credits".to_string(),
+            Topic::GoHelpPage => "#help".to_string(),
         }
     }
 }
@@ -67,7 +71,9 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
 
             // INFO: call handlers based on query topic passing optional payload
             match topic {
-                Topic::RandomNote => handle_random_note(&bot, message, chat, data.payload).await?,
+                Topic::GetRandomNote => {
+                    handle_random_note(&bot, message, chat, data.payload).await?
+                }
                 Topic::GoExtraPage => {
                     handle_go_extra_page(&bot, message, chat, data.payload).await?
                 }

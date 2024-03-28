@@ -67,7 +67,7 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::StartPage(username.to_string());
 
     let ask_friend_callback_data = QueryData {
-        topic: Topic::RandomNote,
+        topic: Topic::GetRandomNote,
         payload: Some(Payload::Text("prova".to_string())),
         // payload: None,
     };
