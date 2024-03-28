@@ -2,23 +2,18 @@ use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyb
 
 use crate::callbacks::QueryData;
 
+pub fn make_button(label: &str, query_data: &QueryData) -> InlineKeyboardButton {
+    let data = serde_json::to_string(query_data).unwrap_or("none".to_string());
+
+    InlineKeyboardButton::new(label, InlineKeyboardButtonKind::CallbackData(data))
+}
+
 pub fn start_page(
     ask_friend_query: &QueryData,
     go_extra_query: &QueryData,
 ) -> InlineKeyboardMarkup {
-    let ask_friend_button_data =
-        serde_json::to_string(&ask_friend_query).unwrap_or("none".to_string());
-    let ask_friend_button = InlineKeyboardButton::new(
-        t!("start_page.buttons.ask_friend"),
-        InlineKeyboardButtonKind::CallbackData(ask_friend_button_data),
-    );
-
-    let go_to_extra_button_data =
-        serde_json::to_string(&go_extra_query).unwrap_or("none".to_string());
-    let go_to_extra_button = InlineKeyboardButton::new(
-        t!("start_page.buttons.go_extra"),
-        InlineKeyboardButtonKind::CallbackData(go_to_extra_button_data),
-    );
+    let ask_friend_button = make_button(&t!("start_page.buttons.ask_friend"), ask_friend_query);
+    let go_to_extra_button = make_button(&t!("start_page.buttons.go_extra"), go_extra_query);
 
     let keyboard_buttons = vec![vec![ask_friend_button, go_to_extra_button]];
 
