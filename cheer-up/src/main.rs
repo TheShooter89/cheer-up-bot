@@ -7,6 +7,7 @@ use rust_i18n::set_locale;
 // use log;
 use teloxide::{prelude::*, RequestError};
 
+mod buttons;
 mod callbacks;
 mod commands;
 mod keyboards;

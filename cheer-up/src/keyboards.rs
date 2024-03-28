@@ -1,12 +1,7 @@
 use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyboardMarkup};
 
+use crate::buttons::make_button;
 use crate::callbacks::QueryData;
-
-pub fn make_button(label: &str, query_data: &QueryData) -> InlineKeyboardButton {
-    let data = serde_json::to_string(query_data).unwrap_or("none".to_string());
-
-    InlineKeyboardButton::new(label, InlineKeyboardButtonKind::CallbackData(data))
-}
 
 pub fn start_page(
     ask_friend_query: &QueryData,
