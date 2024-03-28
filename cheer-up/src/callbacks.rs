@@ -89,6 +89,9 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
     }
 }
 
+// INFO: all combination of payloads are handled,
+//      even if not necessary for this specific handler,
+//      as an explainatory example
 async fn handle_random_note(
     bot: &Bot,
     msg: Option<teloxide::types::Message>,
@@ -117,17 +120,14 @@ async fn handle_random_note(
                     // RandomNote callback needs Payload::Text only
                     _ => {
                         warn!("payload provided is not Payload::Text");
+                        commands::start_command(bot, msg.unwrap()).await?;
                         Ok(())
                     }
                 },
                 None => {
                     // no Payload provided
                     warn!("no Payload provided");
-                    bot.send_message(
-                        chat.id,
-                        "you requested a random videonote without a payload",
-                    )
-                    .await?;
+                    commands::start_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }

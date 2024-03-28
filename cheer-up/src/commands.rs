@@ -68,8 +68,8 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let ask_friend_callback_data = QueryData {
         topic: Topic::GetRandomNote,
-        payload: Some(Payload::Text("prova".to_string())),
-        // payload: None,
+        // payload: Some(Payload::Text("prova".to_string())),
+        payload: None,
     };
 
     let go_to_extra_callback_data = QueryData {
