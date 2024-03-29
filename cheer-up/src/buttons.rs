@@ -7,11 +7,21 @@ pub fn make_button(label: &str, query_data: &QueryData) -> InlineKeyboardButton 
 
     InlineKeyboardButton::new(label, InlineKeyboardButtonKind::CallbackData(data))
 }
+
 pub fn ask_friend_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::GetRandomNote,
         payload,
     };
 
-    make_button(&t!("start_page.buttons.ask_friend"), &query_data)
+    make_button(&t!("buttons.ask_friend"), &query_data)
+}
+
+pub fn go_to_extra_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoExtraPage,
+        payload,
+    };
+
+    make_button(&t!("buttons.go_extra"), &query_data)
 }
