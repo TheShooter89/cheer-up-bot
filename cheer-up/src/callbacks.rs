@@ -81,6 +81,7 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
                 Topic::GoCreditsPage => {
                     handle_go_credits_page(&bot, message, chat, data.payload).await?
                 }
+                Topic::GoHelpPage => handle_go_help_page(&bot, message, chat, data.payload).await?,
                 _ => warn!("unkwnown topic"),
             }
 
@@ -217,6 +218,35 @@ async fn handle_go_credits_page(
                 None => {
                     // no Payload provided
                     commands::credits_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
+async fn handle_go_help_page(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    warn!("Payload provided, but not needed");
+                    commands::help_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::help_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }
