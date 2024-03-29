@@ -153,23 +153,7 @@ async fn erase_confirmation_command(bot: &Bot, msg: Message) -> ResponseResult<(
 pub async fn help_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::HelpPage;
 
-    bot.send_message(msg.chat.id, template.render())
-        .parse_mode(ParseMode::Html)
-        .await?;
-
-    let ask_friend_callback_data = QueryData {
-        topic: Topic::GetRandomNote,
-        // payload: Some(Payload::Text("prova".to_string())),
-        payload: None,
-    };
-
-    let go_to_extra_callback_data = QueryData {
-        topic: Topic::GoExtraPage,
-        // payload: Some(Payload::Text("prova".to_string())),
-        payload: None,
-    };
-
-    let keyboard = keyboards::start_page(None, None);
+    let keyboard = keyboards::help_page(None, None);
 
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
