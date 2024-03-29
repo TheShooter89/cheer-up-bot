@@ -30,8 +30,8 @@ buttons.go_home: |
 buttons.go_extra: |
   додатковий
 
-buttons.go_help: |
-  ДОПОМОГА
-
 buttons.go_credits: |
   КРЕДИТИ
+
+buttons.go_help: |
+  ДОПОМОГА

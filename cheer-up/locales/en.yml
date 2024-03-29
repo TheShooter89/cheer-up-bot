@@ -30,8 +30,8 @@ buttons.go_home: |
 buttons.go_extra: |
   EXTRA
 
-buttons.go_help: |
-  HELP
-
 buttons.go_credits: |
   CREDITS
+
+buttons.go_help: |
+  HELP
