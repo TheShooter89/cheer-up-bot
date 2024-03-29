@@ -39,7 +39,7 @@ help_page: |
   Available commands:
   /start - get the bot starting page
   /ask_friend - get a random videonote from a friend
-  /list - list all video notes you uploaded
+  /list - list all video notes your friends uploaded
   /extra - some bonus goodies
   /credits - show bot credits with author profile and code repository links
   /help - get further help and additional commands
