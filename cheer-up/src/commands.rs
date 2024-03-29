@@ -99,8 +99,11 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
         "@tanqueshen uploaded 9 notes\n@che uploaded 6 notes".to_string(),
     );
 
+    let keyboard = keyboards::extra_page(None, None);
+
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
         .await?;
 
     Ok(())
@@ -166,6 +169,24 @@ async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
         .parse_mode(ParseMode::Html)
         .await?;
 
+    let ask_friend_callback_data = QueryData {
+        topic: Topic::GetRandomNote,
+        // payload: Some(Payload::Text("prova".to_string())),
+        payload: None,
+    };
+
+    let go_to_extra_callback_data = QueryData {
+        topic: Topic::GoExtraPage,
+        // payload: Some(Payload::Text("prova".to_string())),
+        payload: None,
+    };
+
+    let keyboard = keyboards::start_page(&ask_friend_callback_data, &go_to_extra_callback_data);
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
     Ok(())
 }
 
