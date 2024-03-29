@@ -109,11 +109,14 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
             .await?;
     }
 
+    let keyboard = keyboards::list_notes_page(None, None);
+
     bot.send_message(
         msg.chat.id,
         format!(r"You uploaded <b>{}</b> video notes", vnote_list.len()),
     )
     .parse_mode(ParseMode::Html)
+    .reply_markup(keyboard)
     .await?;
 
     Ok(())
