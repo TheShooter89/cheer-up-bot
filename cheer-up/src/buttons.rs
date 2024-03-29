@@ -25,3 +25,12 @@ pub fn go_to_extra_button(payload: Option<Payload>) -> InlineKeyboardButton {
 
     make_button(&t!("buttons.go_extra"), &query_data)
 }
+
+pub fn go_to_credits_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoCreditsPage,
+        payload,
+    };
+
+    make_button(&t!("buttons.go_extra"), &query_data)
+}
