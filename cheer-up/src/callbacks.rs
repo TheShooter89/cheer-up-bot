@@ -74,6 +74,7 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
                 Topic::GetRandomNote => {
                     handle_random_note(&bot, message, chat, data.payload).await?
                 }
+                Topic::GoHomePage => handle_random_note(&bot, message, chat, data.payload).await?,
                 Topic::GoExtraPage => {
                     handle_go_extra_page(&bot, message, chat, data.payload).await?
                 }
