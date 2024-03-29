@@ -18,6 +18,17 @@ extra_page: |
 
   For further help and additional commands type /help
 
+credits_page: |
+  <b>Credits 🧬️</b>
+
+  This bot has been created in March 2024 by %{author} as open source software, all code is published on Github
+
+  Author: %{profile_name} - %{profile_url}
+  Code: %{repo_url}
+
+  #supportukraine
+  Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to
+
 buttons.ask_friend: |
   💛️ ASK A FRIEND 💙️
 
