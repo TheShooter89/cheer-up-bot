@@ -50,7 +50,7 @@ pub fn go_to_credits_button(payload: Option<Payload>) -> InlineKeyboardButton {
         payload,
     };
 
-    make_button(&t!("buttons.go_cedits"), &query_data)
+    make_button(&t!("buttons.go_credits"), &query_data)
 }
 
 pub fn go_to_help_button(payload: Option<Payload>) -> InlineKeyboardButton {
