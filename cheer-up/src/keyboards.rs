@@ -34,3 +34,19 @@ pub fn extra_page(
 
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
+
+pub fn credits_page(
+    list_all_query_payload: Option<Payload>,
+    go_credits_query: Option<Payload>,
+) -> InlineKeyboardMarkup {
+    let row_1 = vec![
+        list_all_notes_button(list_all_query_payload.clone()),
+        go_to_credits_button(go_credits_query.clone()),
+    ];
+
+    let row_2 = vec![go_to_home_button(None)];
+
+    let keyboard_buttons = vec![row_1, row_2];
+
+    InlineKeyboardMarkup::new(keyboard_buttons)
+}
