@@ -1,6 +1,6 @@
 use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyboardMarkup};
 
-use crate::buttons::{ask_friend_button, make_button};
+use crate::buttons::{ask_friend_button, go_to_extra_button, make_button};
 use crate::callbacks::QueryData;
 
 pub fn start_page(
@@ -8,7 +8,8 @@ pub fn start_page(
     go_extra_query: &QueryData,
 ) -> InlineKeyboardMarkup {
     let ask_friend_button = ask_friend_button(ask_friend_query.payload.clone());
-    let go_to_extra_button = make_button(&t!("start_page.buttons.go_extra"), go_extra_query);
+    // let go_to_extra_button = make_button(&t!("start_page.buttons.go_extra"), go_extra_query);
+    let go_to_extra_button = go_to_extra_button(go_extra_query.payload.clone());
 
     let keyboard_buttons = vec![vec![ask_friend_button, go_to_extra_button]];
 
