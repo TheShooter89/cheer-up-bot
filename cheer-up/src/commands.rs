@@ -122,37 +122,6 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-pub async fn erase_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::EraseConfirmationPage;
-
-    bot.send_message(msg.chat.id, template.render())
-        .parse_mode(ParseMode::Html)
-        .await?;
-
-    Ok(())
-}
-
-async fn erase_confirmation_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    match delete_all_user_vnotes(&msg.chat).await {
-        Ok(_) => {
-            let template = Templates::EraseConfirmationCompletedPage;
-
-            bot.send_message(msg.chat.id, template.render())
-                .parse_mode(ParseMode::Html)
-                .await?;
-        }
-        Err(_) => {
-            let template = Templates::EraseConfirmationErrorPage;
-
-            bot.send_message(msg.chat.id, template.render())
-                .parse_mode(ParseMode::Html)
-                .await?;
-        }
-    };
-
-    Ok(())
-}
-
 pub async fn help_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::HelpPage;
 

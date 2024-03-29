@@ -6,9 +6,6 @@ pub enum Templates {
     ExtraPage(String, String, String, String),
     HelpPage,
     CreditsPage,
-    EraseConfirmationPage,
-    EraseConfirmationCompletedPage,
-    EraseConfirmationErrorPage,
     UnsupportedInputPage(String),
 }
 
@@ -33,9 +30,6 @@ impl Templates {
             }
             Templates::HelpPage => help_page(),
             Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
-            Templates::EraseConfirmationPage => erase_confirmation_page(),
-            Templates::EraseConfirmationCompletedPage => erase_confirmation_completed_page(),
-            Templates::EraseConfirmationErrorPage => erase_confirmation_error_page(),
             Templates::UnsupportedInputPage(input) => unsupported_input_page(input),
         }
     }
@@ -84,30 +78,6 @@ Code: {repo_url}
 
 #supportukraine
 Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to"
-    )
-}
-
-fn erase_confirmation_page() -> String {
-    r"🚨️ <b>ERASE ALL VIDEO NOTES</b> 🚨️
-
-⚠️ <b>WARNING</b> ⚠️
-This operation will <b>permanently delete all your notes</b>
-
-To confirm, manually type <code>/eraseall CONFIRM_ERASE</code>"
-        .to_string()
-}
-
-fn erase_confirmation_completed_page() -> String {
-    format!(
-        r"✅️ <b>COMPLETED: all videonotes removed</b> 🤕️
-"
-    )
-}
-
-fn erase_confirmation_error_page() -> String {
-    format!(
-        r"🔥️🔥️ <b>ERROR: something went wrong</b> 🤕️
-"
     )
 }
 
