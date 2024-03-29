@@ -9,12 +9,6 @@ start_page: |
 
   created with 💛️💙️ by tanque - see /credits
 
-start_page.buttons.ask_friend: |
-  ASK A FRIEND
-
-start_page.buttons.go_extra: |
-  EXTRA
-
 extra_page: |
   <b>Hi %{user}!</b>
   Many friends contributed to this project, you can list all videonotes by clicking the button below or with /list
@@ -24,11 +18,20 @@ extra_page: |
 
   For further help and additional commands type /help
 
-extra_page.buttons.list_notes: |
+buttons.ask_friend: |
+  ASK A FRIEND
+
+buttons.list_notes: |
   LIST ALL VIDEONOTES
 
-extra_page.buttons.help: |
+buttons.go_home: |
+  BACK TO HOME
+
+buttons.go_extra: |
+  EXTRA
+
+buttons.go_help: |
   HELP
 
-extra_page.buttons.credits: |
+buttons.go_credits: |
   CREDITS
