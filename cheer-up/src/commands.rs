@@ -1,5 +1,6 @@
 use std::io::Error;
 
+use log::debug;
 use serde_json::json;
 use teloxide::{
     payloads::SendMessageSetters,
@@ -16,8 +17,8 @@ use crate::{
     callbacks::{Payload, QueryData, Topic},
     keyboards,
     templates::Templates,
-    user::UserId,
-    utils::get_user_folder_path,
+    user::{get_user_by_id, UserId},
+    utils::{get_user_folder_path, get_user_folder_path_by_user},
     videonotes::{delete_all_user_vnotes, get_vnote_list_from_db},
 };
 
@@ -99,25 +100,37 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
 pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
-    println!("vnote_list is: {:?}", vnote_list);
-
-    let user_folder = get_user_folder_path(&msg.chat);
+    debug!("vnote_list is: {:?}", vnote_list);
 
     for vnote in &vnote_list {
+        let user = get_user_by_id(&vnote.user_id).await?;
+
+        let mut user_folder = get_user_folder_path_by_user(&user);
+
+        // this is needed because first 2 users in database
+        // are fake for boilerplate on start up
+        if vnote.user_id == 1 || vnote.user_id == 2 {
+            user_folder = format!(
+                "../_common_data/videonotes/{}_{}",
+                user.telegram_id, user.username
+            );
+        }
+        debug!("user_folder after user check is: {}", user_folder);
+
         let file_path = format!("{}/{}", user_folder, vnote.file_name);
+        debug!("file_path is: {}", file_path);
         bot.send_video_note(msg.chat.id, InputFile::file(file_path))
             .await?;
     }
 
+    let template = Templates::ListPage(vnote_list.len().to_string());
+
     let keyboard = keyboards::list_notes_page(None, None);
 
-    bot.send_message(
-        msg.chat.id,
-        format!(r"You uploaded <b>{}</b> video notes", vnote_list.len()),
-    )
-    .parse_mode(ParseMode::Html)
-    .reply_markup(keyboard)
-    .await?;
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
 
     Ok(())
 }

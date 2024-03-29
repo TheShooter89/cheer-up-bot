@@ -4,6 +4,7 @@ use dotenvy as dotenv;
 pub enum Templates {
     StartPage(String),
     ExtraPage(String, String, String, String),
+    ListPage(String),
     HelpPage,
     CreditsPage,
     UnsupportedInputPage(String),
@@ -28,6 +29,7 @@ impl Templates {
             Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
                 extra_page(user, total_notes, total_users, user_videonotes_list)
             }
+            Templates::ListPage(total_notes) => list_page(total_notes),
             Templates::HelpPage => help_page(),
             Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
             Templates::UnsupportedInputPage(input) => unsupported_input_page(input),
@@ -55,6 +57,10 @@ fn extra_page(
             user_videonotes_list = user_videonotes_list
         )
     )
+}
+
+fn list_page(total_notes: &str) -> String {
+    format!("{}", t!("list_page", total_notes = total_notes))
 }
 
 fn credits_page(author: &str, profile_name: &str, profile_url: &str, repo_url: &str) -> String {
