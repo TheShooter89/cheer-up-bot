@@ -155,7 +155,7 @@ async fn handle_go_extra_page(
                 }
                 None => {
                     // no Payload provided
-                    commands::extra_command(&bot, msg.unwrap()).await?;
+                    commands::extra_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }
