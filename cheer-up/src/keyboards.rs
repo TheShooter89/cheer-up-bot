@@ -7,12 +7,12 @@ use crate::buttons::{
 use crate::callbacks::{Payload, QueryData};
 
 pub fn start_page(
-    ask_friend_query: &QueryData,
-    go_extra_query: &QueryData,
+    ask_friend_query: Option<Payload>,
+    go_extra_query: Option<Payload>,
 ) -> InlineKeyboardMarkup {
-    let ask_friend_button = ask_friend_button(ask_friend_query.payload.clone());
+    let ask_friend_button = ask_friend_button(ask_friend_query.clone());
     // let go_to_extra_button = make_button(&t!("start_page.buttons.go_extra"), go_extra_query);
-    let go_to_extra_button = go_to_extra_button(go_extra_query.payload.clone());
+    let go_to_extra_button = go_to_extra_button(go_extra_query.clone());
 
     let keyboard_buttons = vec![vec![ask_friend_button, go_to_extra_button]];
 
