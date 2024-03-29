@@ -17,6 +17,15 @@ pub fn ask_friend_button(payload: Option<Payload>) -> InlineKeyboardButton {
     make_button(&t!("buttons.ask_friend"), &query_data)
 }
 
+pub fn go_to_home_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoHomePage,
+        payload,
+    };
+
+    make_button(&t!("buttons.go_home"), &query_data)
+}
+
 pub fn go_to_extra_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::GoExtraPage,
