@@ -1,5 +1,5 @@
 run:
-	RUST_ENV=debug cargo run
+	RUST_LOG=debug cargo run
 
 watch:
-	RUST_ENV=debug cargo watch -x run
+	RUST_LOG=debug cargo watch -x run

@@ -1,0 +1,63 @@
+_version: 1
+start_page: |
+  <b>Hi %{user}!</b>
+
+  Even if you are far away, you are not alone 😊️
+  If you ever feel lonely, just tap ASK A FRIEND button and you get a random friend cheering you up! 🔥️ 🚀️
+
+  There are also some bonus goodies, to have a look tap EXTRA button or type /extra
+  For further help and additional commands type /help
+
+  created with 💛️💙️ by tanque - see /credits
+
+extra_page: |
+  <b>Hi %{user}!</b>
+
+  Many friends contributed to this project, you can list all videonotes by clicking the button below or with /list
+  There are %{total_notes} videonotes from %{total_users} friends!
+
+  %{user_videonotes_list}
+
+  For further help and additional commands type /help
+
+credits_page: |
+  <b>Credits 🧬️</b>
+
+  This bot has been created in March 2024 by %{author} as open source software, all code is published on Github
+
+  Author: %{profile_name} - %{profile_url}
+  Code: %{repo_url}
+
+  #supportukraine
+  Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to
+
+help_page: |
+  <b>Help & Commands</b>
+
+  This bot handles video notes only. If you enter any textual message bot will respond with starting welcome message, sending other media (picture, audio, regular videos, and so on) will fail with an error message
+
+  Available commands:
+  /start - get the bot starting page
+  /ask_friend - get a random videonote from a friend
+  /list - list all video notes your friends uploaded
+  /extra - some bonus goodies
+  /credits - show bot credits with author profile and code repository links
+  /help - get further help and additional commands
+
+buttons.ask_friend: |
+  💛️ ASK A FRIEND 💙️
+
+buttons.list_notes: |
+  🔥️ LIST ALL VIDEONOTES 🔥️
+
+buttons.go_home: |
+  ↩️ BACK TO HOME
+
+buttons.go_extra: |
+  🎉️ EXTRA
+
+buttons.go_credits: |
+  🧬️ CREDITS
+
+buttons.go_help: |
+  🆘️ HELP
