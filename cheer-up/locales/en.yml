@@ -1,10 +1,10 @@
 _version: 1
 start_page: |
   <b>Hi %{user}!</b>
-  This bot is a manitenance bot used to upload and handle your video notes for CheerUp bot so that your friend can use the main CheerUp bot to receive a random video notes from all video notes you uploaded using this maintenance bot
-  Just send a video note (aka bubble videos) to this bot and it will be ready to go
+  Even if you are far away, you are not alone 😊️
+  If you ever feel lonely, just tap ASK A FRIEND button and you get a random friend cheering you up! 🔥️ 🚀️
 
-  To get every video note you already type /list
+  There are also some bonus goodies, to have a look tap EXTRA button or type /extra
   For further help and additional commands type /help
 
   created with 💛️💙️ by tanque - see /credits
@@ -19,19 +19,19 @@ extra_page: |
   For further help and additional commands type /help
 
 buttons.ask_friend: |
-  ASK A FRIEND
+  💛️ ASK A FRIEND 💙️
 
 buttons.list_notes: |
-  LIST ALL VIDEONOTES
+  🔥️ LIST ALL VIDEONOTES 🔥️
 
 buttons.go_home: |
-  BACK TO HOME
+  ↩️ BACK TO HOME
 
 buttons.go_extra: |
-  EXTRA
+  🎉️ EXTRA
 
 buttons.go_credits: |
-  CREDITS
+  🧬️ CREDITS
 
 buttons.go_help: |
-  HELP
+  🆘️ HELP
