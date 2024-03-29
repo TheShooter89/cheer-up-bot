@@ -53,9 +53,9 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
     match cmd {
         Command::Start => start_command(&bot, msg).await?,
         Command::Extra => extra_command(&bot, msg).await?,
-        Command::List => list_command(bot, msg).await?,
-        Command::Help => help_command(bot, msg).await?,
-        Command::Credits => credits_command(bot, msg).await?,
+        Command::List => list_command(&bot, msg).await?,
+        Command::Help => help_command(&bot, msg).await?,
+        Command::Credits => credits_command(&bot, msg).await?,
     }
 
     Ok(())
@@ -97,7 +97,7 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-pub async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
     println!("vnote_list is: {:?}", vnote_list);
 
@@ -119,7 +119,7 @@ pub async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-pub async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn erase_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::EraseConfirmationPage;
 
     bot.send_message(msg.chat.id, template.render())
@@ -129,7 +129,7 @@ pub async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-async fn erase_confirmation_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+async fn erase_confirmation_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     match delete_all_user_vnotes(&msg.chat).await {
         Ok(_) => {
             let template = Templates::EraseConfirmationCompletedPage;
@@ -150,7 +150,7 @@ async fn erase_confirmation_command(bot: Bot, msg: Message) -> ResponseResult<()
     Ok(())
 }
 
-pub async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn help_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::HelpPage;
 
     bot.send_message(msg.chat.id, template.render())
@@ -178,7 +178,7 @@ pub async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-pub async fn credits_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::CreditsPage;
 
     bot.send_message(msg.chat.id, template.render())
