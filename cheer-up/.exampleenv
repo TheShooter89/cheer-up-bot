@@ -1,1 +1,6 @@
 TELOXIDE_TOKEN=0123456789:XXxXXXXxxXXXxXXxXXxX-XxXXXxxXXxXXxx
+COMMON_DATA_FOLDER=../_common_data/
+AUTHOR="Tanque"
+AUTHOR_PROFILE_NAME="tanque"
+AUTHOR_PROFILE_URL="https://github.com/TheShooter89"
+CODE_REPO_URL="https://github.com/TheShooter89/cheer-up-bot"

@@ -1,12 +1,10 @@
-use axum::{Router, ServiceExt};
-use sqlx::sqlite::SqlitePoolOptions;
+use axum::Router;
 use sqlx::SqlitePool;
-use std::time::Duration;
 use tokio::net::TcpListener;
 
 use crate::http::error::Error;
 
-use crate::http::{notes, users};
+use crate::http::{notes, stats, users};
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -26,5 +24,6 @@ pub async fn serve(db_pool: SqlitePool) -> Result<()> {
 fn api_router(pool: SqlitePool) -> Router {
     Router::new()
         .merge(users::router(pool.clone()))
-        .merge(notes::router(pool))
+        .merge(notes::router(pool.clone()))
+        .merge(stats::router(pool))
 }
