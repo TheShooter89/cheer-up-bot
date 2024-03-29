@@ -197,3 +197,31 @@ async fn handle_go_extra_page(
         }
     }
 }
+
+async fn handle_go_credits_page(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    warn!("Payload provided, but not needed");
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::credits_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}

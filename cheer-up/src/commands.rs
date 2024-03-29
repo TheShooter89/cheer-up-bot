@@ -97,7 +97,7 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
     println!("vnote_list is: {:?}", vnote_list);
 
@@ -119,7 +119,7 @@ async fn list_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn erase_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::EraseConfirmationPage;
 
     bot.send_message(msg.chat.id, template.render())
@@ -150,7 +150,7 @@ async fn erase_confirmation_command(bot: Bot, msg: Message) -> ResponseResult<()
     Ok(())
 }
 
-async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::HelpPage;
 
     bot.send_message(msg.chat.id, template.render())
@@ -178,7 +178,7 @@ async fn help_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-async fn credits_command(bot: Bot, msg: Message) -> ResponseResult<()> {
+pub async fn credits_command(bot: Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::CreditsPage;
 
     bot.send_message(msg.chat.id, template.render())
