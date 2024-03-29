@@ -78,6 +78,9 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
                 Topic::GoExtraPage => {
                     handle_go_extra_page(&bot, message, chat, data.payload).await?
                 }
+                Topic::GoCreditsPage => {
+                    handle_go_credits_page(&bot, message, chat, data.payload).await?
+                }
                 _ => warn!("unkwnown topic"),
             }
 

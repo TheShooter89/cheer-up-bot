@@ -181,8 +181,11 @@ pub async fn help_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let template = Templates::CreditsPage;
 
+    let keyboard = keyboards::credits_page(None, None);
+
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
         .disable_web_page_preview(true)
         .await?;
 
