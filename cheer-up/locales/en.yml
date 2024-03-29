@@ -31,6 +31,19 @@ credits_page: |
   #supportukraine
   Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to
 
+help_page: |
+  <b>Help & Commands</b>
+
+  This bot handles video notes only. If you enter any textual message bot will respond with starting welcome message, sending other media (picture, audio, regular videos, and so on) will fail with an error message
+
+  Available commands:
+  /start - get the bot starting page
+  /ask_friend - get a random videonote from a friend
+  /list - list all video notes you uploaded
+  /extra - some bonus goodies
+  /credits - show bot credits with author profile and code repository links
+  /help - get further help and additional commands
+
 buttons.ask_friend: |
   💛️ ASK A FRIEND 💙️
 

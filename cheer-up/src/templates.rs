@@ -71,28 +71,8 @@ fn credits_page(author: &str, profile_name: &str, profile_url: &str, repo_url: &
 }
 
 fn help_page() -> String {
-    r"<b>Help & Commands</b>
-This bot handles video notes only. If you enter any textual message bot will respond with starting welcome message, sending other media (picture, audio, regular videos, and so on) will fail with an error message
-
-Available commands:
-/start - get the bot starting page
-/list - list all video notes you uploaded
-/erase - ⚠️ delete all video notes at once ⚠️
-/credits - show bot credits with author profile and code repository links".to_string()
+    format!("{}", t!("help_page"))
 }
-
-// fn credits_page(author: &str, profile_name: &str, profile_url: &str, repo_url: &str) -> String {
-//     format!(
-//         r"<b>Help & Commands</b>
-// This bot has been created in March 2024 by {author} as open source software, all code is published on Github
-//
-// Author: {profile_name} - {profile_url}
-// Code: {repo_url}
-//
-// #supportukraine
-// Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to"
-//     )
-// }
 
 fn unsupported_input_page(input_type: &str) -> String {
     let media_input = match input_type {
