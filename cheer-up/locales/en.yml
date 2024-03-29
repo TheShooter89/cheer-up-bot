@@ -20,6 +20,10 @@ extra_page: |
 
   For further help and additional commands type /help
 
+list_page: |
+  Your friends loves you a lot 😊️
+  They sent you a whooping total of <b>%{total_notes}</b> videonotes 🚀️🚀️
+
 credits_page: |
   <b>Credits 🧬️</b>
 
