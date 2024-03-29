@@ -1,6 +1,7 @@
 _version: 1
 start_page: |
   <b>Hi %{user}!</b>
+
   Even if you are far away, you are not alone 😊️
   If you ever feel lonely, just tap ASK A FRIEND button and you get a random friend cheering you up! 🔥️ 🚀️
 
@@ -11,6 +12,7 @@ start_page: |
 
 extra_page: |
   <b>Hi %{user}!</b>
+
   Many friends contributed to this project, you can list all videonotes by clicking the button below or with /list
   There are %{total_notes} videonotes from %{total_users} friends!
 
