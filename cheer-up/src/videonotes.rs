@@ -67,6 +67,19 @@ pub async fn upload_vnote(bot: &Bot, videonote: &VideoNote, chat: &Chat) -> Resp
     Ok(())
 }
 
+pub async fn get_random_vnote(bot: &Bot, chat: &Chat) -> ResponseResult<Note> {
+    let client = Client::new();
+
+    let vnote = client
+        .get(format!("http://0.0.0.0:1989/api/notes/random",))
+        .send()
+        .await?
+        .json::<NoteBody<Note>>()
+        .await?;
+
+    Ok(vnote.note)
+}
+
 pub async fn save_vnote_to_db(vnote: &VideoNote, author: &Chat) -> ResponseResult<()> {
     let client = Client::new();
 
@@ -93,7 +106,7 @@ pub async fn save_vnote_to_db(vnote: &VideoNote, author: &Chat) -> ResponseResul
     Ok(())
 }
 
-pub async fn get_vnote_list_from_db(author: &Chat) -> ResponseResult<Vec<Note>> {
+pub async fn get_author_vnote_list_from_db(author: &Chat) -> ResponseResult<Vec<Note>> {
     let client = Client::new();
 
     let vnote_author = match get_user_by_telegram_id(author).await {
@@ -106,6 +119,24 @@ pub async fn get_vnote_list_from_db(author: &Chat) -> ResponseResult<Vec<Note>> 
             "http://0.0.0.0:1989/api/notes/user/{}",
             vnote_author.id
         ))
+        .send()
+        .await?
+        .json::<NoteListBody<Note>>()
+        .await?;
+
+    Ok(vnote_list.notes)
+}
+
+pub async fn get_vnote_list_from_db(author: &Chat) -> ResponseResult<Vec<Note>> {
+    let client = Client::new();
+
+    let vnote_author = match get_user_by_telegram_id(author).await {
+        Ok(user) => user,
+        Err(_) => save_user_to_db(&author).await?,
+    };
+
+    let vnote_list = client
+        .get(format!("http://0.0.0.0:1989/api/notes"))
         .send()
         .await?
         .json::<NoteListBody<Note>>()

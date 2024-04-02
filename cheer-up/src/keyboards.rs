@@ -19,6 +19,16 @@ pub fn start_page(
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
 
+pub fn random_note_page(ask_friend_payload: Option<Payload>) -> InlineKeyboardMarkup {
+    let row_1 = vec![ask_friend_button(ask_friend_payload.clone())];
+
+    let row_2 = vec![go_to_home_button(None)];
+
+    let keyboard_buttons = vec![row_1, row_2];
+
+    InlineKeyboardMarkup::new(keyboard_buttons)
+}
+
 pub fn list_notes_page(
     go_extra_payload: Option<Payload>,
     go_help_payload: Option<Payload>,

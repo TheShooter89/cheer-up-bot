@@ -1,9 +1,14 @@
 use dotenvy as dotenv;
 
+use crate::stats::UserStats;
+
 #[derive(Debug, Clone)]
 pub enum Templates {
+    LoadingPage,
     StartPage(String),
-    ExtraPage(String, String, String, String),
+    RandomNotePage(String),
+    ExtraPage(String, String, String, Vec<UserStats>),
+    ListPage(String),
     HelpPage,
     CreditsPage,
     UnsupportedInputPage(String),
@@ -24,10 +29,13 @@ impl Templates {
             .expect("error loading code repo url from envirenment variables");
 
         match self {
+            Templates::LoadingPage => loading_page(),
             Templates::StartPage(user) => start_page(user),
+            Templates::RandomNotePage(user) => random_note_page(user),
             Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
                 extra_page(user, total_notes, total_users, user_videonotes_list)
             }
+            Templates::ListPage(total_notes) => list_page(total_notes),
             Templates::HelpPage => help_page(),
             Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
             Templates::UnsupportedInputPage(input) => unsupported_input_page(input),
@@ -39,12 +47,36 @@ fn start_page(user: &str) -> String {
     format!("{}", t!("start_page", user = user))
 }
 
+fn random_note_page(user: &str) -> String {
+    format!("{}", t!("random_note_page", user = user))
+}
+
+fn loading_page() -> String {
+    format!("{}", t!("loading_page"))
+}
+
 fn extra_page(
     user: &str,
     total_notes: &str,
     total_users: &str,
-    user_videonotes_list: &str,
+    user_videonotes_list: &Vec<UserStats>,
 ) -> String {
+    let mut stats_list = String::new();
+
+    for stat in user_videonotes_list {
+        let new_stat_entry = format!(
+            "{}{}",
+            stats_list,
+            t!(
+                "extra_page_stat_entry",
+                user = stat.username,
+                user_total_notes = stat.videonotes
+            )
+        );
+
+        stats_list = new_stat_entry;
+    }
+
     format!(
         "{}",
         t!(
@@ -52,9 +84,13 @@ fn extra_page(
             user = user,
             total_notes = total_notes,
             total_users = total_users,
-            user_videonotes_list = user_videonotes_list
+            user_videonotes_list = stats_list
         )
     )
+}
+
+fn list_page(total_notes: &str) -> String {
+    format!("{}", t!("list_page", total_notes = total_notes))
 }
 
 fn credits_page(author: &str, profile_name: &str, profile_url: &str, repo_url: &str) -> String {
