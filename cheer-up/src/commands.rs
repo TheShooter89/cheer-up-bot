@@ -44,7 +44,7 @@ impl Command {
     pub fn parse_str(cmd: &str) -> Option<Command> {
         match cmd {
             "/start" => Some(Command::Start),
-            "/start" => Some(Command::RandomNote),
+            "/ask_friend" => Some(Command::RandomNote),
             "/extra" => Some(Command::Extra),
             "/list" => Some(Command::List),
             "/help" => Some(Command::Help),
