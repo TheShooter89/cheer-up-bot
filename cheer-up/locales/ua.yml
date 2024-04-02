@@ -16,6 +16,9 @@ start_page: |
 random_note_page: |
   @%{user} відповів на ваш дзвінок! 😊️
 
+extra_page_stat_entry: |
+  🎯️ @%{user} завантажив %{user_total_notes}
+
 extra_page: |
   <b>Привіт %{user}!</b>
 

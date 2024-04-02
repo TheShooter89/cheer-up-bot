@@ -16,6 +16,7 @@ use tokio::fs;
 use crate::{
     callbacks::{Payload, QueryData, Topic},
     keyboards,
+    stats::get_stats,
     templates::Templates,
     user::{get_user_by_id, UserId},
     utils::{get_user_folder_path, get_user_folder_path_by_user},
@@ -123,12 +124,14 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
     println!("vnote_list is: {:?}", vnote_list);
 
+    let stats = get_stats().await?;
+
     let template = Templates::ExtraPage(
-        "tanqueshen".to_string(),
+        msg.chat.username().unwrap_or("Unknown user").to_string(),
         // "42".to_string(),
-        vnote_list.len().to_string(),
-        "3".to_string(),
-        "@tanqueshen uploaded 9 notes\n@che uploaded 6 notes".to_string(),
+        stats.total_videonotes.to_string(),
+        stats.users.len().to_string(),
+        stats.users,
     );
 
     let keyboard = keyboards::extra_page(None, None);

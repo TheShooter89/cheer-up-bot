@@ -1,11 +1,13 @@
 use dotenvy as dotenv;
 
+use crate::stats::UserStats;
+
 #[derive(Debug, Clone)]
 pub enum Templates {
     LoadingPage,
     StartPage(String),
     RandomNotePage(String),
-    ExtraPage(String, String, String, String),
+    ExtraPage(String, String, String, Vec<UserStats>),
     ListPage(String),
     HelpPage,
     CreditsPage,
@@ -57,8 +59,51 @@ fn extra_page(
     user: &str,
     total_notes: &str,
     total_users: &str,
-    user_videonotes_list: &str,
+    user_videonotes_list: &Vec<UserStats>,
 ) -> String {
+    let mut stats_list = String::new();
+
+    for (index, stat) in user_videonotes_list.iter().enumerate() {
+        // if index == 0 {
+        //     let new_stat_entry = format!(
+        //         "{}{}",
+        //         stats_list,
+        //         t!(
+        //             "extra_page_stat_entry",
+        //             user = stat.username,
+        //             user_total_notes = stat.videonotes
+        //         )
+        //     );
+        //
+        //     stats_list = new_stat_entry;
+        // } else {
+        //     //
+        //     let new_stat_entry = format!(
+        //         "{}{}",
+        //         stats_list,
+        //         t!(
+        //             "extra_page_stat_entry",
+        //             user = stat.username,
+        //             user_total_notes = stat.videonotes
+        //         )
+        //     );
+        //
+        //     stats_list = new_stat_entry;
+        // }
+
+        let new_stat_entry = format!(
+            "{}{}",
+            stats_list,
+            t!(
+                "extra_page_stat_entry",
+                user = stat.username,
+                user_total_notes = stat.videonotes
+            )
+        );
+
+        stats_list = new_stat_entry;
+    }
+
     format!(
         "{}",
         t!(
@@ -66,7 +111,7 @@ fn extra_page(
             user = user,
             total_notes = total_notes,
             total_users = total_users,
-            user_videonotes_list = user_videonotes_list
+            user_videonotes_list = stats_list
         )
     )
 }

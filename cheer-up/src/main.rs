@@ -12,6 +12,7 @@ mod callbacks;
 mod commands;
 mod keyboards;
 mod messages;
+mod stats;
 mod templates;
 mod user;
 mod utils;
