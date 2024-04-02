@@ -122,20 +122,20 @@ async fn handle_random_note(
 
                         // INFO: we can safely unwrap msg, since chat is extracted from query.message
                         // iteslf
-                        commands::start_command(bot, msg.unwrap()).await?;
+                        commands::random_note_command(bot, msg.unwrap()).await?;
                         Ok(())
                     }
                     // RandomNote callback needs Payload::Text only
                     _ => {
                         warn!("payload provided is not Payload::Text");
-                        commands::start_command(bot, msg.unwrap()).await?;
+                        commands::random_note_command(bot, msg.unwrap()).await?;
                         Ok(())
                     }
                 },
                 None => {
                     // no Payload provided
                     warn!("no Payload provided");
-                    commands::start_command(bot, msg.unwrap()).await?;
+                    commands::random_note_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }

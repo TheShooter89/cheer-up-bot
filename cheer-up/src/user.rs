@@ -87,3 +87,16 @@ pub async fn get_user_by_telegram_id(user: &Chat) -> ResponseResult<User> {
 
     Ok(vnote_author.user)
 }
+
+pub async fn get_user_by_id(user_id: &i64) -> ResponseResult<User> {
+    let client = Client::new();
+
+    let vnote_author = client
+        .get(format!("http://0.0.0.0:1989/api/users/{}", user_id))
+        .send()
+        .await?
+        .json::<UserBody<User>>()
+        .await?;
+
+    Ok(vnote_author.user)
+}
