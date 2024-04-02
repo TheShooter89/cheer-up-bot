@@ -19,7 +19,7 @@ use crate::{
     templates::Templates,
     user::{get_user_by_id, UserId},
     utils::{get_user_folder_path, get_user_folder_path_by_user},
-    videonotes::{delete_all_user_vnotes, get_vnote_list_from_db},
+    videonotes::{delete_all_user_vnotes, get_random_vnote, get_vnote_list_from_db},
 };
 
 #[derive(Debug, BotCommands, Clone)]
@@ -27,6 +27,8 @@ use crate::{
 pub enum Command {
     #[command(description = "CheerUp Bot starting page")]
     Start,
+    #[command(description = "Get random note from your friends")]
+    RandomNote,
     #[command(description = "Show Extra page")]
     Extra,
     #[command(description = "List all uploaded video notes")]
@@ -41,6 +43,7 @@ impl Command {
     pub fn parse_str(cmd: &str) -> Option<Command> {
         match cmd {
             "/start" => Some(Command::Start),
+            "/start" => Some(Command::RandomNote),
             "/extra" => Some(Command::Extra),
             "/list" => Some(Command::List),
             "/help" => Some(Command::Help),
@@ -53,6 +56,7 @@ impl Command {
 pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
     match cmd {
         Command::Start => start_command(&bot, msg).await?,
+        Command::RandomNote => random_note_command(&bot, msg).await?,
         Command::Extra => extra_command(&bot, msg).await?,
         Command::List => list_command(&bot, msg).await?,
         Command::Help => help_command(&bot, msg).await?,
@@ -69,6 +73,45 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let keyboard = keyboards::start_page(None, None);
 
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
+    Ok(())
+}
+
+pub async fn random_note_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
+    let template = Templates::LoadingPage;
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .await?;
+
+    let random_note = get_random_vnote(bot, &msg.chat).await?;
+    let user = get_user_by_id(&random_note.user_id).await?;
+
+    let mut user_folder = get_user_folder_path_by_user(&user);
+
+    // this is needed because first 2 users in database
+    // are fake for boilerplate on start up
+    if random_note.user_id == 1 || random_note.user_id == 2 {
+        user_folder = format!(
+            "../_common_data/videonotes/{}_{}",
+            user.telegram_id, user.username
+        );
+    }
+    debug!("user_folder after user check is: {}", user_folder);
+
+    let file_path = format!("{}/{}", user_folder, random_note.file_name);
+    debug!("file_path is: {}", file_path);
+    bot.send_video_note(msg.chat.id, InputFile::file(file_path))
+        .await?;
+
+    let template = Templates::RandomNotePage(user.username);
+
+    let keyboard = keyboards::random_note_page(None);
+
+    // bot.send_message(msg.chat.id, template.render())
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)

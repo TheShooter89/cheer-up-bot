@@ -1,4 +1,7 @@
 _version: 1
+loading_page: |
+  🔎️ loading...
+
 start_page: |
   <b>Hi %{user}!</b>
 
@@ -9,6 +12,9 @@ start_page: |
   For further help and additional commands type /help
 
   created with 💛️💙️ by tanque - see /credits
+
+random_note_page: |
+  @%{user} replied to your call! 😊️
 
 extra_page: |
   <b>Hi %{user}!</b>

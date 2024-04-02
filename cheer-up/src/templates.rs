@@ -2,7 +2,9 @@ use dotenvy as dotenv;
 
 #[derive(Debug, Clone)]
 pub enum Templates {
+    LoadingPage,
     StartPage(String),
+    RandomNotePage(String),
     ExtraPage(String, String, String, String),
     ListPage(String),
     HelpPage,
@@ -25,7 +27,9 @@ impl Templates {
             .expect("error loading code repo url from envirenment variables");
 
         match self {
+            Templates::LoadingPage => loading_page(),
             Templates::StartPage(user) => start_page(user),
+            Templates::RandomNotePage(user) => random_note_page(user),
             Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
                 extra_page(user, total_notes, total_users, user_videonotes_list)
             }
@@ -39,6 +43,14 @@ impl Templates {
 
 fn start_page(user: &str) -> String {
     format!("{}", t!("start_page", user = user))
+}
+
+fn random_note_page(user: &str) -> String {
+    format!("{}", t!("random_note_page", user = user))
+}
+
+fn loading_page() -> String {
+    format!("{}", t!("loading_page"))
 }
 
 fn extra_page(
