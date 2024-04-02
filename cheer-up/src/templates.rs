@@ -63,34 +63,7 @@ fn extra_page(
 ) -> String {
     let mut stats_list = String::new();
 
-    for (index, stat) in user_videonotes_list.iter().enumerate() {
-        // if index == 0 {
-        //     let new_stat_entry = format!(
-        //         "{}{}",
-        //         stats_list,
-        //         t!(
-        //             "extra_page_stat_entry",
-        //             user = stat.username,
-        //             user_total_notes = stat.videonotes
-        //         )
-        //     );
-        //
-        //     stats_list = new_stat_entry;
-        // } else {
-        //     //
-        //     let new_stat_entry = format!(
-        //         "{}{}",
-        //         stats_list,
-        //         t!(
-        //             "extra_page_stat_entry",
-        //             user = stat.username,
-        //             user_total_notes = stat.videonotes
-        //         )
-        //     );
-        //
-        //     stats_list = new_stat_entry;
-        // }
-
+    for stat in user_videonotes_list {
         let new_stat_entry = format!(
             "{}{}",
             stats_list,
