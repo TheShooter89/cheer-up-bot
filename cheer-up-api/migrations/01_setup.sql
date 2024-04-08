@@ -1,10 +1,18 @@
+CREATE TABLE IF NOT EXISTS locales (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    language TEXT NOT NULL,
+    UNIQUE(language)
+);
+
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     telegram_id INTEGER NOT NULL,
     username TEXT NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT,
-    UNIQUE(username)
+    locale INTEGER NOT NULL,
+    UNIQUE(username),
+    FOREIGN KEY (locale) REFERENCES locales(id)
 );
 
 CREATE TABLE IF NOT EXISTS notes (

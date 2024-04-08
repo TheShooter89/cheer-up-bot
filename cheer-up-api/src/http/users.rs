@@ -9,6 +9,8 @@ use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
 use crate::http::error::Error;
 use crate::http::http::Result;
 
+use super::locale::Locale;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
     id: i64,
@@ -16,6 +18,7 @@ pub struct User {
     username: String,
     first_name: String,
     last_name: Option<String>,
+    locale: Locale,
 }
 
 #[derive(Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -26,6 +29,7 @@ struct UpdateUser {
     username: Option<String>,
     first_name: Option<String>,
     last_name: Option<String>,
+    locale: Option<i64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -34,6 +38,7 @@ pub struct NewUser {
     username: String,
     first_name: String,
     last_name: Option<String>,
+    locale: Locale,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -62,7 +67,7 @@ async fn get_users_list(State(pool): State<SqlitePool>) -> Result<Json<UserListB
     let users: Vec<User> = sqlx::query_as!(
         User,
         r#"
-SELECT id, telegram_id, username, first_name, last_name
+SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
 FROM users
 ORDER BY id
     "#,
@@ -80,7 +85,7 @@ async fn get_user(
     let user: User = sqlx::query_as!(
         User,
         r#"
-SELECT id, telegram_id, username, first_name, last_name
+SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
 FROM users
 WHERE id = ?
     "#,
@@ -99,7 +104,7 @@ async fn get_user_by_telegram_username(
     let user: User = sqlx::query_as!(
         User,
         r#"
-SELECT id, telegram_id, username, first_name, last_name
+SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
 FROM users
 WHERE username = ?
     "#,
@@ -118,10 +123,10 @@ async fn create_user(
     let user: User = sqlx::query_as!(
         User,
         r#"
-INSERT INTO users (telegram_id, username, first_name, last_name)
-VALUES (?, ?, ?, ?);
+INSERT INTO users (telegram_id, username, first_name, last_name, locale)
+VALUES (?, ?, ?, ?, ?);
 
-SELECT id, telegram_id, username, first_name, last_name
+SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
 FROM users
 WHERE id = last_insert_rowid()
     "#,
@@ -129,6 +134,7 @@ WHERE id = last_insert_rowid()
         user.username,
         user.first_name,
         user.last_name,
+        user.locale
     )
     .fetch_one(&pool)
     .await?;
