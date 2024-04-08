@@ -102,7 +102,7 @@ WHERE u.id = ?
 async fn set_user_locale(
     Path(user_id): Path<String>,
     State(pool): State<SqlitePool>,
-    Json(locale): Json<LocaleBody<Locale>>,
+    Json(body): Json<LocaleBody<Locale>>,
 ) -> Result<Json<LocaleBody<Locale>>> {
     let _ = sqlx::query!(
         r#"
@@ -110,13 +110,13 @@ UPDATE users
 SET locale = (SELECT id FROM locales WHERE language = ?)
 WHERE id = ?
     "#,
-        locale.locale,
+        body.locale,
         user_id,
     )
     .execute(&pool)
     .await?;
 
     Ok(Json(LocaleBody {
-        locale: locale.locale,
+        locale: body.locale,
     }))
 }
