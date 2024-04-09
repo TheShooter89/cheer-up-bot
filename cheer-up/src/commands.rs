@@ -34,6 +34,8 @@ pub enum Command {
     Extra,
     #[command(description = "List all uploaded video notes")]
     List,
+    #[command(description = "Change bot language")]
+    Language,
     #[command(description = "Show help and available commands")]
     Help,
     #[command(description = "Show credits and code repo links")]
@@ -47,6 +49,7 @@ impl Command {
             "/ask_friend" => Some(Command::RandomNote),
             "/extra" => Some(Command::Extra),
             "/list" => Some(Command::List),
+            "/language" => Some(Command::Language),
             "/help" => Some(Command::Help),
             "/credits" => Some(Command::Credits),
             _ => None,
@@ -60,6 +63,7 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
         Command::RandomNote => random_note_command(&bot, msg).await?,
         Command::Extra => extra_command(&bot, msg).await?,
         Command::List => list_command(&bot, msg).await?,
+        Command::Language => help_command(&bot, msg).await?,
         Command::Help => help_command(&bot, msg).await?,
         Command::Credits => credits_command(&bot, msg).await?,
     }

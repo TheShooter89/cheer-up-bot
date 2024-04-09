@@ -3,15 +3,15 @@ use axum::{
     routing::{get, post},
     Extension, Json, Router,
 };
+use log::debug;
 use serde::{Deserialize, Serialize};
 use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
 
 use crate::http::error::Error;
 use crate::http::http::Result;
+use crate::http::locale::Locale;
 
-use super::locale::Locale;
-
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, sqlx::Type)]
 pub struct User {
     id: i64,
     telegram_id: i64,
@@ -32,7 +32,7 @@ struct UpdateUser {
     locale: Option<i64>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, sqlx::Type)]
 pub struct NewUser {
     telegram_id: i64,
     username: String,
@@ -67,9 +67,10 @@ async fn get_users_list(State(pool): State<SqlitePool>) -> Result<Json<UserListB
     let users: Vec<User> = sqlx::query_as!(
         User,
         r#"
-SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
-FROM users
-ORDER BY id
+SELECT u.id, u.telegram_id, u.username, u.first_name, u.last_name, l.language AS "locale: Locale"
+FROM users AS u
+INNER JOIN locales AS l ON u.locale = l.id
+ORDER BY u.id
     "#,
     )
     .fetch_all(&pool)
@@ -85,9 +86,10 @@ async fn get_user(
     let user: User = sqlx::query_as!(
         User,
         r#"
-SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
-FROM users
-WHERE id = ?
+SELECT u.id, u.telegram_id, u.username, u.first_name, u.last_name, l.language AS "locale: Locale"
+FROM users AS u
+INNER JOIN locales AS l ON u.locale = l.id
+WHERE u.id = ?
     "#,
         user_id
     )
@@ -104,9 +106,10 @@ async fn get_user_by_telegram_username(
     let user: User = sqlx::query_as!(
         User,
         r#"
-SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
-FROM users
-WHERE username = ?
+SELECT u.id, u.telegram_id, u.username, u.first_name, u.last_name, l.language AS "locale: Locale"
+FROM users AS u
+INNER JOIN locales AS l ON u.locale = l.id
+WHERE u.username = ?
     "#,
         username
     )
@@ -120,21 +123,23 @@ async fn create_user(
     State(pool): State<SqlitePool>,
     Json(user): Json<NewUser>,
 ) -> Result<Json<UserBody<User>>> {
+    let loc = user.locale;
     let user: User = sqlx::query_as!(
         User,
-        r#"
-INSERT INTO users (telegram_id, username, first_name, last_name, locale)
-VALUES (?, ?, ?, ?, ?);
+                r#"
+        INSERT INTO users (telegram_id, username, first_name, last_name, locale)
+        VALUES (?, ?, ?, ?, (SELECT id FROM locales WHERE language = ?));
 
-SELECT id, telegram_id, username, first_name, last_name, locale as "locale: Locale"
-FROM users
-WHERE id = last_insert_rowid()
-    "#,
+        SELECT u.id, u.telegram_id, u.username, u.first_name, u.last_name, l.language AS "locale: Locale"
+        FROM users AS u
+        INNER JOIN locales AS l ON u.locale = l.id
+        WHERE u.id = last_insert_rowid()
+            "#,
         user.telegram_id,
         user.username,
         user.first_name,
         user.last_name,
-        user.locale
+        loc
     )
     .fetch_one(&pool)
     .await?;
