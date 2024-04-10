@@ -1,6 +1,7 @@
 use std::io::Error;
 
-use log::debug;
+use log::{debug, info};
+use rust_i18n::set_locale;
 use serde_json::json;
 use teloxide::{
     payloads::SendMessageSetters,
@@ -16,6 +17,7 @@ use tokio::fs;
 use crate::{
     callbacks::{Payload, QueryData, Topic},
     keyboards,
+    locale::Locale,
     stats::get_stats,
     templates::Templates,
     user::{get_user_by_id, UserId},
@@ -224,10 +226,15 @@ pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
-pub async fn set_language_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let template = Templates::LanguagePage;
+pub async fn set_language_command(bot: &Bot, msg: Message, locale: Locale) -> ResponseResult<()> {
+    let username = msg.chat.username().unwrap_or("Unknown User");
 
-    let keyboard = keyboards::language_page();
+    let template = Templates::StartPage(username.to_string());
+    info!("setting locale to: {:?}", locale);
+
+    set_locale(locale.to_string().as_str());
+
+    let keyboard = keyboards::start_page(None, None);
 
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)

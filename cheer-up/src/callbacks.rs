@@ -1,4 +1,5 @@
 use log::*;
+use std::fmt;
 use teloxide::{
     prelude::*,
     types::{CallbackQuery, Chat},
@@ -8,7 +9,7 @@ use teloxide::{
 use serde::{self, Deserialize, Serialize};
 use serde_json;
 
-use crate::{commands, user::UserId};
+use crate::{commands, locale::Locale, user::UserId};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct QueryData {
@@ -21,6 +22,16 @@ pub enum Payload {
     Text(String),
     Username(String),
     UserId(i64),
+}
+
+impl fmt::Display for Payload {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Payload::Text(text) => write!(f, "{}", text),
+            Payload::Username(text) => write!(f, "{}", text),
+            Payload::UserId(id) => write!(f, "{}", id),
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
@@ -341,7 +352,9 @@ async fn handle_set_language(
             match payload {
                 Some(data) => {
                     info!("button data is: {:#?}", data);
-                    commands::help_command(bot, msg.unwrap()).await?;
+                    let selected_locale = Locale::from_str(data.to_string().as_str());
+                    info!("selected locale is: {:?}", selected_locale);
+                    commands::set_language_command(bot, msg.unwrap(), selected_locale).await?;
                     Ok(())
                 }
                 None => {

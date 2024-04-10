@@ -13,6 +13,8 @@ struct LocaleBody<T> {
 pub enum Locale {
     #[serde(rename = "en")]
     EN,
+    #[serde(rename = "es")]
+    ES,
     #[serde(rename = "it")]
     IT,
     #[serde(rename = "ua")]
@@ -21,7 +23,12 @@ pub enum Locale {
 
 impl fmt::Display for Locale {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", serde_json::to_string(self).unwrap())
+        match self {
+            Locale::EN => write!(f, "en"),
+            Locale::ES => write!(f, "es"),
+            Locale::IT => write!(f, "it"),
+            Locale::UA => write!(f, "ua"),
+        }
     }
 }
 
@@ -29,6 +36,7 @@ impl Locale {
     pub fn from_str(locale: &str) -> Locale {
         match locale {
             "en" => Locale::EN,
+            "es" => Locale::ES,
             "it" => Locale::IT,
             "ua" => Locale::UA,
             _ => Locale::EN,
