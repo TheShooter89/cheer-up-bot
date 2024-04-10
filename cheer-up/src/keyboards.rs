@@ -82,13 +82,21 @@ pub fn credits_page(
 }
 
 pub fn language_page() -> InlineKeyboardMarkup {
-    let row_1 = vec![set_language_EN_button(None)];
+    let row_1 = vec![set_language_EN_button(Some(Payload::Text(
+        "en".to_string(),
+    )))];
 
-    let row_2 = vec![set_language_ES_button(None)];
+    let row_2 = vec![set_language_ES_button(Some(Payload::Text(
+        "es".to_string(),
+    )))];
 
-    let row_3 = vec![set_language_IT_button(None)];
+    let row_3 = vec![set_language_IT_button(Some(Payload::Text(
+        "it".to_string(),
+    )))];
 
-    let row_4 = vec![set_language_UA_button(None)];
+    let row_4 = vec![set_language_UA_button(Some(Payload::Text(
+        "ua".to_string(),
+    )))];
 
     let row_5 = vec![go_to_home_button(None)];
 

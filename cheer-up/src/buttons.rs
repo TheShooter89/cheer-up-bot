@@ -73,7 +73,7 @@ pub fn go_to_help_button(payload: Option<Payload>) -> InlineKeyboardButton {
 
 pub fn set_language_EN_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
-        topic: Topic::GoLanguagePage,
+        topic: Topic::SetLanguage,
         payload,
     };
 
@@ -82,7 +82,7 @@ pub fn set_language_EN_button(payload: Option<Payload>) -> InlineKeyboardButton 
 
 pub fn set_language_ES_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
-        topic: Topic::GoLanguagePage,
+        topic: Topic::SetLanguage,
         payload,
     };
 
@@ -91,7 +91,7 @@ pub fn set_language_ES_button(payload: Option<Payload>) -> InlineKeyboardButton 
 
 pub fn set_language_UA_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
-        topic: Topic::GoLanguagePage,
+        topic: Topic::SetLanguage,
         payload,
     };
 
@@ -100,7 +100,7 @@ pub fn set_language_UA_button(payload: Option<Payload>) -> InlineKeyboardButton 
 
 pub fn set_language_IT_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
-        topic: Topic::GoLanguagePage,
+        topic: Topic::SetLanguage,
         payload,
     };
 

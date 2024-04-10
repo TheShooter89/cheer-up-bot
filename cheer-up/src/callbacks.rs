@@ -32,6 +32,7 @@ pub enum Topic {
     GoCreditsPage,
     GoLanguagePage,
     GoHelpPage,
+    SetLanguage,
 }
 
 impl Topic {
@@ -44,6 +45,7 @@ impl Topic {
             Topic::GoCreditsPage => "#credits".to_string(),
             Topic::GoLanguagePage => "#language".to_string(),
             Topic::GoHelpPage => "#help".to_string(),
+            Topic::SetLanguage => "#set_language".to_string(),
         }
     }
 }
@@ -90,6 +92,9 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
                     handle_go_language_page(&bot, message, chat, data.payload).await?
                 }
                 Topic::GoHelpPage => handle_go_help_page(&bot, message, chat, data.payload).await?,
+                Topic::SetLanguage => {
+                    handle_set_language(&bot, message, chat, data.payload).await?
+                }
                 _ => warn!("unkwnown topic"),
             }
 
@@ -307,6 +312,35 @@ async fn handle_go_help_page(
             match payload {
                 Some(data) => {
                     warn!("Payload provided, but not needed");
+                    commands::help_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::help_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
+async fn handle_set_language(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    info!("button data is: {:#?}", data);
                     commands::help_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }

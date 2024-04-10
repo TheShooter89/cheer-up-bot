@@ -223,3 +223,17 @@ pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     Ok(())
 }
+
+pub async fn set_language_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
+    let template = Templates::LanguagePage;
+
+    let keyboard = keyboards::language_page();
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .disable_web_page_preview(true)
+        .await?;
+
+    Ok(())
+}
