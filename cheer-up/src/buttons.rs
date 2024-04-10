@@ -80,6 +80,15 @@ pub fn set_language_EN_button(payload: Option<Payload>) -> InlineKeyboardButton 
     make_button(&t!("buttons.set_language_EN"), &query_data)
 }
 
+pub fn set_language_ES_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoLanguagePage,
+        payload,
+    };
+
+    make_button(&t!("buttons.set_language_ES"), &query_data)
+}
+
 pub fn set_language_UA_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::GoLanguagePage,

@@ -50,7 +50,7 @@ language_page: |
   <b>Choose bot language 🇪🇺️</b>
 
   You can change the language by pressing below buttons 😊️
-  This bot is currently translated in 3 languages: english, italian and ukrainian
+  This bot is currently translated in 4 languages: english, spanish, italian and ukrainian
 
   If you want to help with translations 😊️ 💜️ feel free to check the repo: %{repo_url}
 
@@ -91,6 +91,9 @@ buttons.go_help: |
 
 buttons.set_language_EN: |
   🇬🇧️ ENGLISH
+
+buttons.set_language_ES: |
+  🇪🇸 SPANISH
 
 buttons.set_language_UA: |
   🇺🇦️ UKRAINIAN

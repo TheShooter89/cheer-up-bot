@@ -3,7 +3,7 @@ use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyb
 use crate::buttons::{
     ask_friend_button, go_to_credits_button, go_to_extra_button, go_to_help_button,
     go_to_home_button, go_to_language_button, list_all_notes_button, make_button,
-    set_language_EN_button, set_language_IT_button, set_language_UA_button,
+    set_language_EN_button, set_language_ES_button, set_language_IT_button, set_language_UA_button,
 };
 use crate::callbacks::{Payload, QueryData};
 
@@ -84,13 +84,15 @@ pub fn credits_page(
 pub fn language_page() -> InlineKeyboardMarkup {
     let row_1 = vec![set_language_EN_button(None)];
 
-    let row_2 = vec![set_language_IT_button(None)];
+    let row_2 = vec![set_language_ES_button(None)];
 
-    let row_3 = vec![set_language_UA_button(None)];
+    let row_3 = vec![set_language_IT_button(None)];
 
-    let row_4 = vec![go_to_home_button(None)];
+    let row_4 = vec![set_language_UA_button(None)];
 
-    let keyboard_buttons = vec![row_1, row_2, row_3, row_4];
+    let row_5 = vec![go_to_home_button(None)];
+
+    let keyboard_buttons = vec![row_1, row_2, row_3, row_4, row_5];
 
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
