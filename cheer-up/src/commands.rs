@@ -227,12 +227,12 @@ pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 }
 
 pub async fn set_language_command(bot: &Bot, msg: Message, locale: Locale) -> ResponseResult<()> {
+    info!("setting locale to: {:?}", locale);
+    set_locale(locale.to_string().as_str());
+
     let username = msg.chat.username().unwrap_or("Unknown User");
 
     let template = Templates::StartPage(username.to_string());
-    info!("setting locale to: {:?}", locale);
-
-    set_locale(locale.to_string().as_str());
 
     let keyboard = keyboards::start_page(None, None);
 
