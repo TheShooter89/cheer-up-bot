@@ -63,7 +63,7 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
         Command::RandomNote => random_note_command(&bot, msg).await?,
         Command::Extra => extra_command(&bot, msg).await?,
         Command::List => list_command(&bot, msg).await?,
-        Command::Language => help_command(&bot, msg).await?,
+        Command::Language => language_command(&bot, msg).await?,
         Command::Help => help_command(&bot, msg).await?,
         Command::Credits => credits_command(&bot, msg).await?,
     }
@@ -138,7 +138,7 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
         stats.users,
     );
 
-    let keyboard = keyboards::extra_page(None, None);
+    let keyboard = keyboards::extra_page(None, None, None);
 
     bot.send_message(msg.chat.id, template.render())
         .parse_mode(ParseMode::Html)
@@ -182,6 +182,19 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
         .reply_markup(keyboard)
         .await?;
 
+    Ok(())
+}
+
+pub async fn language_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
+    let template = Templates::LanguagePage;
+
+    let keyboard = keyboards::language_page();
+
+    bot.send_message(msg.chat.id, template.render())
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .disable_web_page_preview(true)
+        .await?;
     Ok(())
 }
 

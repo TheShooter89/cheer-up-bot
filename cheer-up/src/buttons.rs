@@ -53,6 +53,15 @@ pub fn go_to_credits_button(payload: Option<Payload>) -> InlineKeyboardButton {
     make_button(&t!("buttons.go_credits"), &query_data)
 }
 
+pub fn go_to_language_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoLanguagePage,
+        payload,
+    };
+
+    make_button(&t!("buttons.go_language"), &query_data)
+}
+
 pub fn go_to_help_button(payload: Option<Payload>) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::GoHelpPage,
@@ -60,4 +69,31 @@ pub fn go_to_help_button(payload: Option<Payload>) -> InlineKeyboardButton {
     };
 
     make_button(&t!("buttons.go_help"), &query_data)
+}
+
+pub fn set_language_EN_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoLanguagePage,
+        payload,
+    };
+
+    make_button(&t!("buttons.set_language_EN"), &query_data)
+}
+
+pub fn set_language_UA_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoLanguagePage,
+        payload,
+    };
+
+    make_button(&t!("buttons.set_language_UA"), &query_data)
+}
+
+pub fn set_language_IT_button(payload: Option<Payload>) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoLanguagePage,
+        payload,
+    };
+
+    make_button(&t!("buttons.set_language_IT"), &query_data)
 }

@@ -2,7 +2,8 @@ use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyb
 
 use crate::buttons::{
     ask_friend_button, go_to_credits_button, go_to_extra_button, go_to_help_button,
-    go_to_home_button, list_all_notes_button, make_button,
+    go_to_home_button, go_to_language_button, list_all_notes_button, make_button,
+    set_language_EN_button, set_language_IT_button, set_language_UA_button,
 };
 use crate::callbacks::{Payload, QueryData};
 
@@ -48,15 +49,18 @@ pub fn list_notes_page(
 pub fn extra_page(
     list_all_query_payload: Option<Payload>,
     go_credits_payload: Option<Payload>,
+    go_language_payload: Option<Payload>,
 ) -> InlineKeyboardMarkup {
     let row_1 = vec![
-        list_all_notes_button(list_all_query_payload.clone()),
+        go_to_language_button(go_language_payload.clone()),
         go_to_credits_button(go_credits_payload.clone()),
     ];
 
-    let row_2 = vec![go_to_home_button(None)];
+    let row_2 = vec![list_all_notes_button(list_all_query_payload.clone())];
 
-    let keyboard_buttons = vec![row_1, row_2];
+    let row_3 = vec![go_to_home_button(None)];
+
+    let keyboard_buttons = vec![row_1, row_2, row_3];
 
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
@@ -77,12 +81,26 @@ pub fn credits_page(
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
 
+pub fn language_page() -> InlineKeyboardMarkup {
+    let row_1 = vec![set_language_EN_button(None)];
+
+    let row_2 = vec![set_language_IT_button(None)];
+
+    let row_3 = vec![set_language_UA_button(None)];
+
+    let row_4 = vec![go_to_home_button(None)];
+
+    let keyboard_buttons = vec![row_1, row_2, row_3, row_4];
+
+    InlineKeyboardMarkup::new(keyboard_buttons)
+}
+
 pub fn help_page(
     go_extra_payload: Option<Payload>,
     go_credits_payload: Option<Payload>,
 ) -> InlineKeyboardMarkup {
     let row_1 = vec![
-        go_to_extra_button(go_extra_payload.clone()),
+        go_to_language_button(go_extra_payload.clone()),
         go_to_credits_button(go_credits_payload.clone()),
     ];
 

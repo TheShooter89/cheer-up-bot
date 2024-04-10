@@ -9,6 +9,7 @@ pub enum Templates {
     RandomNotePage(String),
     ExtraPage(String, String, String, Vec<UserStats>),
     ListPage(String),
+    LanguagePage,
     HelpPage,
     CreditsPage,
     UnsupportedInputPage(String),
@@ -36,6 +37,7 @@ impl Templates {
                 extra_page(user, total_notes, total_users, user_videonotes_list)
             }
             Templates::ListPage(total_notes) => list_page(total_notes),
+            Templates::LanguagePage => language_page(&repo_url),
             Templates::HelpPage => help_page(),
             Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
             Templates::UnsupportedInputPage(input) => unsupported_input_page(input),
@@ -104,6 +106,10 @@ fn credits_page(author: &str, profile_name: &str, profile_url: &str, repo_url: &
             repo_url = repo_url
         )
     )
+}
+
+fn language_page(repo_url: &str) -> String {
+    format!("{}", t!("language_page", repo_url = repo_url))
 }
 
 fn help_page() -> String {
