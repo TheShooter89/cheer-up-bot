@@ -6,6 +6,8 @@ use crate::http::error::Error;
 
 use crate::http::{notes, stats, users};
 
+use super::locale;
+
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 pub async fn serve(db_pool: SqlitePool) -> Result<()> {
@@ -25,5 +27,6 @@ fn api_router(pool: SqlitePool) -> Router {
     Router::new()
         .merge(users::router(pool.clone()))
         .merge(notes::router(pool.clone()))
+        .merge(locale::router(pool.clone()))
         .merge(stats::router(pool))
 }

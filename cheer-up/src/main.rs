@@ -11,6 +11,7 @@ mod buttons;
 mod callbacks;
 mod commands;
 mod keyboards;
+mod locale;
 mod messages;
 mod stats;
 mod templates;

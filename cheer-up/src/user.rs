@@ -2,6 +2,8 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use teloxide::{requests::ResponseResult, types::Chat};
 
+use crate::locale::Locale;
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct UserId(i64);
 
@@ -12,6 +14,7 @@ pub struct User {
     pub username: String,
     pub first_name: String,
     pub last_name: Option<String>,
+    pub locale: Locale,
 }
 
 #[derive(Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -30,6 +33,7 @@ pub struct NewUser {
     username: String,
     first_name: String,
     last_name: Option<String>,
+    locale: Locale,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -43,6 +47,8 @@ pub struct UserListBody<T> {
 }
 
 pub async fn save_user_to_db(user: &Chat) -> ResponseResult<User> {
+    let new_user_locale = dotenvy::var("LOCALE").unwrap_or("en".to_string());
+
     let new_user = NewUser {
         telegram_id: user.id.0,
         username: user
@@ -57,6 +63,7 @@ pub async fn save_user_to_db(user: &Chat) -> ResponseResult<User> {
             Some(name) => Some(name.to_string()),
             None => None,
         },
+        locale: Locale::from_str(&new_user_locale),
     };
 
     let client = Client::new();
