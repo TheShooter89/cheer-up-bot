@@ -3,9 +3,10 @@ use axum::{
     routing::{get, post},
     Extension, Json, Router,
 };
+use log::debug;
 use serde::{Deserialize, Serialize};
 use sqlx::{prelude::FromRow, sqlite::SqlitePoolOptions, SqlitePool};
-use std::fmt;
+use std::{fmt, str::FromStr};
 
 use crate::http::error::Error;
 use crate::http::http::Result;
@@ -20,6 +21,8 @@ struct LocaleBody<T> {
 pub enum Locale {
     #[serde(rename = "en")]
     EN,
+    #[serde(rename = "es")]
+    ES,
     #[serde(rename = "it")]
     IT,
     #[serde(rename = "ua")]
@@ -28,7 +31,12 @@ pub enum Locale {
 
 impl fmt::Display for Locale {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", serde_json::to_string(self).unwrap())
+        match self {
+            Locale::EN => write!(f, "en"),
+            Locale::ES => write!(f, "es"),
+            Locale::IT => write!(f, "it"),
+            Locale::UA => write!(f, "ua"),
+        }
     }
 }
 
@@ -36,6 +44,7 @@ impl Locale {
     pub fn from_str(locale: &str) -> Locale {
         match locale {
             "en" => Locale::EN,
+            "es" => Locale::ES,
             "it" => Locale::IT,
             "ua" => Locale::UA,
             _ => Locale::EN,
@@ -50,13 +59,20 @@ struct UserLocale {
 
 impl fmt::Display for UserLocale {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", serde_json::to_string(self).unwrap())
+        match self.language.as_str() {
+            "en" => write!(f, "en"),
+            "es" => write!(f, "es"),
+            "it" => write!(f, "it"),
+            "ua" => write!(f, "ua"),
+            _ => write!(f, "en"),
+        }
     }
 }
 impl UserLocale {
     pub fn locale(&self) -> Locale {
         match self.language.as_str() {
             "en" => Locale::EN,
+            "es" => Locale::ES,
             "it" => Locale::IT,
             "ua" => Locale::UA,
             _ => Locale::EN,
@@ -89,10 +105,12 @@ WHERE u.id = ?
     )
     .fetch_optional(&pool)
     .await?;
+    debug!("user_locale: {:?}", user_locale);
 
     let locale = user_locale.unwrap_or(UserLocale {
         language: "en".to_string(),
     });
+    debug!("locale: {:?}", locale);
 
     Ok(Json(LocaleBody {
         locale: Locale::from_str(&locale.to_string()),

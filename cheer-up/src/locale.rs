@@ -1,3 +1,4 @@
+use log::debug;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use teloxide::{requests::ResponseResult, types::Chat};
@@ -58,6 +59,7 @@ impl UserLocale {
     pub fn locale(&self) -> Locale {
         match self.language.as_str() {
             "en" => Locale::EN,
+            "es" => Locale::ES,
             "it" => Locale::IT,
             "ua" => Locale::UA,
             _ => Locale::EN,
@@ -75,7 +77,7 @@ pub async fn get_user_locale_by_user_id(user_id: &i64) -> ResponseResult<Locale>
         .json::<LocaleBody<Locale>>()
         .await?;
 
-    println!("user {:#?} locale is: {:#?}", user_id, resp);
+    debug!("user {:#?} locale is: {:#?}", user_id, resp);
 
     Ok(resp.locale)
 }
@@ -95,7 +97,7 @@ pub async fn set_user_locale_by_user_id(user_id: &i64, locale: &Locale) -> Respo
         .json::<LocaleBody<Locale>>()
         .await?;
 
-    println!("user {:#?} locale is: {:#?}", user_id, resp);
+    debug!("user {:#?} locale is: {:#?}", user_id, resp);
 
     Ok(resp.locale)
 }

@@ -17,10 +17,10 @@ use tokio::fs;
 use crate::{
     callbacks::{Payload, QueryData, Topic},
     keyboards,
-    locale::Locale,
+    locale::{get_user_locale_by_user_id, set_user_locale_by_user_id, Locale},
     stats::get_stats,
     templates::Templates,
-    user::{get_user_by_id, UserId},
+    user::{get_user_by_id, get_user_by_telegram_id, UserId},
     utils::{get_user_folder_path, get_user_folder_path_by_user},
     videonotes::{delete_all_user_vnotes, get_random_vnote, get_vnote_list_from_db},
 };
@@ -227,8 +227,12 @@ pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 }
 
 pub async fn set_language_command(bot: &Bot, msg: Message, locale: Locale) -> ResponseResult<()> {
-    info!("setting locale to: {:?}", locale);
-    set_locale(locale.to_string().as_str());
+    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user_locale = set_user_locale_by_user_id(&user.id, &locale).await?;
+    let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+
+    info!("setting locale to: {:?}", user_locale);
+    set_locale(remote_locale.to_string().as_str());
 
     let username = msg.chat.username().unwrap_or("Unknown User");
 
