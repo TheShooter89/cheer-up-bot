@@ -75,7 +75,12 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
 
 pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user_by_telegram_id(&msg.chat).await?;
+    info!("[START_COMMAND] user is: {:?}", user);
+
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!("[START_COMMAND] remote_locale is: {:?}", remote_locale);
+
+    let locale_str = remote_locale.to_string();
 
     let username = msg.chat.username().unwrap_or("Unknown User");
 
@@ -83,7 +88,7 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let keyboard = keyboards::start_page(None, None, &remote_locale);
 
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .await?;
@@ -94,9 +99,11 @@ pub async fn random_note_command(bot: &Bot, msg: Message) -> ResponseResult<()> 
     let user = get_user_by_telegram_id(&msg.chat).await?;
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
 
+    let locale_str = remote_locale.to_string();
+
     let template = Templates::LoadingPage;
 
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .await?;
 
@@ -125,7 +132,7 @@ pub async fn random_note_command(bot: &Bot, msg: Message) -> ResponseResult<()> 
     let keyboard = keyboards::random_note_page(None, &remote_locale);
 
     // bot.send_message(msg.chat.id, template.render())
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .await?;
@@ -135,6 +142,8 @@ pub async fn random_note_command(bot: &Bot, msg: Message) -> ResponseResult<()> 
 pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user_by_telegram_id(&msg.chat).await?;
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+
+    let locale_str = remote_locale.to_string();
 
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
     println!("vnote_list is: {:?}", vnote_list);
@@ -151,7 +160,7 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let keyboard = keyboards::extra_page(None, None, None, &remote_locale);
 
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .await?;
@@ -162,6 +171,8 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user_by_telegram_id(&msg.chat).await?;
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+
+    let locale_str = remote_locale.to_string();
 
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
     debug!("vnote_list is: {:?}", vnote_list);
@@ -191,7 +202,7 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let keyboard = keyboards::list_notes_page(None, None, &remote_locale);
 
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .await?;
@@ -203,11 +214,13 @@ pub async fn language_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user_by_telegram_id(&msg.chat).await?;
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
 
+    let locale_str = remote_locale.to_string();
+
     let template = Templates::LanguagePage;
 
     let keyboard = keyboards::language_page(&remote_locale);
 
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .disable_web_page_preview(true)
@@ -219,11 +232,13 @@ pub async fn help_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user_by_telegram_id(&msg.chat).await?;
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
 
+    let locale_str = remote_locale.to_string();
+
     let template = Templates::HelpPage;
 
     let keyboard = keyboards::help_page(None, None, &remote_locale);
 
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .await?;
@@ -234,11 +249,13 @@ pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user_by_telegram_id(&msg.chat).await?;
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
 
+    let locale_str = remote_locale.to_string();
+
     let template = Templates::CreditsPage;
 
     let keyboard = keyboards::credits_page(None, None, &remote_locale);
 
-    bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .disable_web_page_preview(true)
@@ -252,8 +269,10 @@ pub async fn set_language_command(bot: &Bot, msg: Message, locale: Locale) -> Re
     let user_locale = set_user_locale_by_user_id(&user.id, &locale).await?;
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
 
+    let locale_str = remote_locale.to_string();
+
     info!("setting locale to: {:?}", user_locale);
-    set_locale(remote_locale.to_string().as_str());
+    // set_locale(&locale_str);
 
     let username = msg.chat.username().unwrap_or("Unknown User");
 
@@ -261,7 +280,10 @@ pub async fn set_language_command(bot: &Bot, msg: Message, locale: Locale) -> Re
 
     let keyboard = keyboards::start_page(None, None, &remote_locale);
 
-    bot.send_message(msg.chat.id, template.render())
+    let rendered_template = template.render(&locale_str);
+    debug!("rendered_template: {:?}", rendered_template);
+
+    bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .disable_web_page_preview(true)
