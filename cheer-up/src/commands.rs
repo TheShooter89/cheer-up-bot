@@ -20,7 +20,7 @@ use crate::{
     locale::{get_user_locale_by_user_id, set_user_locale_by_user_id, Locale},
     stats::get_stats,
     templates::Templates,
-    user::{get_user_by_id, get_user_by_telegram_id, UserId},
+    user::{get_user, get_user_by_id, get_user_by_telegram_id, save_user_to_db, UserId},
     utils::{get_user_folder_path, get_user_folder_path_by_user},
     videonotes::{delete_all_user_vnotes, get_random_vnote, get_vnote_list_from_db},
 };
@@ -74,7 +74,7 @@ pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseRe
 }
 
 pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user = get_user(&msg.chat).await?;
     info!("[START_COMMAND] user is: {:?}", user);
 
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
