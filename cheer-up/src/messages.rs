@@ -3,10 +3,10 @@ use teloxide::{
     types::{Me, ParseMode},
 };
 
-use crate::commands::*;
 use crate::templates::*;
 use crate::user::*;
 use crate::videonotes::*;
+use crate::{commands::*, locale::get_user_locale_by_user_id};
 
 #[derive(Debug, Clone, Copy)]
 pub enum MessageType {
@@ -107,9 +107,15 @@ pub async fn handle_message(bot: Bot, msg: Message, me: Me) -> ResponseResult<()
             Ok(())
         }
         _ => {
+            let user = get_user_by_telegram_id(&msg.chat).await?;
+            let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+
+            let locale_str = remote_locale.to_string();
+
             bot.send_message(
                 chat_id,
-                Templates::UnsupportedInputPage(message_type.name().to_string()).render(),
+                Templates::UnsupportedInputPage(message_type.name().to_string())
+                    .render(&locale_str),
             )
             .parse_mode(ParseMode::Html)
             .await?;
