@@ -1,4 +1,5 @@
 use dotenvy as dotenv;
+use log::debug;
 
 use crate::stats::UserStats;
 
@@ -9,13 +10,15 @@ pub enum Templates {
     RandomNotePage(String),
     ExtraPage(String, String, String, Vec<UserStats>),
     ListPage(String),
+    LanguagePage,
     HelpPage,
     CreditsPage,
     UnsupportedInputPage(String),
 }
 
 impl Templates {
-    pub fn render(&self) -> String {
+    pub fn render(&self, locale: &str) -> String {
+        debug!("rendering with locale: {:?}", locale);
         let author =
             dotenv::var("AUTHOR").expect("error loading author from envirenment variables");
 
@@ -29,30 +32,34 @@ impl Templates {
             .expect("error loading code repo url from envirenment variables");
 
         match self {
-            Templates::LoadingPage => loading_page(),
-            Templates::StartPage(user) => start_page(user),
-            Templates::RandomNotePage(user) => random_note_page(user),
+            Templates::LoadingPage => loading_page(locale),
+            Templates::StartPage(user) => start_page(user, locale),
+            Templates::RandomNotePage(user) => random_note_page(user, locale),
             Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
-                extra_page(user, total_notes, total_users, user_videonotes_list)
+                extra_page(user, total_notes, total_users, user_videonotes_list, locale)
             }
-            Templates::ListPage(total_notes) => list_page(total_notes),
-            Templates::HelpPage => help_page(),
-            Templates::CreditsPage => credits_page(&author, &profile_name, &profile_url, &repo_url),
-            Templates::UnsupportedInputPage(input) => unsupported_input_page(input),
+            Templates::ListPage(total_notes) => list_page(total_notes, locale),
+            Templates::LanguagePage => language_page(&repo_url, locale),
+            Templates::HelpPage => help_page(locale),
+            Templates::CreditsPage => {
+                credits_page(&author, &profile_name, &profile_url, &repo_url, locale)
+            }
+            Templates::UnsupportedInputPage(input) => unsupported_input_page(input, locale),
         }
     }
 }
 
-fn start_page(user: &str) -> String {
-    format!("{}", t!("start_page", user = user))
+fn start_page(user: &str, locale: &str) -> String {
+    debug!("rendering with locale: {:?}", locale);
+    format!("{}", t!("start_page", locale = locale, user = user))
 }
 
-fn random_note_page(user: &str) -> String {
-    format!("{}", t!("random_note_page", user = user))
+fn random_note_page(user: &str, locale: &str) -> String {
+    format!("{}", t!("random_note_page", locale = locale, user = user))
 }
 
-fn loading_page() -> String {
-    format!("{}", t!("loading_page"))
+fn loading_page(locale: &str) -> String {
+    format!("{}", t!("loading_page", locale = locale))
 }
 
 fn extra_page(
@@ -60,6 +67,7 @@ fn extra_page(
     total_notes: &str,
     total_users: &str,
     user_videonotes_list: &Vec<UserStats>,
+    locale: &str,
 ) -> String {
     let mut stats_list = String::new();
 
@@ -69,8 +77,9 @@ fn extra_page(
             stats_list,
             t!(
                 "extra_page_stat_entry",
+                locale = locale,
                 user = stat.username,
-                user_total_notes = stat.videonotes
+                user_total_notes = stat.videonotes,
             )
         );
 
@@ -81,36 +90,54 @@ fn extra_page(
         "{}",
         t!(
             "extra_page",
+            locale = locale,
             user = user,
             total_notes = total_notes,
             total_users = total_users,
-            user_videonotes_list = stats_list
+            user_videonotes_list = stats_list,
         )
     )
 }
 
-fn list_page(total_notes: &str) -> String {
-    format!("{}", t!("list_page", total_notes = total_notes))
+fn list_page(total_notes: &str, locale: &str) -> String {
+    format!(
+        "{}",
+        t!("list_page", locale = locale, total_notes = total_notes)
+    )
 }
 
-fn credits_page(author: &str, profile_name: &str, profile_url: &str, repo_url: &str) -> String {
+fn credits_page(
+    author: &str,
+    profile_name: &str,
+    profile_url: &str,
+    repo_url: &str,
+    locale: &str,
+) -> String {
     format!(
         "{}",
         t!(
             "credits_page",
+            locale = locale,
             author = author,
             profile_name = profile_name,
             profile_url = profile_url,
-            repo_url = repo_url
+            repo_url = repo_url,
         )
     )
 }
 
-fn help_page() -> String {
-    format!("{}", t!("help_page"))
+fn language_page(repo_url: &str, locale: &str) -> String {
+    format!(
+        "{}",
+        t!("language_page", locale = locale, repo_url = repo_url)
+    )
 }
 
-fn unsupported_input_page(input_type: &str) -> String {
+fn help_page(locale: &str) -> String {
+    format!("{}", t!("help_page", locale = locale))
+}
+
+fn unsupported_input_page(input_type: &str, locale: &str) -> String {
     let media_input = match input_type {
         "photo" => Some("a photo"),
         "video" => Some("a video"),

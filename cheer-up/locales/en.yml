@@ -9,6 +9,7 @@ start_page: |
   If you ever feel lonely, just tap ASK A FRIEND button and you get a random friend cheering you up! 🔥️ 🚀️
 
   There are also some bonus goodies, to have a look tap EXTRA button or type /extra
+  Change bot language typing /language
   For further help and additional commands type /help
 
   created with 💛️💙️ by tanque - see /credits
@@ -24,6 +25,7 @@ extra_page: |
 
   %{user_videonotes_list}
 
+  You can change the bot language, if you like 😊️ digit /language or tap the button below
   For further help and additional commands type /help
 
 extra_page_stat_entry: |
@@ -44,6 +46,14 @@ credits_page: |
   #supportukraine
   Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to
 
+language_page: |
+  <b>Choose bot language 🇪🇺️</b>
+
+  You can change the language by pressing below buttons 😊️
+  This bot is currently translated in 4 languages: english, spanish, italian and ukrainian
+
+  If you want to help with translations 😊️ 💜️ feel free to check the repo: %{repo_url}
+
 help_page: |
   <b>Help & Commands</b>
 
@@ -55,6 +65,7 @@ help_page: |
   /list - list all video notes your friends uploaded
   /extra - some bonus goodies
   /credits - show bot credits with author profile and code repository links
+  /language - change bot language
   /help - get further help and additional commands
 
 buttons.ask_friend: |
@@ -72,5 +83,20 @@ buttons.go_extra: |
 buttons.go_credits: |
   🧬️ CREDITS
 
+buttons.go_language: |
+  🇪🇺️ LANGUAGE
+
 buttons.go_help: |
   🆘️ HELP
+
+buttons.set_language_EN: |
+  🇬🇧️ ENGLISH
+
+buttons.set_language_ES: |
+  🇪🇸 SPANISH
+
+buttons.set_language_UA: |
+  🇺🇦️ UKRAINIAN
+
+buttons.set_language_IT: |
+  🇮🇹️ ITALIAN

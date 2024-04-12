@@ -1,4 +1,5 @@
 use log::*;
+use std::fmt;
 use teloxide::{
     prelude::*,
     types::{CallbackQuery, Chat},
@@ -8,7 +9,7 @@ use teloxide::{
 use serde::{self, Deserialize, Serialize};
 use serde_json;
 
-use crate::{commands, user::UserId};
+use crate::{commands, locale::Locale, user::UserId};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct QueryData {
@@ -23,6 +24,16 @@ pub enum Payload {
     UserId(i64),
 }
 
+impl fmt::Display for Payload {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Payload::Text(text) => write!(f, "{}", text),
+            Payload::Username(text) => write!(f, "{}", text),
+            Payload::UserId(id) => write!(f, "{}", id),
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Topic {
     GetRandomNote,
@@ -30,7 +41,9 @@ pub enum Topic {
     GoHomePage,
     GoExtraPage,
     GoCreditsPage,
+    GoLanguagePage,
     GoHelpPage,
+    SetLanguage,
 }
 
 impl Topic {
@@ -41,7 +54,9 @@ impl Topic {
             Topic::GoHomePage => "#home".to_string(),
             Topic::GoExtraPage => "#extra".to_string(),
             Topic::GoCreditsPage => "#credits".to_string(),
+            Topic::GoLanguagePage => "#language".to_string(),
             Topic::GoHelpPage => "#help".to_string(),
+            Topic::SetLanguage => "#set_language".to_string(),
         }
     }
 }
@@ -84,7 +99,13 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
                 Topic::GoCreditsPage => {
                     handle_go_credits_page(&bot, message, chat, data.payload).await?
                 }
+                Topic::GoLanguagePage => {
+                    handle_go_language_page(&bot, message, chat, data.payload).await?
+                }
                 Topic::GoHelpPage => handle_go_help_page(&bot, message, chat, data.payload).await?,
+                Topic::SetLanguage => {
+                    handle_set_language(&bot, message, chat, data.payload).await?
+                }
                 _ => warn!("unkwnown topic"),
             }
 
@@ -262,6 +283,35 @@ async fn handle_go_credits_page(
     }
 }
 
+async fn handle_go_language_page(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    warn!("Payload provided, but not needed");
+                    commands::language_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::language_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
 async fn handle_go_help_page(
     bot: &Bot,
     msg: Option<teloxide::types::Message>,
@@ -274,6 +324,37 @@ async fn handle_go_help_page(
                 Some(data) => {
                     warn!("Payload provided, but not needed");
                     commands::help_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::help_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
+async fn handle_set_language(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    info!("button data is: {:#?}", data);
+                    let selected_locale = Locale::from_str(data.to_string().as_str());
+                    info!("selected locale is: {:?}", selected_locale);
+                    commands::set_language_command(bot, msg.unwrap(), selected_locale).await?;
                     Ok(())
                 }
                 None => {
