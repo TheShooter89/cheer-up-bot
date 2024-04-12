@@ -96,8 +96,14 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 }
 
 pub async fn random_note_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user = get_user(&msg.chat).await?;
+    info!("[RANDOM_NOTE_COMMAND] user is: {:?}", user);
+
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!(
+        "[RANDOM_NOTE_COMMAND] remote_locale is: {:?}",
+        remote_locale
+    );
 
     let locale_str = remote_locale.to_string();
 
@@ -140,8 +146,11 @@ pub async fn random_note_command(bot: &Bot, msg: Message) -> ResponseResult<()> 
 }
 
 pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user = get_user(&msg.chat).await?;
+    info!("[EXTRA_COMMAND] user is: {:?}", user);
+
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!("[EXTRA_COMMAND] remote_locale is: {:?}", remote_locale);
 
     let locale_str = remote_locale.to_string();
 
@@ -169,8 +178,11 @@ pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 }
 
 pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user = get_user(&msg.chat).await?;
+    info!("[LIST_COMMAND] user is: {:?}", user);
+
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!("[LIST_COMMAND] remote_locale is: {:?}", remote_locale);
 
     let locale_str = remote_locale.to_string();
 
@@ -211,8 +223,11 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 }
 
 pub async fn language_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user = get_user(&msg.chat).await?;
+    info!("[LANGUAGE_COMMAND] user is: {:?}", user);
+
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!("[LANGUAGE_COMMAND] remote_locale is: {:?}", remote_locale);
 
     let locale_str = remote_locale.to_string();
 
@@ -229,8 +244,11 @@ pub async fn language_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 }
 
 pub async fn help_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user = get_user(&msg.chat).await?;
+    info!("[HELP_COMMAND] user is: {:?}", user);
+
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!("[HELP_COMMAND] remote_locale is: {:?}", remote_locale);
 
     let locale_str = remote_locale.to_string();
 
@@ -246,8 +264,11 @@ pub async fn help_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 }
 
 pub async fn credits_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user_by_telegram_id(&msg.chat).await?;
+    let user = get_user(&msg.chat).await?;
+    info!("[CREDITS_COMMAND] user is: {:?}", user);
+
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!("[CREDITS_COMMAND] remote_locale is: {:?}", remote_locale);
 
     let locale_str = remote_locale.to_string();
 
