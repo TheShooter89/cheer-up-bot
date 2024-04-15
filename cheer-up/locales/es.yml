@@ -81,6 +81,30 @@ help_page: |
   /language - cambia el idioma del bot
   /help - obtén más ayuda y comandos adicionales
 
+unsupported_page: |
+  ⚠️ <b>ADVERTENCIA</b> ⚠️
+
+  Subiste un %{media_type}, pero este bot solo maneja notas de video
+
+  Consultar/cargar para obtener instrucciones
+
+unsupported_page.other_media: |
+  ⚠️ <b>ADVERTENCIA</b> ⚠️
+
+  Subiste un medio no compatible, este bot solo maneja notas de video
+
+  Consultar/cargar para obtener instrucciones
+
+unsupported_page.media.photo: una foto
+
+unsupported_page.media.video: un vídeo
+
+unsupported_page.media.voice: un mensaje vocal
+
+unsupported_page.media.audio: un archivo de audio
+
+unsupported_page.media.document: un documento
+
 buttons.ask_friend: |
   💛️ PEDIR UN AMIGO 💙️
 

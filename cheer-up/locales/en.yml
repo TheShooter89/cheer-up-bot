@@ -80,6 +80,30 @@ help_page: |
   /language - change bot language
   /help - get further help and additional commands
 
+unsupported_page: |
+  ⚠️ <b>WARNING</b> ⚠️
+
+  You uploaded a %{media_type}, but this bot handles video notes only
+
+  Check /upload for instructions
+
+unsupported_page.other_media: |
+  ⚠️ <b>WARNING</b> ⚠️
+
+  You uploaded an unsupported media, this bot handles video notes only
+
+  Check /upload for instructions
+
+unsupported_page.media.photo: a photo
+
+unsupported_page.media.video: a video
+
+unsupported_page.media.voice: a voice recording
+
+unsupported_page.media.audio: an audio file
+
+unsupported_page.media.document: a document
+
 buttons.ask_friend: |
   💛️ ASK A FRIEND 💙️
 
