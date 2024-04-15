@@ -64,10 +64,10 @@ pub fn extra_page(
         go_to_credits_button(go_credits_payload.clone(), locale),
     ];
 
-    let row_2 = vec![list_all_notes_button(
-        list_all_query_payload.clone(),
-        locale,
-    )];
+    let row_2 = vec![
+        list_all_notes_button(list_all_query_payload.clone(), locale),
+        go_to_upload_button(None, locale),
+    ];
 
     let row_3 = vec![go_to_home_button(None, locale)];
 
