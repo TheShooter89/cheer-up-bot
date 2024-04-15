@@ -2,8 +2,9 @@ use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyb
 
 use crate::buttons::{
     ask_friend_button, go_to_credits_button, go_to_extra_button, go_to_help_button,
-    go_to_home_button, go_to_language_button, list_all_notes_button, make_button,
-    set_language_EN_button, set_language_ES_button, set_language_IT_button, set_language_UA_button,
+    go_to_home_button, go_to_language_button, go_to_upload_button, list_all_notes_button,
+    make_button, set_language_EN_button, set_language_ES_button, set_language_IT_button,
+    set_language_UA_button,
 };
 use crate::callbacks::{Payload, QueryData};
 use crate::locale::Locale;
@@ -71,6 +72,22 @@ pub fn extra_page(
     let row_3 = vec![go_to_home_button(None, locale)];
 
     let keyboard_buttons = vec![row_1, row_2, row_3];
+
+    InlineKeyboardMarkup::new(keyboard_buttons)
+}
+
+pub fn upload_page(
+    list_all_query_payload: Option<Payload>,
+    locale: &Locale,
+) -> InlineKeyboardMarkup {
+    let row_1 = vec![
+        list_all_notes_button(list_all_query_payload.clone(), locale),
+        go_to_help_button(None, locale),
+    ];
+
+    let row_2 = vec![go_to_home_button(None, locale)];
+
+    let keyboard_buttons = vec![row_1, row_2];
 
     InlineKeyboardMarkup::new(keyboard_buttons)
 }

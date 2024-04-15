@@ -31,6 +31,17 @@ extra_page: |
 extra_page_stat_entry: |
   🎯️ @%{user} uploaded %{user_total_notes} videonotes
 
+upload_page: |
+  <b>Hi %{user}!</b>
+
+  At the moment there are %{total_notes} videonotes from %{total_users} friends
+  If some of your friends doesn't have Telegram installed, you can hand them you phone and upload their videonote from your phone
+
+  Just send a videonote to this chat like in a normal chat conversation
+  (NOTE: the videonote will be uploaded under your nickname)
+
+  For further help and additional commands type /help
+
 list_page: |
   Your friends loves you a lot 😊️
   They sent you a whooping total of <b>%{total_notes}</b> videonotes 🚀️🚀️
