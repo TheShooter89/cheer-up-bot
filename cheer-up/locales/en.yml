@@ -74,6 +74,7 @@ help_page: |
   /start - get the bot starting page
   /ask_friend - get a random videonote from a friend
   /list - list all video notes your friends uploaded
+  /upload - upload a new videonote
   /extra - some bonus goodies
   /credits - show bot credits with author profile and code repository links
   /language - change bot language

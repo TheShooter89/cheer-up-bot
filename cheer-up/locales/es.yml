@@ -75,6 +75,7 @@ help_page: |
   /start - obtén la página de inicio del bot
   /ask_friend - obtén una videonota aleatoria de un amigo
   /list - lista todas las videonotas que tus amigos han subido
+  /upload - sube una nueva videonota
   /extra - algunas sorpresas extra
   /credits - muestra los créditos del bot con enlace al perfil del autor y repositorio de código
   /language - cambia el idioma del bot
