@@ -104,38 +104,26 @@ unsupported_page.media.audio: an audio file
 
 unsupported_page.media.document: a document
 
-buttons.ask_friend: |
-  💛️ ASK A FRIEND 💙️
+buttons.ask_friend: 💛️ ASK A FRIEND 💙️
 
-buttons.list_notes: |
-  🔥️ LIST ALL VIDEONOTES 🔥️
+buttons.list_notes: 🔥️ LIST ALL VIDEONOTES 🔥️
 
-buttons.go_home: |
-  ↩️ BACK TO HOME
+buttons.go_home: ↩️ BACK TO HOME
 
-buttons.go_extra: |
-  🎉️ EXTRA
+buttons.go_extra: 🎉️ EXTRA
 
-buttons.go_upload: |
-  🚀️ UPLOAD VIDEONOTE
+buttons.go_upload: 🚀️ UPLOAD VIDEONOTE
 
-buttons.go_credits: |
-  🧬️ CREDITS
+buttons.go_credits: 🧬️ CREDITS
 
-buttons.go_language: |
-  🇪🇺️ LANGUAGE
+buttons.go_language: 🇪🇺️ LANGUAGE
 
-buttons.go_help: |
-  🆘️ HELP
+buttons.go_help: 🆘️ HELP
 
-buttons.set_language_EN: |
-  🇬🇧️ ENGLISH
+buttons.set_language_EN: 🇬🇧️ ENGLISH
 
-buttons.set_language_ES: |
-  🇪🇸 SPANISH
+buttons.set_language_ES: 🇪🇸 SPANISH
 
-buttons.set_language_UA: |
-  🇺🇦️ UKRAINIAN
+buttons.set_language_UA: 🇺🇦️ UKRAINIAN
 
-buttons.set_language_IT: |
-  🇮🇹️ ITALIAN
+buttons.set_language_IT: 🇮🇹️ ITALIAN

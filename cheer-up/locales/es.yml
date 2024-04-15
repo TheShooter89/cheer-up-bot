@@ -105,38 +105,26 @@ unsupported_page.media.audio: un archivo de audio
 
 unsupported_page.media.document: un documento
 
-buttons.ask_friend: |
-  💛️ PEDIR UN AMIGO 💙️
+buttons.ask_friend: 💛️ PEDIR UN AMIGO 💙️
 
-buttons.list_notes: |
-  🔥️ LISTAR TODAS LAS VIDEONOTAS 🔥️
+buttons.list_notes: 🔥️ LISTAR TODAS LAS VIDEONOTAS 🔥️
 
-buttons.go_home: |
-  ↩️ REGRESAR A INICIO
+buttons.go_home: ↩️ REGRESAR A INICIO
 
-buttons.go_extra: |
-  🎉️ EXTRA
+buttons.go_extra: 🎉️ EXTRA
 
-buttons.go_upload: |
-  🚀️ SUBIR VIDEONOTA
+buttons.go_upload: 🚀️ SUBIR VIDEONOTA
 
-buttons.go_credits: |
-  🧬️ CRÉDITOS
+buttons.go_credits: 🧬️ CRÉDITOS
 
-buttons.go_language: |
-  🇪🇺️ IDIOMA
+buttons.go_language: 🇪🇺️ IDIOMA
 
-buttons.go_help: |
-  🆘️ AYUDA
+buttons.go_help: 🆘️ AYUDA
 
-buttons.set_language_EN: |
-  🇬🇧️ INGLÉS
+buttons.set_language_EN: 🇬🇧️ INGLÉS
 
-buttons.set_language_ES: |
-  🇪🇸 ESPAÑOL
+buttons.set_language_ES: 🇪🇸 ESPAÑOL
 
-buttons.set_language_UA: |
-  🇺🇦️ UCRANIANO
+buttons.set_language_UA: 🇺🇦️ UCRANIANO
 
-buttons.set_language_IT: |
-  🇮🇹️ ITALIANO
+buttons.set_language_IT: 🇮🇹️ ITALIANO
