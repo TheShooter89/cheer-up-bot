@@ -242,7 +242,11 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
         let file_path = format!("{}/{}", user_folder, vnote.file_name);
         debug!("file_path is: {}", file_path);
+
+        let keyboard =
+            keyboards::vnote_entry(Some(Payload::Text(vnote.id.to_string())), &remote_locale);
         bot.send_video_note(msg.chat.id, InputFile::file(file_path))
+            .reply_markup(keyboard)
             .await?;
     }
 

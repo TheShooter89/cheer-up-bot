@@ -188,12 +188,12 @@ async fn handle_delete_note(
             match payload {
                 Some(data) => {
                     warn!("Payload provided, but not needed");
-                    commands::list_command(bot, msg.unwrap()).await?;
+                    commands::start_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
                 None => {
                     // no Payload provided
-                    commands::list_command(bot, msg.unwrap()).await?;
+                    commands::start_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }
