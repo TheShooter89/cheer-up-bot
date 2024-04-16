@@ -40,6 +40,7 @@ pub enum Topic {
     ListAllNotes,
     GoHomePage,
     GoExtraPage,
+    GoUploadPage,
     GoCreditsPage,
     GoLanguagePage,
     GoHelpPage,
@@ -53,6 +54,7 @@ impl Topic {
             Topic::ListAllNotes => "#list".to_string(),
             Topic::GoHomePage => "#home".to_string(),
             Topic::GoExtraPage => "#extra".to_string(),
+            Topic::GoUploadPage => "#upload".to_string(),
             Topic::GoCreditsPage => "#credits".to_string(),
             Topic::GoLanguagePage => "#language".to_string(),
             Topic::GoHelpPage => "#help".to_string(),
@@ -95,6 +97,9 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
                 Topic::GoHomePage => handle_go_home_page(&bot, message, chat, data.payload).await?,
                 Topic::GoExtraPage => {
                     handle_go_extra_page(&bot, message, chat, data.payload).await?
+                }
+                Topic::GoUploadPage => {
+                    handle_go_upload_page(&bot, message, chat, data.payload).await?
                 }
                 Topic::GoCreditsPage => {
                     handle_go_credits_page(&bot, message, chat, data.payload).await?
@@ -243,6 +248,34 @@ async fn handle_go_extra_page(
                 None => {
                     // no Payload provided
                     commands::extra_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
+async fn handle_go_upload_page(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    warn!("Payload provided, but not needed");
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::upload_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }

@@ -31,6 +31,17 @@ extra_page: |
 extra_page_stat_entry: |
   🎯️ @%{user} uploaded %{user_total_notes} videonotes
 
+upload_page: |
+  <b>Hi %{user}!</b>
+
+  At the moment there are %{total_notes} videonotes from %{total_users} friends
+  If some of your friends doesn't have Telegram installed, you can hand them you phone and upload their videonote from your phone
+
+  Just send a videonote to this chat like in a normal chat conversation
+  (NOTE: the videonote will be uploaded under your nickname)
+
+  For further help and additional commands type /help
+
 list_page: |
   Your friends loves you a lot 😊️
   They sent you a whooping total of <b>%{total_notes}</b> videonotes 🚀️🚀️
@@ -63,40 +74,56 @@ help_page: |
   /start - get the bot starting page
   /ask_friend - get a random videonote from a friend
   /list - list all video notes your friends uploaded
+  /upload - upload a new videonote
   /extra - some bonus goodies
   /credits - show bot credits with author profile and code repository links
   /language - change bot language
   /help - get further help and additional commands
 
-buttons.ask_friend: |
-  💛️ ASK A FRIEND 💙️
+unsupported_page: |
+  ⚠️ <b>WARNING</b> ⚠️
 
-buttons.list_notes: |
-  🔥️ LIST ALL VIDEONOTES 🔥️
+  You uploaded a %{media_type}, but this bot handles video notes only
 
-buttons.go_home: |
-  ↩️ BACK TO HOME
+  Check /upload for instructions
 
-buttons.go_extra: |
-  🎉️ EXTRA
+unsupported_page.other_media: |
+  ⚠️ <b>WARNING</b> ⚠️
 
-buttons.go_credits: |
-  🧬️ CREDITS
+  You uploaded an unsupported media, this bot handles video notes only
 
-buttons.go_language: |
-  🇪🇺️ LANGUAGE
+  Check /upload for instructions
 
-buttons.go_help: |
-  🆘️ HELP
+unsupported_page.media.photo: a photo
 
-buttons.set_language_EN: |
-  🇬🇧️ ENGLISH
+unsupported_page.media.video: a video
 
-buttons.set_language_ES: |
-  🇪🇸 SPANISH
+unsupported_page.media.voice: a voice recording
 
-buttons.set_language_UA: |
-  🇺🇦️ UKRAINIAN
+unsupported_page.media.audio: an audio file
 
-buttons.set_language_IT: |
-  🇮🇹️ ITALIAN
+unsupported_page.media.document: a document
+
+buttons.ask_friend: 💛️ ASK A FRIEND 💙️
+
+buttons.list_notes: 🔥️ LIST ALL VIDEONOTES 🔥️
+
+buttons.go_home: ↩️ BACK TO HOME
+
+buttons.go_extra: 🎉️ EXTRA
+
+buttons.go_upload: 🚀️ UPLOAD VIDEONOTE
+
+buttons.go_credits: 🧬️ CREDITS
+
+buttons.go_language: 🇪🇺️ LANGUAGE
+
+buttons.go_help: 🆘️ HELP
+
+buttons.set_language_EN: 🇬🇧️ ENGLISH
+
+buttons.set_language_ES: 🇪🇸 SPANISH
+
+buttons.set_language_UA: 🇺🇦️ UKRAINIAN
+
+buttons.set_language_IT: 🇮🇹️ ITALIAN

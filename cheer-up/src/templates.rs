@@ -9,6 +9,7 @@ pub enum Templates {
     StartPage(String),
     RandomNotePage(String),
     ExtraPage(String, String, String, Vec<UserStats>),
+    UploadPage(String, String, String, Vec<UserStats>),
     ListPage(String),
     LanguagePage,
     HelpPage,
@@ -37,6 +38,9 @@ impl Templates {
             Templates::RandomNotePage(user) => random_note_page(user, locale),
             Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
                 extra_page(user, total_notes, total_users, user_videonotes_list, locale)
+            }
+            Templates::UploadPage(user, total_notes, total_users, user_videonotes_list) => {
+                upload_page(user, total_notes, total_users, user_videonotes_list, locale)
             }
             Templates::ListPage(total_notes) => list_page(total_notes, locale),
             Templates::LanguagePage => language_page(&repo_url, locale),
@@ -99,6 +103,43 @@ fn extra_page(
     )
 }
 
+fn upload_page(
+    user: &str,
+    total_notes: &str,
+    total_users: &str,
+    user_videonotes_list: &Vec<UserStats>,
+    locale: &str,
+) -> String {
+    let mut stats_list = String::new();
+
+    for stat in user_videonotes_list {
+        let new_stat_entry = format!(
+            "{}{}",
+            stats_list,
+            t!(
+                "extra_page_stat_entry",
+                locale = locale,
+                user = stat.username,
+                user_total_notes = stat.videonotes,
+            )
+        );
+
+        stats_list = new_stat_entry;
+    }
+
+    format!(
+        "{}",
+        t!(
+            "upload_page",
+            locale = locale,
+            user = user,
+            total_notes = total_notes,
+            total_users = total_users,
+            user_videonotes_list = stats_list,
+        )
+    )
+}
+
 fn list_page(total_notes: &str, locale: &str) -> String {
     format!(
         "{}",
@@ -139,24 +180,35 @@ fn help_page(locale: &str) -> String {
 
 fn unsupported_input_page(input_type: &str, locale: &str) -> String {
     let media_input = match input_type {
-        "photo" => Some("a photo"),
-        "video" => Some("a video"),
-        "voice" => Some("a voice recording"),
-        "audio" => Some("an audio file"),
-        "document" => Some("a document"),
+        "photo" => Some(format!(
+            "{}",
+            t!("unsupported_page.media.photo", locale = locale)
+        )),
+        "video" => Some(format!(
+            "{}",
+            t!("unsupported_page.media.video", locale = locale)
+        )),
+        "voice" => Some(format!(
+            "{}",
+            t!("unsupported_page.media.voice", locale = locale)
+        )),
+        "audio" => Some(format!(
+            "{}",
+            t!("unsupported_page.media.audio", locale = locale)
+        )),
+        "document" => Some(format!(
+            "{}",
+            t!("unsupported_page.media.document", locale = locale)
+        )),
         _ => None,
     };
 
-    if let Some(input) = media_input {
+    if let Some(media) = media_input {
         return format!(
-            r"⚠️ <b>WARNING</b> ⚠️
-<b>This bot can't receive a {}. Check /help for instructions.</b>",
-            input
+            "{}",
+            t!("unsupported_page", locale = locale, media_type = &media)
         );
     }
 
-    format!(
-        r"⚠️ <b>WARNING</b> ⚠️
-<b>Unsupported media. Check /help for instructions.</b>"
-    )
+    format!("{}", t!("unsupported_page.other_media", locale = locale))
 }
