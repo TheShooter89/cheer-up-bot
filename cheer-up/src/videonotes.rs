@@ -80,7 +80,7 @@ pub async fn get_random_vnote(bot: &Bot, chat: &Chat) -> ResponseResult<Note> {
     Ok(vnote.note)
 }
 
-pub async fn save_vnote_to_db(vnote: &VideoNote, author: &Chat) -> ResponseResult<()> {
+pub async fn save_vnote_to_db(vnote: &str, author: &Chat) -> ResponseResult<()> {
     let client = Client::new();
 
     let vnote_author = match get_user_by_telegram_id(author).await {
@@ -88,7 +88,7 @@ pub async fn save_vnote_to_db(vnote: &VideoNote, author: &Chat) -> ResponseResul
         Err(_) => save_user_to_db(&author).await?,
     };
 
-    let output_file_name = format!("{}.mpeg", vnote.file.id);
+    let output_file_name = format!("{}.mpeg", vnote);
     let new_note = NewNote {
         user_id: vnote_author.id,
         file_name: output_file_name,
