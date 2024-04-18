@@ -5,13 +5,12 @@ loading_page: |
 start_page: |
   <b>¡Hola %{user}!</b>
 
-  Incluso si estás lejos, ¡no estás solo 😊️!
-  Si alguna vez te sientes solo, simplemente toca el botón PEDIR UN AMIGO ¡y obtendrás un amigo al azar animándote! 🔥️ 🚀️
+  Este bot es un bot de mantenimiento que se utiliza para cargar y manejar sus notas de video para el bot CheerUp para que su amigo pueda usar el bot principal de CheerUp para recibir notas de video aleatorias de todas las notas de video que cargó usando este bot de mantenimiento 😊️
+  Simplemente envíe una nota de video (también conocida como videos de burbujas) a este bot y estará listo para funcionar 🔥️
 
-  También hay algunas sorpresas extra, para echar un vistazo toca el botón EXTRA o escribe /extra
   Cambia el idioma del bot escribiendo /language
-  Para obtener más ayuda y comandos adicionales escribe /help
 
+  Para obtener más ayuda y comandos adicionales escribe /help
   Creado con 💛️💙️ por tanque - ve /credits
 
 random_note_page: |
@@ -34,18 +33,21 @@ extra_page_stat_entry: |
 upload_page: |
   <b>¡Hola %{user}!</b>
 
-  Por el momento hay %{total_notes} videonotas de %{total_users} amigos
+  En el momento en que subiste %{total_notes} videonotas 🚀️🚀️
 
-  Si algunos de tus amigos no tienen Telegram instalado, puedes pasarles tu teléfono y subir su videonota desde tu teléfono.
-
-  Simplemente envíe una videonota a este chat como en una conversación de chat normal.
-  (NOTA: la videonota se subirá con tu apodo)
+  Si quieres subir otro, simplemente envía una videonota a este chat como en una conversación de chat normal.
 
   Para obtener más ayuda y comandos adicionales, escriba /ayuda
 
 list_page: |
-  Tus amigos te quieren mucho 😊️
-  ¡Te enviaron un total impresionante de <b>%{total_notes}</b> videonotas! 🚀️🚀️
+  <b>¡Hola %{user}!</b>
+
+  En el momento en que subiste %{total_notes} videonotas 🚀️🚀️
+  
+  Puedes borrar una videonota presionando el botón debajo de la videonota
+  Si quieres borrar todas tus videonotas a la vez, usa el botón aquí debajo
+
+  Para obtener más ayuda y comandos adicionales, escriba /ayuda
 
 delete_note_page: |
   🚨️ ADVERTENCIA: ELIMINANDO VIDEONOTA (id #%{note_id})
@@ -86,10 +88,8 @@ help_page: |
 
   Comandos disponibles:
   /start - obtén la página de inicio del bot
-  /ask_friend - obtén una videonota aleatoria de un amigo
-  /list - lista todas las videonotas que tus amigos han subido
   /upload - sube una nueva videonota
-  /extra - algunas sorpresas extra
+  /list - lista todas las videonotas que tus amigos han subido
   /credits - muestra los créditos del bot con enlace al perfil del autor y repositorio de código
   /language - cambia el idioma del bot
   /help - obtén más ayuda y comandos adicionales

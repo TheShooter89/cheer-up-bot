@@ -3,15 +3,14 @@ loading_page: |
   🔎️ loading...
 
 start_page: |
-  <b>Hi %{user}!</b>
+  <b>Hi %{user}!</b> 😊️
 
-  Even if you are far away, you are not alone 😊️
-  If you ever feel lonely, just tap ASK A FRIEND button and you get a random friend cheering you up! 🔥️ 🚀️
+  This bot is a manitenance bot used to upload and handle your video notes for CheerUp bot so that your friend can use the main CheerUp bot to receive a random video notes from all video notes you uploaded using this maintenance bot 😊️
+  Just send a video note (aka bubble videos) to this bot and it will be ready to go 🔥️ 🚀️
 
-  There are also some bonus goodies, to have a look tap EXTRA button or type /extra
-  Change bot language typing /language
+  You can change bot language typing /language
+
   For further help and additional commands type /help
-
   created with 💛️💙️ by tanque - see /credits
 
 random_note_page: |
@@ -32,19 +31,23 @@ extra_page_stat_entry: |
   🎯️ @%{user} uploaded %{user_total_notes} videonotes
 
 upload_page: |
-  <b>Hi %{user}!</b>
+  <b>Hi %{user}!</b> 😊️
 
-  At the moment there are %{total_notes} videonotes from %{total_users} friends
-  If some of your friends doesn't have Telegram installed, you can hand them you phone and upload their videonote from your phone
+  At the moment you uploaded %{total_notes} videonotes 🚀️🚀️
 
-  Just send a videonote to this chat like in a normal chat conversation
-  (NOTE: the videonote will be uploaded under your nickname)
+  If you want to upload another one, just send a videonote to this chat like in a normal chat conversation
 
   For further help and additional commands type /help
 
 list_page: |
-  Your friends loves you a lot 😊️
-  They sent you a whooping total of <b>%{total_notes}</b> videonotes 🚀️🚀️
+  <b>Hi %{user}!</b> 😊️
+
+  At the moment you uploaded %{total_notes} videonotes 🚀️🚀️
+
+  You can erase a videonote pressing the button below it
+  If you wan to erase all your videonotes at once, use the button here below
+
+  For further help and additional commands type /help
 
 delete_note_page: |
   🚨️ WARNING: DELETING VIDEONOTE (id #%{note_id})
@@ -85,10 +88,8 @@ help_page: |
 
   Available commands:
   /start - get the bot starting page
-  /ask_friend - get a random videonote from a friend
-  /list - list all video notes your friends uploaded
   /upload - upload a new videonote
-  /extra - some bonus goodies
+  /list - list all video notes your friends uploaded
   /credits - show bot credits with author profile and code repository links
   /language - change bot language
   /help - get further help and additional commands
