@@ -22,6 +22,7 @@ pub enum Payload {
     Text(String),
     Username(String),
     UserId(i64),
+    NoteId(i64),
 }
 
 impl fmt::Display for Payload {
@@ -30,6 +31,7 @@ impl fmt::Display for Payload {
             Payload::Text(text) => write!(f, "{}", text),
             Payload::Username(text) => write!(f, "{}", text),
             Payload::UserId(id) => write!(f, "{}", id),
+            Payload::NoteId(id) => write!(f, "{}", id),
         }
     }
 }
@@ -38,6 +40,8 @@ impl fmt::Display for Payload {
 pub enum Topic {
     GetRandomNote,
     ListAllNotes,
+    DeleteNote,
+    ConfirmDelete,
     GoHomePage,
     GoExtraPage,
     GoUploadPage,
@@ -52,6 +56,8 @@ impl Topic {
         match self {
             Topic::GetRandomNote => "#random_note".to_string(),
             Topic::ListAllNotes => "#list".to_string(),
+            Topic::DeleteNote => "#delete".to_string(),
+            Topic::ConfirmDelete => "#confirm_delete".to_string(),
             Topic::GoHomePage => "#home".to_string(),
             Topic::GoExtraPage => "#extra".to_string(),
             Topic::GoUploadPage => "#upload".to_string(),
@@ -90,6 +96,10 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
             match topic {
                 Topic::GetRandomNote => {
                     handle_random_note(&bot, message, chat, data.payload).await?
+                }
+                Topic::DeleteNote => handle_delete_note(&bot, message, chat, data.payload).await?,
+                Topic::ConfirmDelete => {
+                    handle_confirm_delete(&bot, message, chat, data.payload).await?
                 }
                 Topic::ListAllNotes => {
                     handle_list_all_notes(&bot, message, chat, data.payload).await?
@@ -162,6 +172,64 @@ async fn handle_random_note(
                     // no Payload provided
                     warn!("no Payload provided");
                     commands::random_note_command(bot, msg.unwrap()).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
+async fn handle_delete_note(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    warn!("Payload provided, but not needed");
+                    commands::delete_note_command(bot, msg.unwrap(), Some(data)).await?;
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::delete_note_command(bot, msg.unwrap(), None).await?;
+                    Ok(())
+                }
+            }
+        }
+        // No target Chat available
+        None => {
+            warn!("target Chat is None");
+            Ok(())
+        }
+    }
+}
+
+async fn handle_confirm_delete(
+    bot: &Bot,
+    msg: Option<teloxide::types::Message>,
+    target: Option<Chat>,
+    payload: Option<Payload>,
+) -> ResponseResult<()> {
+    match target {
+        Some(chat) => {
+            match payload {
+                Some(data) => {
+                    info!("Payload data is: {:?}", data);
+                    commands::confirm_delete_command(bot, msg.unwrap(), Some(data)).await?;
+                    Ok(())
+                }
+                None => {
+                    // no Payload provided
+                    commands::confirm_delete_command(bot, msg.unwrap(), None).await?;
                     Ok(())
                 }
             }

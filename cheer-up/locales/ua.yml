@@ -47,6 +47,19 @@ list_page: |
   Твої друзі тебе дуже люблять😊️
   Вони надіслали вам величезну кількість відеонотаток: <b>%{total_notes}</b> 🚀️🚀️
 
+delete_note_page: |
+  🚨️ ПОПЕРЕДЖЕННЯ: ВИДАЛЕННЯ ВІДЕОНОТАТКИ (id #%{note_id})
+
+  ⚠️ <b>Дані відеонотаток буде повністю втрачено</b>
+
+  Ви впевнені, що продовжите?
+
+success_delete_note_page: |
+  ✅️ ВІДЕОНОТАТУ УСПІШНО ВИДАЛЕНО
+
+error_delete_note_page: |
+  ⚠️ ERROR DELETING VIDEONOTE
+
 credits_page: |
   <b>ПОШАНА 🧬️</b>
 
@@ -107,6 +120,8 @@ unsupported_page.media.document: документ
 buttons.ask_friend: 💛️ ЗАПИТАЙТЕ ДРУГА 💙️
 
 buttons.list_notes: 🔥️ УСІ ПРИМІТКИ 🔥️
+
+buttons.delete_note: 🗑️ ВИДАЛИТИ
 
 buttons.go_home: ↩️ НАЗАД ДО ПОЧАТКУ
 

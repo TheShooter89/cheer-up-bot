@@ -8,6 +8,9 @@ pub enum Templates {
     LoadingPage,
     StartPage(String),
     RandomNotePage(String),
+    DeleteNotePage(String),
+    SuccessDeleteNotePage(String),
+    ErrorDeleteNotePage,
     ExtraPage(String, String, String, Vec<UserStats>),
     UploadPage(String, String, String, Vec<UserStats>),
     ListPage(String),
@@ -36,6 +39,9 @@ impl Templates {
             Templates::LoadingPage => loading_page(locale),
             Templates::StartPage(user) => start_page(user, locale),
             Templates::RandomNotePage(user) => random_note_page(user, locale),
+            Templates::DeleteNotePage(note_id) => delete_note_page(note_id, locale),
+            Templates::SuccessDeleteNotePage(note_id) => success_delete_note_page(note_id, locale),
+            Templates::ErrorDeleteNotePage => error_delete_note_page(locale),
             Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
                 extra_page(user, total_notes, total_users, user_videonotes_list, locale)
             }
@@ -60,6 +66,28 @@ fn start_page(user: &str, locale: &str) -> String {
 
 fn random_note_page(user: &str, locale: &str) -> String {
     format!("{}", t!("random_note_page", locale = locale, user = user))
+}
+
+fn delete_note_page(note_id: &str, locale: &str) -> String {
+    format!(
+        "{}",
+        t!("delete_note_page", locale = locale, note_id = note_id)
+    )
+}
+
+fn success_delete_note_page(note_id: &str, locale: &str) -> String {
+    format!(
+        "{}",
+        t!(
+            "success_delete_note_page",
+            locale = locale,
+            note_id = note_id
+        )
+    )
+}
+
+fn error_delete_note_page(locale: &str) -> String {
+    format!("{}", t!("error_delete_note_page", locale = locale))
 }
 
 fn loading_page(locale: &str) -> String {
