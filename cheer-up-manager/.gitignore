@@ -9,3 +9,6 @@
 
 # database files
 static/db/*
+
+# italian translation
+locales/it.yml
