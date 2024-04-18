@@ -46,6 +46,19 @@ list_page: |
   Your friends loves you a lot 😊️
   They sent you a whooping total of <b>%{total_notes}</b> videonotes 🚀️🚀️
 
+delete_note_page: |
+  🚨️ WARNING: DELETING VIDEONOTE (id #%{note_id})
+
+  ⚠️ <b>Video note data will be completely lost</b>
+
+  Are you sure to proceed?
+
+success_delete_note_page: |
+  ✅️ VIDEONOTE SUCCESSFULLY DELETED
+
+error_delete_note_page: |
+  ⚠️ ERROR DELETING VIDEONOTE
+
 credits_page: |
   <b>Credits 🧬️</b>
 

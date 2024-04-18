@@ -47,6 +47,18 @@ pub fn delete_note_button(payload: Option<Payload>, locale: &Locale) -> InlineKe
     )
 }
 
+pub fn confirm_delete_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::ConfirmDelete,
+        payload,
+    };
+
+    make_button(
+        &t!("buttons.delete_note", locale = locale.to_string().as_str()),
+        &query_data,
+    )
+}
+
 pub fn go_to_home_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::GoHomePage,

@@ -47,6 +47,19 @@ list_page: |
   Tus amigos te quieren mucho 😊️
   ¡Te enviaron un total impresionante de <b>%{total_notes}</b> videonotas! 🚀️🚀️
 
+delete_note_page: |
+  🚨️ ADVERTENCIA: ELIMINANDO VIDEONOTA (id #%{note_id})
+
+  ⚠️ <b>Los datos de las notas de video se perderán por completo
+
+  ¿Estás seguro de continuar?
+
+success_delete_note_page: |
+  ✅️ VIDEONOTA ELIMINADA CON ÉXITO
+
+error_delete_note_page: |
+  ⚠️ ERROR DELETING VIDEONOTE
+
 credits_page: |
   <b>Créditos 🧬️</b>
 
