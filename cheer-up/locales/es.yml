@@ -31,9 +31,34 @@ extra_page: |
 extra_page_stat_entry: |
   🎯️ @%{user} subió %{user_total_notes} videonotas
 
+upload_page: |
+  <b>¡Hola %{user}!</b>
+
+  Por el momento hay %{total_notes} videonotas de %{total_users} amigos
+
+  Si algunos de tus amigos no tienen Telegram instalado, puedes pasarles tu teléfono y subir su videonota desde tu teléfono.
+
+  Simplemente envíe una videonota a este chat como en una conversación de chat normal.
+  (NOTA: la videonota se subirá con tu apodo)
+
+  Para obtener más ayuda y comandos adicionales, escriba /ayuda
+
 list_page: |
   Tus amigos te quieren mucho 😊️
   ¡Te enviaron un total impresionante de <b>%{total_notes}</b> videonotas! 🚀️🚀️
+
+delete_note_page: |
+  🚨️ ADVERTENCIA: ELIMINANDO VIDEONOTA (id #%{note_id})
+
+  ⚠️ <b>Los datos de las notas de video se perderán por completo
+
+  ¿Estás seguro de continuar?
+
+success_delete_note_page: |
+  ✅️ VIDEONOTA ELIMINADA CON ÉXITO
+
+error_delete_note_page: |
+  ⚠️ ERROR DELETING VIDEONOTE
 
 credits_page: |
   <b>Créditos 🧬️</b>
@@ -63,40 +88,58 @@ help_page: |
   /start - obtén la página de inicio del bot
   /ask_friend - obtén una videonota aleatoria de un amigo
   /list - lista todas las videonotas que tus amigos han subido
+  /upload - sube una nueva videonota
   /extra - algunas sorpresas extra
   /credits - muestra los créditos del bot con enlace al perfil del autor y repositorio de código
   /language - cambia el idioma del bot
   /help - obtén más ayuda y comandos adicionales
 
-buttons.ask_friend: |
-  💛️ PEDIR UN AMIGO 💙️
+unsupported_page: |
+  ⚠️ <b>ADVERTENCIA</b> ⚠️
 
-buttons.list_notes: |
-  🔥️ LISTAR TODAS LAS VIDEONOTAS 🔥️
+  Subiste un %{media_type}, pero este bot solo maneja notas de video
 
-buttons.go_home: |
-  ↩️ REGRESAR A INICIO
+  Consultar/cargar para obtener instrucciones
 
-buttons.go_extra: |
-  🎉️ EXTRA
+unsupported_page.other_media: |
+  ⚠️ <b>ADVERTENCIA</b> ⚠️
 
-buttons.go_credits: |
-  🧬️ CRÉDITOS
+  Subiste un medio no compatible, este bot solo maneja notas de video
 
-buttons.go_language: |
-  🇪🇺️ IDIOMA
+  Consultar/cargar para obtener instrucciones
 
-buttons.go_help: |
-  🆘️ AYUDA
+unsupported_page.media.photo: una foto
 
-buttons.set_language_EN: |
-  🇬🇧️ INGLÉS
+unsupported_page.media.video: un vídeo
 
-buttons.set_language_ES: |
-  🇪🇸 ESPAÑOL
+unsupported_page.media.voice: un mensaje vocal
 
-buttons.set_language_UA: |
-  🇺🇦️ UCRANIANO
+unsupported_page.media.audio: un archivo de audio
 
-buttons.set_language_IT: |
-  🇮🇹️ ITALIANO
+unsupported_page.media.document: un documento
+
+buttons.ask_friend: 💛️ PEDIR UN AMIGO 💙️
+
+buttons.list_notes: 🔥️ LISTAR TODAS LAS VIDEONOTAS 🔥️
+
+buttons.delete_note: 🗑️ BORRAR
+
+buttons.go_home: ↩️ REGRESAR A INICIO
+
+buttons.go_extra: 🎉️ EXTRA
+
+buttons.go_upload: 🚀️ SUBIR VIDEONOTA
+
+buttons.go_credits: 🧬️ CRÉDITOS
+
+buttons.go_language: 🇪🇺️ IDIOMA
+
+buttons.go_help: 🆘️ AYUDA
+
+buttons.set_language_EN: 🇬🇧️ INGLÉS
+
+buttons.set_language_ES: 🇪🇸 ESPAÑOL
+
+buttons.set_language_UA: 🇺🇦️ UCRANIANO
+
+buttons.set_language_IT: 🇮🇹️ ITALIANO

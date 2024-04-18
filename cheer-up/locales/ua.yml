@@ -17,9 +17,6 @@ start_page: |
 random_note_page: |
   @%{user} відповів на ваш дзвінок! 😊️
 
-extra_page_stat_entry: |
-  🎯️ @%{user} завантажив %{user_total_notes}
-
 extra_page: |
   <b>Привіт %{user}!</b>
 
@@ -31,6 +28,38 @@ extra_page: |
   Ви можете змінити мову бота, якщо вам подобається 😊️ цифра /мова або натисніть кнопку нижче
   Для подальшої довідки та додаткових команд введіть /help
 
+extra_page_stat_entry: |
+  🎯️ @%{user} завантажив %{user_total_notes}
+
+upload_page: |
+  <b>Привіт %{user}!</b>
+
+  На даний момент є %{total_notes} відеонотаток від %{total_users} друзів
+
+  Якщо у деяких ваших друзів не встановлено Telegram, ви можете передати їм свій телефон і завантажити їхню відеонотатку зі свого телефону
+
+  Просто надішліть відеонотатку в цей чат, як у звичайній розмові в чаті
+  (ПРИМІТКА: відеонотатка буде завантажена під вашим псевдонімом)
+
+  Для подальшої довідки та додаткових команд введіть /help
+
+list_page: |
+  Твої друзі тебе дуже люблять😊️
+  Вони надіслали вам величезну кількість відеонотаток: <b>%{total_notes}</b> 🚀️🚀️
+
+delete_note_page: |
+  🚨️ ПОПЕРЕДЖЕННЯ: ВИДАЛЕННЯ ВІДЕОНОТАТКИ (id #%{note_id})
+
+  ⚠️ <b>Дані відеонотаток буде повністю втрачено</b>
+
+  Ви впевнені, що продовжите?
+
+success_delete_note_page: |
+  ✅️ ВІДЕОНОТАТУ УСПІШНО ВИДАЛЕНО
+
+error_delete_note_page: |
+  ⚠️ ERROR DELETING VIDEONOTE
+
 credits_page: |
   <b>ПОШАНА 🧬️</b>
 
@@ -40,10 +69,6 @@ credits_page: |
   Код: %{repo_url}
 
   Автор підтримує український народ у його боротьбі за свободу та мир - відвідайте https://stand-with-ukraine.pp.ua/, щоб переглянути список організацій, яким ви можете підтримати та пожертвувати
-
-list_page: |
-  Твої друзі тебе дуже люблять😊️
-  Вони надіслали вам величезну кількість відеонотаток: <b>%{total_notes}</b> 🚀️🚀️
 
 language_page: |
   <b>Виберіть мову бота 🇪🇺️</b>
@@ -62,40 +87,58 @@ help_page: |
   /start - отримати стартову сторінку бота
   /ask_friend - отримати випадкову відеонотатку від друга
   /list - список усіх відеонотаток, які завантажили ваші друзі
+  /upload - завантажити нову відеонотатку
   /extra - деякі бонуси
   /credits - показує пошана бота з профілем автора та посиланнями на сховище коду
   /language - змінити мову бота
   /help - отримання додаткової довідки та додаткових команд
 
-buttons.ask_friend: |
-  💛️ ЗАПИТАЙТЕ ДРУГА 💙️
+unsupported_page: |
+  ⚠️ <b>УВАГА</b> ⚠️
 
-buttons.list_notes: |
-  🔥️ УСІ ПРИМІТКИ 🔥️
+  Ви завантажили %{media_type}, але цей бот обробляє лише відеонотатки
 
-buttons.go_home: |
-  ↩️ НАЗАД ДО ПОЧАТКУ
+  Перевірте /upload, щоб отримати інструкції
 
-buttons.go_extra: |
-  🎉️ ДОДАТКОВИЙ
+unsupported_page.other_media: |
+  ⚠️ <b>УВАГА</b> ⚠️
 
-buttons.go_credits: |
-  🧬️ ПОШАНА 
+  Ви завантажили непідтримуваний медіафайл, цей бот обробляє лише відеонотатки
 
-buttons.go_language: |
-  🇪🇺️ МОВИ
+  Перевірте /upload, щоб отримати інструкції
 
-buttons.go_help: |
-  🆘️ ДОПОМОГА
+unsupported_page.media.photo: фото
 
-buttons.set_language_EN: |
-  🇬🇧️ АНГЛІЙСЬКА
+unsupported_page.media.video: відео
 
-buttons.set_language_ES: |
-  🇪🇸 ІСПАНСЬКА
+unsupported_page.media.voice: запис голосу
 
-buttons.set_language_UA: |
-  🇺🇦️ УКРАЇНСЬКА
+unsupported_page.media.audio: аудіофайл
 
-buttons.set_language_IT: |
-  🇮🇹️ ІТАЛІЙСЬКА
+unsupported_page.media.document: документ
+
+buttons.ask_friend: 💛️ ЗАПИТАЙТЕ ДРУГА 💙️
+
+buttons.list_notes: 🔥️ УСІ ПРИМІТКИ 🔥️
+
+buttons.delete_note: 🗑️ ВИДАЛИТИ
+
+buttons.go_home: ↩️ НАЗАД ДО ПОЧАТКУ
+
+buttons.go_extra: 🎉️ ДОДАТКОВИЙ
+
+buttons.go_upload: 🚀️ НАДІСЛАТИ ПРИМІТКУ
+
+buttons.go_credits: 🧬️ ПОШАНА 
+
+buttons.go_language: 🇪🇺️ МОВИ
+
+buttons.go_help: 🆘️ ДОПОМОГА
+
+buttons.set_language_EN: 🇬🇧️ АНГЛІЙСЬКА
+
+buttons.set_language_ES: 🇪🇸 ІСПАНСЬКА
+
+buttons.set_language_UA: 🇺🇦️ УКРАЇНСЬКА
+
+buttons.set_language_IT: 🇮🇹️ ІТАЛІЙСЬКА

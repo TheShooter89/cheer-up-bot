@@ -43,13 +43,13 @@ pub struct NewNote {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct NoteBody<T> {
-    note: T,
+pub struct NoteBody<T> {
+    pub note: T,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct NoteListBody<T> {
-    notes: Vec<T>,
+pub struct NoteListBody<T> {
+    pub notes: Vec<T>,
 }
 
 pub async fn upload_vnote(bot: &Bot, videonote: &VideoNote, chat: &Chat) -> ResponseResult<()> {
@@ -80,7 +80,7 @@ pub async fn get_random_vnote(bot: &Bot, chat: &Chat) -> ResponseResult<Note> {
     Ok(vnote.note)
 }
 
-pub async fn save_vnote_to_db(vnote: &VideoNote, author: &Chat) -> ResponseResult<()> {
+pub async fn save_vnote_to_db(vnote: &str, author: &Chat) -> ResponseResult<()> {
     let client = Client::new();
 
     let vnote_author = match get_user_by_telegram_id(author).await {
@@ -88,7 +88,7 @@ pub async fn save_vnote_to_db(vnote: &VideoNote, author: &Chat) -> ResponseResul
         Err(_) => save_user_to_db(&author).await?,
     };
 
-    let output_file_name = format!("{}.mpeg", vnote.file.id);
+    let output_file_name = format!("{}.mpeg", vnote);
     let new_note = NewNote {
         user_id: vnote_author.id,
         file_name: output_file_name,
@@ -143,6 +143,19 @@ pub async fn get_vnote_list_from_db(author: &Chat) -> ResponseResult<Vec<Note>> 
         .await?;
 
     Ok(vnote_list.notes)
+}
+
+pub async fn delete_vnote_from_db(vnote_id: &i64) -> ResponseResult<NoteBody<String>> {
+    let client = Client::new();
+
+    let _deleted_vnote = client
+        .delete(format!("http://0.0.0.0:1989/api/notes/{}", vnote_id))
+        .send()
+        .await?
+        .json::<NoteBody<String>>()
+        .await?;
+
+    Ok(_deleted_vnote)
 }
 
 pub async fn delete_all_user_vnotes(author: &Chat) -> ResponseResult<()> {

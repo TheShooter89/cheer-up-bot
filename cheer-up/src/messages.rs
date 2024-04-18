@@ -83,7 +83,7 @@ pub async fn handle_message(bot: Bot, msg: Message, me: Me) -> ResponseResult<()
                 println!("an error occurred while saving user to db")
             }
             upload_vnote(&bot, vnote, &msg.chat).await?;
-            let save_vnote = save_vnote_to_db(vnote, &msg.chat).await;
+            let save_vnote = save_vnote_to_db(&vnote.file.id, &msg.chat).await;
             if save_vnote.is_err() {
                 println!("an error occurred while saving note");
             }

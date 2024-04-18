@@ -35,6 +35,30 @@ pub fn list_all_notes_button(payload: Option<Payload>, locale: &Locale) -> Inlin
     )
 }
 
+pub fn delete_note_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::DeleteNote,
+        payload,
+    };
+
+    make_button(
+        &t!("buttons.delete_note", locale = locale.to_string().as_str()),
+        &query_data,
+    )
+}
+
+pub fn confirm_delete_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::ConfirmDelete,
+        payload,
+    };
+
+    make_button(
+        &t!("buttons.delete_note", locale = locale.to_string().as_str()),
+        &query_data,
+    )
+}
+
 pub fn go_to_home_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::GoHomePage,
@@ -55,6 +79,18 @@ pub fn go_to_extra_button(payload: Option<Payload>, locale: &Locale) -> InlineKe
 
     make_button(
         &t!("buttons.go_extra", locale = locale.to_string().as_str()),
+        &query_data,
+    )
+}
+
+pub fn go_to_upload_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::GoUploadPage,
+        payload,
+    };
+
+    make_button(
+        &t!("buttons.go_upload", locale = locale.to_string().as_str()),
         &query_data,
     )
 }
