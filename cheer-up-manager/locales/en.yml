@@ -39,6 +39,12 @@ upload_page: |
 
   For further help and additional commands type /help
 
+success_upload_page: |
+  ✅️ VIDEONOTE SUCCESSFULLY UPLOADED
+
+error_upload_page: |
+  ⚠️ ERROR UPLOADING VIDEONOTE
+
 list_page: |
   <b>Hi %{user}!</b> 😊️
 

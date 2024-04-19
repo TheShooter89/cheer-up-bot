@@ -13,6 +13,8 @@ pub enum Templates {
     ErrorDeleteNotePage,
     ExtraPage(String, String, String, Vec<UserStats>),
     UploadPage(String, String, String, Vec<UserStats>),
+    SuccessUploadPage,
+    ErrorUploadPage,
     ListPage(String, String),
     EraseAllNotesPage(String),
     SuccessEraseAllNotesPage(String),
@@ -51,6 +53,8 @@ impl Templates {
             Templates::UploadPage(user, total_notes, total_users, user_videonotes_list) => {
                 upload_page(user, total_notes, total_users, user_videonotes_list, locale)
             }
+            Templates::SuccessUploadPage => success_upload_page(locale),
+            Templates::ErrorUploadPage => error_upload_page(locale),
             Templates::ListPage(user, total_notes) => list_page(user, total_notes, locale),
             Templates::EraseAllNotesPage(user_id) => erase_all_notes_page(user_id, locale),
             Templates::SuccessEraseAllNotesPage(user_id) => {
@@ -174,6 +178,14 @@ fn upload_page(
             user_videonotes_list = stats_list,
         )
     )
+}
+
+fn success_upload_page(locale: &str) -> String {
+    format!("{}", t!("success_upload_page", locale = locale))
+}
+
+fn error_upload_page(locale: &str) -> String {
+    format!("{}", t!("error_upload_page", locale = locale))
 }
 
 fn list_page(user: &str, total_notes: &str, locale: &str) -> String {

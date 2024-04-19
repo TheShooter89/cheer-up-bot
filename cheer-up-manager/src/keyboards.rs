@@ -144,6 +144,30 @@ pub fn upload_page(
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
 
+pub fn upload_result_page(locale: &Locale) -> InlineKeyboardMarkup {
+    let row_1 = vec![go_to_home_button(None, locale)];
+
+    let keyboard_buttons = vec![row_1];
+
+    InlineKeyboardMarkup::new(keyboard_buttons)
+}
+
+pub fn error_upload_page(
+    list_all_query_payload: Option<Payload>,
+    locale: &Locale,
+) -> InlineKeyboardMarkup {
+    let row_1 = vec![
+        list_all_notes_button(list_all_query_payload.clone(), locale),
+        go_to_help_button(None, locale),
+    ];
+
+    let row_2 = vec![go_to_home_button(None, locale)];
+
+    let keyboard_buttons = vec![row_1, row_2];
+
+    InlineKeyboardMarkup::new(keyboard_buttons)
+}
+
 pub fn credits_page(
     go_extra_payload: Option<Payload>,
     go_help_payload: Option<Payload>,
