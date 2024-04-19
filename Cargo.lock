@@ -247,7 +247,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "cheer-up"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "dotenvy",
  "log",
@@ -262,7 +262,7 @@ dependencies = [
 
 [[package]]
 name = "cheer-up-api"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -287,7 +287,7 @@ version = "0.0.0"
 
 [[package]]
 name = "cheer-up-manager"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "dotenvy",
  "log",
