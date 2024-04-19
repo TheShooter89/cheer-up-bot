@@ -25,6 +25,24 @@ pub enum Payload {
     NoteId(i64),
 }
 
+impl Payload {
+    pub fn text(self) -> Option<String> {
+        match self {
+            Payload::Text(txt) => Some(txt),
+            Payload::Username(username) => Some(username),
+            _ => None,
+        }
+    }
+
+    pub fn number(self) -> Option<i64> {
+        match self {
+            Payload::UserId(id) => Some(id),
+            Payload::NoteId(id) => Some(id),
+            _ => None,
+        }
+    }
+}
+
 impl fmt::Display for Payload {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {

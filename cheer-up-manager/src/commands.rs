@@ -339,18 +339,18 @@ pub async fn confirm_erase_all_notes_command(
         return Ok(());
     }
 
-    let data = query_data.unwrap();
-
     let template = Templates::LoadingPage;
 
     bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
         .await?;
 
-    info!("[CONFIRM_DELETE_COMMAND] deleting vnote with id: {}", &data);
+    let data = query_data.unwrap();
 
-    let parsed_data = data.to_string().parse::<i64>();
-    if parsed_data.is_err() {
+    info!("[CONFIRM_DELETE_COMMAND] query_data payload is: {}", &data);
+
+    let parsed_data = data.number();
+    if parsed_data.is_none() {
         let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
         bot.send_message(
             msg.chat.id,
@@ -363,7 +363,7 @@ pub async fn confirm_erase_all_notes_command(
     }
     let vnote_id = parsed_data.unwrap();
     // let deleted_note = delete_vnote_from_db(&vnote_id).await?;
-    debug!("vnote_id is : {}", vnote_id);
+    info!("vnote_id is : {}", vnote_id);
 
     Ok(())
 }
