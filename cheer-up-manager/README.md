@@ -1,8 +1,8 @@
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
-# CheerUp MANAGER bot
+# CheerUp MAIN bot
 
-this is the "backend" bot of the application. User can upload a video note, view their own uploaded videonotes and delete them 
+this is the "frontend" bot of the application. User can press a button and receive a random video note from the notes stored inside `../_common_data` folder (at project root) 
 
 ## Setup
 

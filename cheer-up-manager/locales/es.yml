@@ -1,0 +1,170 @@
+_version: 1
+loading_page: |
+  🔎️ Cargando...
+
+start_page: |
+  <b>¡Hola %{user}!</b>
+
+  Este bot es un bot de mantenimiento que se utiliza para cargar y manejar sus notas de video para el bot CheerUp para que su amigo pueda usar el bot principal de CheerUp para recibir notas de video aleatorias de todas las notas de video que cargó usando este bot de mantenimiento 😊️
+  Simplemente envíe una nota de video (también conocida como videos de burbujas) a este bot y estará listo para funcionar 🔥️
+
+  Cambia el idioma del bot escribiendo /language
+
+  Para obtener más ayuda y comandos adicionales escribe /help
+  Creado con 💛️💙️ por tanque - ve /credits
+
+random_note_page: |
+  ¡@%{user} respondió a tu llamada! 😊️
+
+extra_page: |
+  <b>¡Hola %{user}!</b>
+
+  Muchos amigos contribuyeron a este proyecto, puedes listar todos los videonotas haciendo clic en el botón a continuación o con /list
+  ¡Hay %{total_notes} videonotas de %{total_users} amigos!
+
+  %{user_videonotes_list}
+
+  Puedes cambiar el idioma del bot, si quieres 😊️ escribe /language o toca el botón a continuación
+  Para obtener más ayuda y comandos adicionales escribe /help
+
+extra_page_stat_entry: |
+  🎯️ @%{user} subió %{user_total_notes} videonotas
+
+upload_page: |
+  <b>¡Hola %{user}!</b>
+
+  En el momento en que subiste %{total_notes} videonotas 🚀️🚀️
+
+  Si quieres subir otro, simplemente envía una videonota a este chat como en una conversación de chat normal.
+
+  Para obtener más ayuda y comandos adicionales, escriba /ayuda
+
+success_upload_page: |
+  ✅️ VIDEONOTA SUBIDA EXITOSAMENTE
+
+error_upload_page: |
+  ⚠️ ERROR AL SUBIR VIDEONOTA
+
+list_page: |
+  <b>¡Hola %{user}!</b>
+
+  En el momento en que subiste %{total_notes} videonotas 🚀️🚀️
+  
+  Puedes borrar una videonota presionando el botón debajo de la videonota
+  Si quieres borrar todas tus videonotas a la vez, usa el botón aquí debajo
+
+  Para obtener más ayuda y comandos adicionales, escriba /ayuda
+
+erase_all_notes_page: |
+  🚨️ ADVERTENCIA: ELIMINAR TODAS LAS VIDEONOTAS (user_id #%{user_id})
+
+  ⚠️ <b>Todos los datos de las videonotas se perderán por completo</b>
+
+  ¿Estás seguro de continuar?
+
+success_erase_all_notes_page: |
+  ✅️ TODAS LAS VIDEONOTAS ELIMINADAS CON ÉXITO
+
+error_erase_all_notes_page: |
+  ⚠️ ERROR AL BORRAR VIDEONOTAS
+
+delete_note_page: |
+  🚨️ ADVERTENCIA: ELIMINANDO VIDEONOTA (id #%{note_id})
+
+  ⚠️ <b>Los datos de las notas de video se perderán por completo</b>
+
+  ¿Estás seguro de continuar?
+
+success_delete_note_page: |
+  ✅️ VIDEONOTA ELIMINADA CON ÉXITO
+
+error_delete_note_page: |
+  ⚠️ ERROR AL BORRAR VIDEONOTA
+
+credits_page: |
+  <b>Créditos 🧬️</b>
+
+  Este bot fue creado en marzo de 2024 por %{author} como software de código abierto, todo el código está publicado en Github
+
+  Autor: %{profile_name} - %{profile_url}
+  Código: %{repo_url}
+
+  #apoyoucrania
+  El autor apoya al pueblo ucraniano en su lucha por la Libertad y la Paz - visita https://stand-with-ukraine.pp.ua/ para obtener una lista de organizaciones a las que puedes apoyar y donar
+
+language_page: |
+  <b>Elige el idioma del bot 🇪🇺️</b>
+
+  Puedes cambiar el idioma presionando los botones a continuación 😊️
+  Este bot actualmente está traducido en 4 idiomas: inglés, italiano, español y ucraniano.
+
+  Si deseas ayudar con las traducciones 😊️ 💜️ no dudes en consultar el repositorio: %{repo_url}
+
+help_page: |
+  <b>Ayuda & Comandos</b>
+
+  Este bot maneja solo videonotas. Si ingresas algún mensaje de texto, el bot responderá con el mensaje de bienvenida inicial, el envío de otros medios (imágenes, audio, videos normales, etc.) fallará con un mensaje de error
+
+  Comandos disponibles:
+  /start - obtén la página de inicio del bot
+  /upload - sube una nueva videonota
+  /list - lista todas las videonotas que tus amigos han subido
+  /credits - muestra los créditos del bot con enlace al perfil del autor y repositorio de código
+  /language - cambia el idioma del bot
+  /help - obtén más ayuda y comandos adicionales
+
+unsupported_page: |
+  ⚠️ <b>ADVERTENCIA</b> ⚠️
+
+  Subiste un %{media_type}, pero este bot solo maneja notas de video
+
+  Consultar/cargar para obtener instrucciones
+
+unsupported_page.other_media: |
+  ⚠️ <b>ADVERTENCIA</b> ⚠️
+
+  Subiste un medio no compatible, este bot solo maneja notas de video
+
+  Consultar/cargar para obtener instrucciones
+
+unsupported_page.media.photo: una foto
+
+unsupported_page.media.video: un vídeo
+
+unsupported_page.media.voice: un mensaje vocal
+
+unsupported_page.media.audio: un archivo de audio
+
+unsupported_page.media.document: un documento
+
+buttons.ask_friend: 💛️ PEDIR UN AMIGO 💙️
+
+buttons.list_notes: 🔥️ LISTAR TODAS LAS VIDEONOTAS 🔥️
+
+buttons.erase_all_notes: ☢️ BORRAR TODO ☢️
+
+buttons.confirm_erase_all_notes: ✅️ CONFIRMAR
+
+buttons.delete_note: 🗑️ BORRAR
+
+buttons.confirm: ✅️ CONFIRMAR
+
+buttons.go_home: ↩️ REGRESAR A INICIO
+
+buttons.go_extra: 🎉️ EXTRA
+
+buttons.go_upload: 🚀️ SUBIR VIDEONOTA
+
+buttons.go_credits: 🧬️ CRÉDITOS
+
+buttons.go_language: 🇪🇺️ IDIOMA
+
+buttons.go_help: 🆘️ AYUDA
+
+buttons.set_language_EN: 🇬🇧️ INGLÉS
+
+buttons.set_language_ES: 🇪🇸 ESPAÑOL
+
+buttons.set_language_UA: 🇺🇦️ UCRANIANO
+
+buttons.set_language_IT: 🇮🇹️ ITALIANO

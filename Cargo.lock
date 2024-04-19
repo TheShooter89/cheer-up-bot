@@ -293,6 +293,7 @@ dependencies = [
  "log",
  "pretty_env_logger",
  "reqwest",
+ "rust-i18n",
  "serde",
  "serde_json",
  "teloxide",
