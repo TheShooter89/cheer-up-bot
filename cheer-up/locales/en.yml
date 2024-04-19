@@ -42,6 +42,11 @@ upload_page: |
 
   For further help and additional commands type /help
 
+success_upload_page: |
+  ✅️ VIDEONOTE SUCCESSFULLY UPLOADED
+error_upload_page: |
+  ⚠️ ERROR UPLOADING VIDEONOTE
+
 list_page: |
   Your friends loves you a lot 😊️
   They sent you a whooping total of <b>%{total_notes}</b> videonotes 🚀️🚀️

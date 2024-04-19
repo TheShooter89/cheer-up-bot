@@ -339,6 +339,41 @@ pub async fn upload_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     Ok(())
 }
 
+pub async fn confirm_upload_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
+    let user = get_user(&msg.chat).await?;
+    info!("[CONFIRM_UPLOAD_COMMAND] user is: {:?}", user);
+
+    let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!(
+        "[CONFIRM_UPLOAD_COMMAND] remote_locale is: {:?}",
+        remote_locale
+    );
+
+    let locale_str = remote_locale.to_string();
+
+    let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
+    debug!("[CONFIRM_UPLOAD_COMMAND] vnote_list is: {:?}", vnote_list);
+
+    let stats = get_stats().await?;
+
+    let template = Templates::UploadPage(
+        msg.chat.username().unwrap_or("Unknown user").to_string(),
+        // "42".to_string(),
+        stats.total_videonotes.to_string(),
+        stats.users.len().to_string(),
+        stats.users,
+    );
+
+    let keyboard = upload_page(None, &remote_locale);
+
+    bot.send_message(msg.chat.id, template.render(&locale_str))
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
+
+    Ok(())
+}
+
 pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user(&msg.chat).await?;
     info!("[LIST_COMMAND] user is: {:?}", user);
