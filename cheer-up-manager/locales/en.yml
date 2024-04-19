@@ -1,0 +1,170 @@
+_version: 1
+loading_page: |
+  🔎️ loading...
+
+start_page: |
+  <b>Hi %{user}!</b> 😊️
+
+  This bot is a manitenance bot used to upload and handle your video notes for CheerUp bot so that your friend can use the main CheerUp bot to receive a random video notes from all video notes you uploaded using this maintenance bot 😊️
+  Just send a video note (aka bubble videos) to this bot and it will be ready to go 🔥️ 🚀️
+
+  You can change bot language typing /language
+
+  For further help and additional commands type /help
+  created with 💛️💙️ by tanque - see /credits
+
+random_note_page: |
+  @%{user} replied to your call! 😊️
+
+extra_page: |
+  <b>Hi %{user}!</b>
+
+  Many friends contributed to this project, you can list all videonotes by clicking the button below or with /list
+  There are %{total_notes} videonotes from %{total_users} friends!
+
+  %{user_videonotes_list}
+
+  You can change the bot language, if you like 😊️ digit /language or tap the button below
+  For further help and additional commands type /help
+
+extra_page_stat_entry: |
+  🎯️ @%{user} uploaded %{user_total_notes} videonotes
+
+upload_page: |
+  <b>Hi %{user}!</b> 😊️
+
+  At the moment you uploaded %{total_notes} videonotes 🚀️🚀️
+
+  If you want to upload another one, just send a videonote to this chat like in a normal chat conversation
+
+  For further help and additional commands type /help
+
+success_upload_page: |
+  ✅️ VIDEONOTE SUCCESSFULLY UPLOADED
+
+error_upload_page: |
+  ⚠️ ERROR UPLOADING VIDEONOTE
+
+list_page: |
+  <b>Hi %{user}!</b> 😊️
+
+  At the moment you uploaded %{total_notes} videonotes 🚀️🚀️
+
+  You can erase a videonote pressing the button below it
+  If you wan to erase all your videonotes at once, use the button here below
+
+  For further help and additional commands type /help
+
+erase_all_notes_page: |
+  🚨️ WARNING: DELETING ALL VIDEONOTES (user_id #%{user_id})
+
+  ⚠️ <b>All videonotes data will be completely lost</b>
+
+  Are you sure to proceed?
+
+success_erase_all_notes_page: |
+  ✅️ ALL VIDEONOTES SUCCESSFULLY DELETED
+
+error_erase_all_notes_page: |
+  ⚠️ ERROR DELETING VIDEONOTES
+
+delete_note_page: |
+  🚨️ WARNING: DELETING VIDEONOTE (id #%{note_id})
+
+  ⚠️ <b>Video note data will be completely lost</b>
+
+  Are you sure to proceed?
+
+success_delete_note_page: |
+  ✅️ VIDEONOTE SUCCESSFULLY DELETED
+
+error_delete_note_page: |
+  ⚠️ ERROR DELETING VIDEONOTE
+
+credits_page: |
+  <b>Credits 🧬️</b>
+
+  This bot has been created in March 2024 by %{author} as open source software, all code is published on Github
+
+  Author: %{profile_name} - %{profile_url}
+  Code: %{repo_url}
+
+  #supportukraine
+  Author stands with ukrainian people in their fight for Freedom and Peace - visit https://stand-with-ukraine.pp.ua/ for a list of organizations you can support and donate to
+
+language_page: |
+  <b>Choose bot language 🇪🇺️</b>
+
+  You can change the language by pressing below buttons 😊️
+  This bot is currently translated in 4 languages: english, spanish, italian and ukrainian
+
+  If you want to help with translations 😊️ 💜️ feel free to check the repo: %{repo_url}
+
+help_page: |
+  <b>Help & Commands</b>
+
+  This bot handles video notes only. If you enter any textual message bot will respond with starting welcome message, sending other media (picture, audio, regular videos, and so on) will fail with an error message
+
+  Available commands:
+  /start - get the bot starting page
+  /upload - upload a new videonote
+  /list - list all video notes your friends uploaded
+  /credits - show bot credits with author profile and code repository links
+  /language - change bot language
+  /help - get further help and additional commands
+
+unsupported_page: |
+  ⚠️ <b>WARNING</b> ⚠️
+
+  You uploaded a %{media_type}, but this bot handles video notes only
+
+  Check /upload for instructions
+
+unsupported_page.other_media: |
+  ⚠️ <b>WARNING</b> ⚠️
+
+  You uploaded an unsupported media, this bot handles video notes only
+
+  Check /upload for instructions
+
+unsupported_page.media.photo: a photo
+
+unsupported_page.media.video: a video
+
+unsupported_page.media.voice: a voice recording
+
+unsupported_page.media.audio: an audio file
+
+unsupported_page.media.document: a document
+
+buttons.ask_friend: 💛️ ASK A FRIEND 💙️
+
+buttons.list_notes: 🔥️ LIST ALL VIDEONOTES 🔥️
+
+buttons.erase_all_notes: ☢️ ERASE ALL ☢️
+
+buttons.confirm_erase_all_notes: ✅️ CONFIRM
+
+buttons.delete_note: 🗑️ DELETE NOTE
+
+buttons.confirm: ✅️ CONFIRM
+
+buttons.go_home: ↩️ BACK TO HOME
+
+buttons.go_extra: 🎉️ EXTRA
+
+buttons.go_upload: 🚀️ UPLOAD VIDEONOTE
+
+buttons.go_credits: 🧬️ CREDITS
+
+buttons.go_language: 🇪🇺️ LANGUAGE
+
+buttons.go_help: 🆘️ HELP
+
+buttons.set_language_EN: 🇬🇧️ ENGLISH
+
+buttons.set_language_ES: 🇪🇸 SPANISH
+
+buttons.set_language_UA: 🇺🇦️ UKRAINIAN
+
+buttons.set_language_IT: 🇮🇹️ ITALIAN
