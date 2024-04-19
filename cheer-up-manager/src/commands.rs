@@ -33,8 +33,6 @@ use crate::{
 pub enum Command {
     #[command(description = "CheerUp Bot starting page")]
     Start,
-    #[command(description = "Show Extra page")]
-    Extra,
     #[command(description = "Upload a new video note")]
     Upload,
     #[command(description = "List all uploaded video notes")]
@@ -51,7 +49,6 @@ impl Command {
     pub fn parse_str(cmd: &str) -> Option<Command> {
         match cmd {
             "/start" => Some(Command::Start),
-            "/extra" => Some(Command::Extra),
             "/upload" => Some(Command::Upload),
             "/list" => Some(Command::List),
             "/language" => Some(Command::Language),
@@ -65,7 +62,6 @@ impl Command {
 pub async fn handle_commands(bot: Bot, cmd: Command, msg: Message) -> ResponseResult<()> {
     match cmd {
         Command::Start => start_command(&bot, msg).await?,
-        Command::Extra => extra_command(&bot, msg).await?,
         Command::Upload => upload_command(&bot, msg).await?,
         Command::List => list_command(&bot, msg).await?,
         Command::Language => language_command(&bot, msg).await?,
@@ -338,38 +334,6 @@ pub async fn confirm_erase_all_notes_command(
         .parse_mode(ParseMode::Html)
         .reply_markup(keyboard)
         .await?;
-    Ok(())
-}
-
-pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
-    let user = get_user(&msg.chat).await?;
-    info!("[EXTRA_COMMAND] user is: {:?}", user);
-
-    let remote_locale = get_user_locale_by_user_id(&user.id).await?;
-    info!("[EXTRA_COMMAND] remote_locale is: {:?}", remote_locale);
-
-    let locale_str = remote_locale.to_string();
-
-    let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
-    println!("vnote_list is: {:?}", vnote_list);
-
-    let stats = get_stats().await?;
-
-    let template = Templates::ExtraPage(
-        msg.chat.username().unwrap_or("Unknown user").to_string(),
-        // "42".to_string(),
-        stats.total_videonotes.to_string(),
-        stats.users.len().to_string(),
-        stats.users,
-    );
-
-    let keyboard = keyboards::extra_page(None, None, None, &remote_locale);
-
-    bot.send_message(msg.chat.id, template.render(&locale_str))
-        .parse_mode(ParseMode::Html)
-        .reply_markup(keyboard)
-        .await?;
-
     Ok(())
 }
 

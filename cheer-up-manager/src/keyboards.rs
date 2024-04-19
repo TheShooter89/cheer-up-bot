@@ -2,9 +2,9 @@ use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyb
 
 use crate::buttons::{
     confirm_delete_button, confirm_erase_all_notes_button, delete_note_button,
-    erase_all_notes_button, go_to_credits_button, go_to_extra_button, go_to_help_button,
-    go_to_home_button, go_to_language_button, go_to_upload_button, list_all_notes_button,
-    set_language_EN_button, set_language_ES_button, set_language_IT_button, set_language_UA_button,
+    erase_all_notes_button, go_to_credits_button, go_to_help_button, go_to_home_button,
+    go_to_language_button, go_to_upload_button, list_all_notes_button, set_language_EN_button,
+    set_language_ES_button, set_language_IT_button, set_language_UA_button,
 };
 use crate::callbacks::{Payload, QueryData};
 use crate::locale::Locale;
@@ -91,29 +91,6 @@ pub fn delete_note_result_page(locale: &Locale) -> InlineKeyboardMarkup {
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
 
-pub fn extra_page(
-    list_all_query_payload: Option<Payload>,
-    go_credits_payload: Option<Payload>,
-    go_language_payload: Option<Payload>,
-    locale: &Locale,
-) -> InlineKeyboardMarkup {
-    let row_1 = vec![
-        go_to_language_button(go_language_payload.clone(), locale),
-        go_to_credits_button(go_credits_payload.clone(), locale),
-    ];
-
-    let row_2 = vec![
-        list_all_notes_button(list_all_query_payload.clone(), locale),
-        go_to_upload_button(None, locale),
-    ];
-
-    let row_3 = vec![go_to_home_button(None, locale)];
-
-    let keyboard_buttons = vec![row_1, row_2, row_3];
-
-    InlineKeyboardMarkup::new(keyboard_buttons)
-}
-
 pub fn upload_page(
     list_all_query_payload: Option<Payload>,
     locale: &Locale,
@@ -184,12 +161,12 @@ pub fn language_page(locale: &Locale) -> InlineKeyboardMarkup {
 }
 
 pub fn help_page(
-    go_extra_payload: Option<Payload>,
+    go_language_payload: Option<Payload>,
     go_credits_payload: Option<Payload>,
     locale: &Locale,
 ) -> InlineKeyboardMarkup {
     let row_1 = vec![
-        go_to_language_button(go_extra_payload.clone(), locale),
+        go_to_language_button(go_language_payload.clone(), locale),
         go_to_credits_button(go_credits_payload.clone(), locale),
     ];
 

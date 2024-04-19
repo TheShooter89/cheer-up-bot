@@ -62,7 +62,6 @@ pub enum Topic {
     DeleteNote,
     ConfirmDelete,
     GoHomePage,
-    GoExtraPage,
     GoUploadPage,
     GoCreditsPage,
     GoLanguagePage,
@@ -79,7 +78,6 @@ impl Topic {
             Topic::DeleteNote => "#delete".to_string(),
             Topic::ConfirmDelete => "#confirm_delete".to_string(),
             Topic::GoHomePage => "#home".to_string(),
-            Topic::GoExtraPage => "#extra".to_string(),
             Topic::GoUploadPage => "#upload".to_string(),
             Topic::GoCreditsPage => "#credits".to_string(),
             Topic::GoLanguagePage => "#language".to_string(),
@@ -128,9 +126,6 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
                     handle_confirm_erase_all_notes(&bot, message, chat, data.payload).await?
                 }
                 Topic::GoHomePage => handle_go_home_page(&bot, message, chat, data.payload).await?,
-                Topic::GoExtraPage => {
-                    handle_go_extra_page(&bot, message, chat, data.payload).await?
-                }
                 Topic::GoUploadPage => {
                     handle_go_upload_page(&bot, message, chat, data.payload).await?
                 }
@@ -319,34 +314,6 @@ async fn handle_go_home_page(
                 None => {
                     // no Payload provided
                     commands::start_command(bot, msg.unwrap()).await?;
-                    Ok(())
-                }
-            }
-        }
-        // No target Chat available
-        None => {
-            warn!("target Chat is None");
-            Ok(())
-        }
-    }
-}
-
-async fn handle_go_extra_page(
-    bot: &Bot,
-    msg: Option<teloxide::types::Message>,
-    target: Option<Chat>,
-    payload: Option<Payload>,
-) -> ResponseResult<()> {
-    match target {
-        Some(chat) => {
-            match payload {
-                Some(data) => {
-                    warn!("Payload provided, but not needed");
-                    Ok(())
-                }
-                None => {
-                    // no Payload provided
-                    commands::extra_command(bot, msg.unwrap()).await?;
                     Ok(())
                 }
             }

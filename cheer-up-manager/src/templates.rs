@@ -11,7 +11,6 @@ pub enum Templates {
     DeleteNotePage(String),
     SuccessDeleteNotePage(String),
     ErrorDeleteNotePage,
-    ExtraPage(String, String, String, Vec<UserStats>),
     UploadPage(String, String, String, Vec<UserStats>),
     SuccessUploadPage,
     ErrorUploadPage,
@@ -47,9 +46,6 @@ impl Templates {
             Templates::DeleteNotePage(note_id) => delete_note_page(note_id, locale),
             Templates::SuccessDeleteNotePage(note_id) => success_delete_note_page(note_id, locale),
             Templates::ErrorDeleteNotePage => error_delete_note_page(locale),
-            Templates::ExtraPage(user, total_notes, total_users, user_videonotes_list) => {
-                extra_page(user, total_notes, total_users, user_videonotes_list, locale)
-            }
             Templates::UploadPage(user, total_notes, total_users, user_videonotes_list) => {
                 upload_page(user, total_notes, total_users, user_videonotes_list, locale)
             }
@@ -104,43 +100,6 @@ fn error_delete_note_page(locale: &str) -> String {
 
 fn loading_page(locale: &str) -> String {
     format!("{}", t!("loading_page", locale = locale))
-}
-
-fn extra_page(
-    user: &str,
-    total_notes: &str,
-    total_users: &str,
-    user_videonotes_list: &Vec<UserStats>,
-    locale: &str,
-) -> String {
-    let mut stats_list = String::new();
-
-    for stat in user_videonotes_list {
-        let new_stat_entry = format!(
-            "{}{}",
-            stats_list,
-            t!(
-                "extra_page_stat_entry",
-                locale = locale,
-                user = stat.username,
-                user_total_notes = stat.videonotes,
-            )
-        );
-
-        stats_list = new_stat_entry;
-    }
-
-    format!(
-        "{}",
-        t!(
-            "extra_page",
-            locale = locale,
-            user = user,
-            total_notes = total_notes,
-            total_users = total_users,
-            user_videonotes_list = stats_list,
-        )
-    )
 }
 
 fn upload_page(

@@ -71,7 +71,7 @@ error_erase_all_notes_page: |
 delete_note_page: |
   🚨️ ADVERTENCIA: ELIMINANDO VIDEONOTA (id #%{note_id})
 
-  ⚠️ <b>Los datos de las notas de video se perderán por completo
+  ⚠️ <b>Los datos de las notas de video se perderán por completo</b>
 
   ¿Estás seguro de continuar?
 

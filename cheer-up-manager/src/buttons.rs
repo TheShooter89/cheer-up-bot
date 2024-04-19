@@ -92,18 +92,6 @@ pub fn go_to_home_button(payload: Option<Payload>, locale: &Locale) -> InlineKey
     )
 }
 
-pub fn go_to_extra_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
-    let query_data = QueryData {
-        topic: Topic::GoExtraPage,
-        payload,
-    };
-
-    make_button(
-        &t!("buttons.go_extra", locale = locale.to_string().as_str()),
-        &query_data,
-    )
-}
-
 pub fn go_to_upload_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::GoUploadPage,
