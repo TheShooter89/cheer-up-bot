@@ -1,7 +1,7 @@
 use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyboardMarkup};
 
 use crate::buttons::{
-    ask_friend_button, confirm_delete_button, confirm_erase_all_notes_button, delete_note_button,
+    confirm_delete_button, confirm_erase_all_notes_button, delete_note_button,
     erase_all_notes_button, go_to_credits_button, go_to_extra_button, go_to_help_button,
     go_to_home_button, go_to_language_button, go_to_upload_button, list_all_notes_button,
     set_language_EN_button, set_language_ES_button, set_language_IT_button, set_language_UA_button,
@@ -16,19 +16,6 @@ pub fn start_page(locale: &Locale) -> InlineKeyboardMarkup {
     ];
 
     let row_2 = vec![go_to_upload_button(None, locale)];
-
-    let keyboard_buttons = vec![row_1, row_2];
-
-    InlineKeyboardMarkup::new(keyboard_buttons)
-}
-
-pub fn random_note_page(
-    ask_friend_payload: Option<Payload>,
-    locale: &Locale,
-) -> InlineKeyboardMarkup {
-    let row_1 = vec![ask_friend_button(ask_friend_payload.clone(), locale)];
-
-    let row_2 = vec![go_to_home_button(None, locale)];
 
     let keyboard_buttons = vec![row_1, row_2];
 

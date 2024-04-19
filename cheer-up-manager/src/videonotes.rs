@@ -67,19 +67,6 @@ pub async fn upload_vnote(bot: &Bot, videonote: &VideoNote, chat: &Chat) -> Resp
     Ok(())
 }
 
-pub async fn get_random_vnote(bot: &Bot, chat: &Chat) -> ResponseResult<Note> {
-    let client = Client::new();
-
-    let vnote = client
-        .get(format!("http://0.0.0.0:1989/api/notes/random",))
-        .send()
-        .await?
-        .json::<NoteBody<Note>>()
-        .await?;
-
-    Ok(vnote.note)
-}
-
 pub async fn save_vnote_to_db(vnote: &str, author: &Chat) -> ResponseResult<()> {
     let client = Client::new();
 

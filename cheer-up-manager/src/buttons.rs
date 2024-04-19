@@ -11,18 +11,6 @@ pub fn make_button(label: &str, query_data: &QueryData) -> InlineKeyboardButton 
     InlineKeyboardButton::new(label, InlineKeyboardButtonKind::CallbackData(data))
 }
 
-pub fn ask_friend_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
-    let query_data = QueryData {
-        topic: Topic::GetRandomNote,
-        payload,
-    };
-
-    make_button(
-        &t!("buttons.ask_friend", locale = locale.to_string().as_str()),
-        &query_data,
-    )
-}
-
 pub fn list_all_notes_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::ListAllNotes,

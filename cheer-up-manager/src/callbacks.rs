@@ -56,7 +56,6 @@ impl fmt::Display for Payload {
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Topic {
-    GetRandomNote,
     ListAllNotes,
     EraseAllNotes,
     ConfirmEraseAllNotes,
@@ -74,7 +73,6 @@ pub enum Topic {
 impl Topic {
     pub fn name(&self) -> String {
         match self {
-            Topic::GetRandomNote => "#random_note".to_string(),
             Topic::ListAllNotes => "#list".to_string(),
             Topic::EraseAllNotes => "#erase_all".to_string(),
             Topic::ConfirmEraseAllNotes => "#confirm_erase_all".to_string(),
@@ -116,9 +114,6 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
 
             // INFO: call handlers based on query topic passing optional payload
             match topic {
-                Topic::GetRandomNote => {
-                    handle_random_note(&bot, message, chat, data.payload).await?
-                }
                 Topic::DeleteNote => handle_delete_note(&bot, message, chat, data.payload).await?,
                 Topic::ConfirmDelete => {
                     handle_confirm_delete(&bot, message, chat, data.payload).await?
@@ -156,57 +151,6 @@ pub async fn handle_callback(bot: Bot, query: CallbackQuery) -> Result<(), Reque
         }
         Err(e) => {
             println!("ERROR WHILE PARSING CALLBACK DATA: {:?}", e);
-            Ok(())
-        }
-    }
-}
-
-// INFO: all combination of payloads are handled,
-//      even if not necessary for this specific handler,
-//      as an explainatory example
-async fn handle_random_note(
-    bot: &Bot,
-    msg: Option<teloxide::types::Message>,
-    target: Option<Chat>,
-    payload: Option<Payload>,
-) -> ResponseResult<()> {
-    match target {
-        Some(chat) => {
-            match payload {
-                Some(data) => match data {
-                    Payload::Text(_text) => {
-                        // bot.send_message(
-                        //     chat.id,
-                        //     format!(
-                        //         "you requested a random videonote, and your payload is: {}",
-                        //         text
-                        //     ),
-                        // )
-                        // .await?;
-
-                        // INFO: we can safely unwrap msg, since chat is extracted from query.message
-                        // iteslf
-                        commands::random_note_command(bot, msg.unwrap()).await?;
-                        Ok(())
-                    }
-                    // RandomNote callback needs Payload::Text only
-                    _ => {
-                        warn!("payload provided is not Payload::Text");
-                        commands::random_note_command(bot, msg.unwrap()).await?;
-                        Ok(())
-                    }
-                },
-                None => {
-                    // no Payload provided
-                    warn!("no Payload provided");
-                    commands::random_note_command(bot, msg.unwrap()).await?;
-                    Ok(())
-                }
-            }
-        }
-        // No target Chat available
-        None => {
-            warn!("target Chat is None");
             Ok(())
         }
     }
