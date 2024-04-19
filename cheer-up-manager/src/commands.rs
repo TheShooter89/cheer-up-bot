@@ -366,36 +366,6 @@ pub async fn confirm_erase_all_notes_command(
     debug!("vnote_id is : {}", vnote_id);
 
     Ok(())
-    // let deleted_note = delete_vnote_from_db(&vnote_id).await;
-    //
-    // if deleted_note.is_err() {
-    //     info!(
-    //         "[CONFIRM_DELETE_COMMAND] error deleting vnote with id: {}",
-    //         &vnote_id
-    //     );
-    //     let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
-    //     bot.send_message(
-    //         msg.chat.id,
-    //         Templates::ErrorDeleteNotePage.render(&locale_str),
-    //     )
-    //     .parse_mode(ParseMode::Html)
-    //     .reply_markup(keyboard)
-    //     .await?;
-    //     return Ok(());
-    // }
-    //
-    // let unwrapped_deleted_note = deleted_note.unwrap();
-    //
-    // let template = Templates::SuccessDeleteNotePage(unwrapped_deleted_note.note);
-    //
-    // let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
-    //
-    // // bot.send_message(msg.chat.id, template.render())
-    // bot.send_message(msg.chat.id, template.render(&locale_str))
-    //     .parse_mode(ParseMode::Html)
-    //     .reply_markup(keyboard)
-    //     .await?;
-    // Ok(())
 }
 
 pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
@@ -471,6 +441,13 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let locale_str = remote_locale.to_string();
 
+    // show loading indicator
+    let template = Templates::LoadingPage;
+
+    bot.send_message(msg.chat.id, template.render(&locale_str))
+        .parse_mode(ParseMode::Html)
+        .await?;
+
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
     debug!("vnote_list is: {:?}", vnote_list);
 
@@ -498,7 +475,7 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
             .await?;
     }
 
-    let template = Templates::ListPage(vnote_list.len().to_string());
+    let template = Templates::ListPage(user.username, vnote_list.len().to_string());
 
     let keyboard = keyboards::list_notes_page(Some(Payload::UserId(user.id)), None, &remote_locale);
 
