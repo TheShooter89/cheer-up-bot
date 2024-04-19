@@ -383,8 +383,15 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let locale_str = remote_locale.to_string();
 
+    // INFO: show loading indicator
+    let template = Templates::LoadingPage;
+
+    bot.send_message(msg.chat.id, template.render(&locale_str))
+        .parse_mode(ParseMode::Html)
+        .await?;
+
     let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
-    debug!("vnote_list is: {:?}", vnote_list);
+    debug!("[LIST_COMMAND] vnote_list is: {:?}", vnote_list);
 
     for vnote in &vnote_list {
         let user = get_user_by_id(&vnote.user_id).await?;
