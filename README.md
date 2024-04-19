@@ -6,12 +6,12 @@ Telegram bot to help coping with long-distance friendships nostalgia 😊️
 
 Friends can upload many Telegram video note messages (aka bubble videos) with greetings, jokes, memes and so on, then when you feel lonely or you miss your friends from abroad you can open CheerUp bot and press a button to get a video note choosen randomly among all the video notes uploaded by your friends to see and hear them 😊️
 
-This project has 4 "moving parts":
+This project has 3 "moving parts":
 
 - `cheer-up`: this is the main "frontend" bot, that renders a "Cheer me up!" button to get a random video note
 - `cheer-up-manager`: a manager bot friends can send video notes to, also used to handle the archived video notes (delete single or multiple notes, i.e.)
 - `cheer-up-api`: a minimal REST api server to interact with a database persisting videonotes list and their metadata
-- `cheer-up-core`: library to share common code between above parts of the project
+- 🎯️ [ON ROADMAP] `cheer-up-core`: library to share common code between above parts of the project
 
 
 ## Usage/Examples
@@ -21,7 +21,7 @@ This project is handled as a `cargo workspace` with 4 crates corresponding to ab
 - `cheer-up`: binary crate - main bot using `teloxide`
 - `cheer-up-manager`: binary crate - manager bot using `teloxide`
 - `cheer-up-api`: binary crate - REST api server with SQLite database running locally on `PORT=3000`
-- `cheer-up-core`: library crate - common code shared between crates (i.e. `cheer_up_core::utils`) 
+- 🎯️ [ON ROADMAP] `cheer-up-core`: library crate - common code shared between crates (i.e. `cheer_up_core::utils`) ⚠️ CURRENTLY UNIMPLEMENTED ⚠️
 
 #### ⚠️ TODO: update this section to document commands to spin up the entire app from project root
 clone this repo and `cd` into it and use `cargo run` to run it
