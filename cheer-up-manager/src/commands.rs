@@ -352,7 +352,7 @@ pub async fn confirm_erase_all_notes_command(
         &data
     );
 
-    let parsed_data = data.number();
+    let parsed_data = data.clone().number();
     if parsed_data.is_none() {
         let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
         bot.send_message(
@@ -368,6 +368,29 @@ pub async fn confirm_erase_all_notes_command(
     // let deleted_note = delete_vnote_from_db(&vnote_id).await?;
     info!("[CONFIRM_ERASE_ALL_NOTES_COMMAND] user_id is : {}", user_id);
 
+    let result = delete_all_user_vnotes(&msg.chat).await;
+
+    if result.is_err() {
+        let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
+        bot.send_message(
+            msg.chat.id,
+            Templates::ErrorEraseAllNotesPage.render(&locale_str),
+        )
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
+        return Ok(());
+    }
+
+    let template = Templates::SuccessEraseAllNotesPage(data.to_string());
+
+    let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
+
+    // bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
     Ok(())
 }
 
