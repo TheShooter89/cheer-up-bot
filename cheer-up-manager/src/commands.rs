@@ -23,7 +23,8 @@ use crate::{
     user::{get_user, get_user_by_id, get_user_by_telegram_id, save_user_to_db, UserId},
     utils::{get_user_folder_path, get_user_folder_path_by_user},
     videonotes::{
-        delete_all_user_vnotes, delete_vnote_from_db, get_random_vnote, get_vnote_list_from_db,
+        delete_all_user_vnotes, delete_vnote_from_db, get_author_vnote_list_from_db,
+        get_random_vnote, get_vnote_list_from_db,
     },
 };
 
@@ -474,7 +475,7 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
         .parse_mode(ParseMode::Html)
         .await?;
 
-    let vnote_list = get_vnote_list_from_db(&msg.chat).await?;
+    let vnote_list = get_author_vnote_list_from_db(&msg.chat).await?;
     debug!("vnote_list is: {:?}", vnote_list);
 
     for vnote in &vnote_list {
