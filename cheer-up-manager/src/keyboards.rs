@@ -1,10 +1,10 @@
 use teloxide::types::{InlineKeyboardButton, InlineKeyboardButtonKind, InlineKeyboardMarkup};
 
 use crate::buttons::{
-    ask_friend_button, confirm_delete_button, delete_note_button, erase_all_notes_button,
-    go_to_credits_button, go_to_extra_button, go_to_help_button, go_to_home_button,
-    go_to_language_button, go_to_upload_button, list_all_notes_button, set_language_EN_button,
-    set_language_ES_button, set_language_IT_button, set_language_UA_button,
+    ask_friend_button, confirm_delete_button, confirm_erase_all_notes_button, delete_note_button,
+    erase_all_notes_button, go_to_credits_button, go_to_extra_button, go_to_help_button,
+    go_to_home_button, go_to_language_button, go_to_upload_button, list_all_notes_button,
+    set_language_EN_button, set_language_ES_button, set_language_IT_button, set_language_UA_button,
 };
 use crate::callbacks::{Payload, QueryData};
 use crate::locale::Locale;
@@ -58,7 +58,7 @@ pub fn erase_all_notes_page(
     locale: &Locale,
 ) -> InlineKeyboardMarkup {
     let row_1 = vec![
-        confirm_delete_button(confirm_delete_payload.clone(), locale),
+        confirm_erase_all_notes_button(confirm_delete_payload.clone(), locale),
         go_to_home_button(None, locale),
     ];
 

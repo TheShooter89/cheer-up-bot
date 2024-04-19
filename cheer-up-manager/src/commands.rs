@@ -317,11 +317,11 @@ pub async fn confirm_erase_all_notes_command(
     query_data: Option<Payload>,
 ) -> ResponseResult<()> {
     let user = get_user(&msg.chat).await?;
-    info!("[CONFIRM_DELETE_COMMAND] user is: {:?}", user);
+    info!("[CONFIRM_ERASE_ALL_NOTES_COMMAND] user is: {:?}", user);
 
     let remote_locale = get_user_locale_by_user_id(&user.id).await?;
     info!(
-        "[CONFIRM_DELETE_COMMAND] remote_locale is: {:?}",
+        "[CONFIRM_ERASE_ALL_NOTES_COMMAND] remote_locale is: {:?}",
         remote_locale
     );
 
@@ -347,7 +347,10 @@ pub async fn confirm_erase_all_notes_command(
 
     let data = query_data.unwrap();
 
-    info!("[CONFIRM_DELETE_COMMAND] query_data payload is: {}", &data);
+    info!(
+        "[CONFIRM_ERASE_ALL_NOTES_COMMAND] query_data payload is: {}",
+        &data
+    );
 
     let parsed_data = data.number();
     if parsed_data.is_none() {
@@ -361,9 +364,9 @@ pub async fn confirm_erase_all_notes_command(
         .await?;
         return Ok(());
     }
-    let vnote_id = parsed_data.unwrap();
+    let user_id = parsed_data.unwrap();
     // let deleted_note = delete_vnote_from_db(&vnote_id).await?;
-    info!("vnote_id is : {}", vnote_id);
+    info!("[CONFIRM_ERASE_ALL_NOTES_COMMAND] user_id is : {}", user_id);
 
     Ok(())
 }

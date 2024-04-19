@@ -137,6 +137,8 @@ buttons.list_notes: 🔥️ LIST ALL VIDEONOTES 🔥️
 
 buttons.erase_all_notes: ☢️ ERASE ALL ☢️
 
+buttons.confirm_erase_all_notes: ✅️ CONFIRM
+
 buttons.delete_note: 🗑️ DELETE NOTE
 
 buttons.confirm: ✅️ CONFIRM

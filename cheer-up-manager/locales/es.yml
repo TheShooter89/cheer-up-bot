@@ -137,6 +137,8 @@ buttons.list_notes: 🔥️ LISTAR TODAS LAS VIDEONOTAS 🔥️
 
 buttons.erase_all_notes: ☢️ BORRAR TODO ☢️
 
+buttons.confirm_erase_all_notes: ✅️ CONFIRMAR
+
 buttons.delete_note: 🗑️ BORRAR
 
 buttons.confirm: ✅️ CONFIRMAR
