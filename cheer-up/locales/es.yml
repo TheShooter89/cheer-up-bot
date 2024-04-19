@@ -43,6 +43,11 @@ upload_page: |
 
   Para obtener más ayuda y comandos adicionales, escriba /ayuda
 
+success_upload_page: |
+  ✅️ VIDEONOTA SUBIDA EXITOSAMENTE
+error_upload_page: |
+  ⚠️ ERROR AL SUBIR VIDEONOTA
+
 list_page: |
   Tus amigos te quieren mucho 😊️
   ¡Te enviaron un total impresionante de <b>%{total_notes}</b> videonotas! 🚀️🚀️

@@ -1,12 +1,12 @@
+use log::{debug, info};
 use teloxide::{
     prelude::*,
     types::{Me, ParseMode},
 };
 
-use crate::templates::*;
 use crate::user::*;
 use crate::videonotes::*;
-use crate::{commands::*, locale::get_user_locale_by_user_id};
+use crate::{commands::*, keyboards, locale::get_user_locale_by_user_id, templates::*};
 
 #[derive(Debug, Clone, Copy)]
 pub enum MessageType {
@@ -68,35 +68,81 @@ impl MessageType {
 }
 
 pub async fn handle_message(bot: Bot, msg: Message, me: Me) -> ResponseResult<()> {
+    let user = get_user(&msg.chat).await?;
+    info!("[HANDLE_MESSAGE] user is: {:?}", user);
+
+    let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!("[HANDLE_MESSAGE] remote_locale is: {:?}", remote_locale);
+
+    let locale_str = remote_locale.to_string();
+
+    // INFO: show loading indicator
+    let template = Templates::LoadingPage;
+
+    bot.send_message(msg.chat.id, template.render(&locale_str))
+        .parse_mode(ParseMode::Html)
+        .await?;
+
+    // INFO: parse message to intercept videonotes uploadings
     let message_type = MessageType::from_msg(&msg);
-    println!("Message type you sent: {:?}", message_type);
+    debug!("[HANDLE_MESSAGE] Message type you sent: {:?}", message_type);
 
     let chat_id = msg.chat.id;
 
     match message_type {
         MessageType::VideoNote => {
-            println!("received video note");
+            info!("[HANDLE_MESSAGE] received video note");
             let vnote = msg.video_note().unwrap();
 
+            // INFO: save user to db
             let save_user = save_user_to_db(&msg.chat).await;
             if save_user.is_err() {
-                println!("an error occurred while saving user to db")
+                info!("[HANDLE_MESSAGE] an error occurred while saving user to db");
             }
-            upload_vnote(&bot, vnote, &msg.chat).await?;
-            let save_vnote = save_vnote_to_db(&vnote.file.id, &msg.chat).await;
-            if save_vnote.is_err() {
-                println!("an error occurred while saving note");
+            // INFO: upload vnote to server disk
+            let upload_result = upload_vnote(&bot, vnote, &msg.chat).await;
+            if upload_result.is_err() {
+                info!("[HANDLE_MESSAGE] an error occurred while saving note");
+                let keyboard = keyboards::upload_result_page(&remote_locale);
+                bot.send_message(msg.chat.id, Templates::ErrorUploadPage.render(&locale_str))
+                    .parse_mode(ParseMode::Html)
+                    .reply_markup(keyboard)
+                    .await?;
+                return Ok(());
             }
 
+            // INFO: save vnote to db
+            let save_vnote = save_vnote_to_db(&vnote.file.id, &msg.chat).await;
+            if save_vnote.is_err() {
+                info!("[HANDLE_MESSAGE] an error occurred while saving note");
+                let keyboard = keyboards::upload_result_page(&remote_locale);
+                bot.send_message(msg.chat.id, Templates::ErrorUploadPage.render(&locale_str))
+                    .parse_mode(ParseMode::Html)
+                    .reply_markup(keyboard)
+                    .await?;
+                return Ok(());
+            }
+
+            let template = Templates::SuccessUploadPage;
+            let keyboard = keyboards::upload_result_page(&remote_locale);
+
+            // bot.send_message(msg.chat.id, template.render())
+            bot.send_message(msg.chat.id, template.render(&locale_str))
+                .parse_mode(ParseMode::Html)
+                .reply_markup(keyboard)
+                .await?;
             Ok(())
         }
         MessageType::Text => {
             let command = Command::parse_str(msg.text().unwrap_or("none"));
 
-            println!("Text you sent: {:?}", msg.text().unwrap_or("NONE"));
+            info!(
+                "[HANDLE_MESSAGE] Text you sent: {:?}",
+                msg.text().unwrap_or("NONE")
+            );
 
             if let Some(cmd) = command {
-                println!("Command you sent: {:?}", cmd);
+                info!("[HANDLE_MESSAGE] Command you sent: {:?}", cmd);
                 handle_commands(bot.clone(), cmd, msg.clone()).await?;
 
                 return Ok(());
