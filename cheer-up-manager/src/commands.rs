@@ -93,7 +93,7 @@ pub async fn start_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let template = Templates::StartPage(username.to_string());
 
-    let keyboard = keyboards::start_page(None, None, &remote_locale);
+    let keyboard = keyboards::start_page(&remote_locale);
 
     bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
@@ -626,7 +626,7 @@ pub async fn set_language_command(bot: &Bot, msg: Message, locale: Locale) -> Re
 
     let template = Templates::StartPage(username.to_string());
 
-    let keyboard = keyboards::start_page(None, None, &remote_locale);
+    let keyboard = keyboards::start_page(&remote_locale);
 
     let rendered_template = template.render(&locale_str);
     debug!("rendered_template: {:?}", rendered_template);

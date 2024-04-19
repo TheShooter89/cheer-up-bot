@@ -9,16 +9,15 @@ use crate::buttons::{
 use crate::callbacks::{Payload, QueryData};
 use crate::locale::Locale;
 
-pub fn start_page(
-    ask_friend_query: Option<Payload>,
-    go_extra_query: Option<Payload>,
-    locale: &Locale,
-) -> InlineKeyboardMarkup {
-    let ask_friend_button = ask_friend_button(ask_friend_query.clone(), locale);
-    // let go_to_extra_button = make_button(&t!("start_page.buttons.go_extra"), go_extra_query);
-    let go_to_extra_button = go_to_extra_button(go_extra_query.clone(), locale);
+pub fn start_page(locale: &Locale) -> InlineKeyboardMarkup {
+    let row_1 = vec![
+        list_all_notes_button(None, locale),
+        go_to_help_button(None, locale),
+    ];
 
-    let keyboard_buttons = vec![vec![ask_friend_button, go_to_extra_button]];
+    let row_2 = vec![go_to_upload_button(None, locale)];
+
+    let keyboard_buttons = vec![row_1, row_2];
 
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
