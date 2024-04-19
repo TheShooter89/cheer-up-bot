@@ -169,12 +169,12 @@ pub fn error_upload_page(
 }
 
 pub fn credits_page(
-    go_extra_payload: Option<Payload>,
+    go_language_payload: Option<Payload>,
     go_help_payload: Option<Payload>,
     locale: &Locale,
 ) -> InlineKeyboardMarkup {
     let row_1 = vec![
-        go_to_extra_button(go_extra_payload.clone(), locale),
+        go_to_language_button(go_language_payload.clone(), locale),
         go_to_help_button(go_help_payload.clone(), locale),
     ];
 
