@@ -122,6 +122,14 @@ pub fn upload_page(
     InlineKeyboardMarkup::new(keyboard_buttons)
 }
 
+pub fn upload_result_page(locale: &Locale) -> InlineKeyboardMarkup {
+    let row_1 = vec![go_to_home_button(None, locale)];
+
+    let keyboard_buttons = vec![row_1];
+
+    InlineKeyboardMarkup::new(keyboard_buttons)
+}
+
 pub fn credits_page(
     go_extra_payload: Option<Payload>,
     go_help_payload: Option<Payload>,

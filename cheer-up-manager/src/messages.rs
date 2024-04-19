@@ -126,7 +126,7 @@ pub async fn handle_message(bot: Bot, msg: Message, me: Me) -> ResponseResult<()
             }
 
             let template = Templates::SuccessUploadPage;
-            let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
+            let keyboard = keyboards::upload_result_page(&remote_locale);
 
             // bot.send_message(msg.chat.id, template.render())
             bot.send_message(msg.chat.id, template.render(&locale_str))
