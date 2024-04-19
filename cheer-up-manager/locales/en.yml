@@ -49,6 +49,19 @@ list_page: |
 
   For further help and additional commands type /help
 
+erase_all_notes_page: |
+  🚨️ WARNING: DELETING ALL VIDEONOTES (user_id #%{user_id})
+
+  ⚠️ <b>All videonotes data will be completely lost</b>
+
+  Are you sure to proceed?
+
+success_erase_all_notes_page: |
+  ✅️ ALL VIDEONOTES SUCCESSFULLY DELETED
+
+error_erase_all_notes_page: |
+  ⚠️ ERROR DELETING VIDEONOTES
+
 delete_note_page: |
   🚨️ WARNING: DELETING VIDEONOTE (id #%{note_id})
 
@@ -122,7 +135,11 @@ buttons.ask_friend: 💛️ ASK A FRIEND 💙️
 
 buttons.list_notes: 🔥️ LIST ALL VIDEONOTES 🔥️
 
+buttons.erase_all_notes: ☢️ ERASE ALL ☢️
+
 buttons.delete_note: 🗑️ DELETE NOTE
+
+buttons.confirm: ✅️ CONFIRM
 
 buttons.go_home: ↩️ BACK TO HOME
 

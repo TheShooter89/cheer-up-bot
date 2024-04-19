@@ -14,6 +14,9 @@ pub enum Templates {
     ExtraPage(String, String, String, Vec<UserStats>),
     UploadPage(String, String, String, Vec<UserStats>),
     ListPage(String),
+    EraseAllNotesPage(String),
+    SuccessEraseAllNotesPage(String),
+    ErrorEraseAllNotesPage,
     LanguagePage,
     HelpPage,
     CreditsPage,
@@ -49,6 +52,11 @@ impl Templates {
                 upload_page(user, total_notes, total_users, user_videonotes_list, locale)
             }
             Templates::ListPage(total_notes) => list_page(total_notes, locale),
+            Templates::EraseAllNotesPage(user_id) => erase_all_notes_page(user_id, locale),
+            Templates::SuccessEraseAllNotesPage(user_id) => {
+                success_erase_all_notes_page(user_id, locale)
+            }
+            Templates::ErrorEraseAllNotesPage => error_erase_all_notes_page(locale),
             Templates::LanguagePage => language_page(&repo_url, locale),
             Templates::HelpPage => help_page(locale),
             Templates::CreditsPage => {
@@ -173,6 +181,28 @@ fn list_page(total_notes: &str, locale: &str) -> String {
         "{}",
         t!("list_page", locale = locale, total_notes = total_notes)
     )
+}
+
+fn erase_all_notes_page(user_id: &str, locale: &str) -> String {
+    format!(
+        "{}",
+        t!("erase_all_notes_page", locale = locale, user_id = user_id)
+    )
+}
+
+fn success_erase_all_notes_page(note_id: &str, locale: &str) -> String {
+    format!(
+        "{}",
+        t!(
+            "success_erase_all_notes_page",
+            locale = locale,
+            note_id = note_id
+        )
+    )
+}
+
+fn error_erase_all_notes_page(locale: &str) -> String {
+    format!("{}", t!("error_erase_all_notes_page", locale = locale))
 }
 
 fn credits_page(

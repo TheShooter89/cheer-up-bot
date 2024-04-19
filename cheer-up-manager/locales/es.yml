@@ -49,6 +49,19 @@ list_page: |
 
   Para obtener más ayuda y comandos adicionales, escriba /ayuda
 
+erase_all_notes_page: |
+  🚨️ ADVERTENCIA: ELIMINAR TODAS LAS VIDEONOTAS (user_id #%{user_id})
+
+  ⚠️ <b>Todos los datos de las videonotas se perderán por completo</b>
+
+  ¿Estás seguro de continuar?
+
+success_erase_all_notes_page: |
+  ✅️ TODAS LAS VIDEONOTAS ELIMINADAS CON ÉXITO
+
+error_erase_all_notes_page: |
+  ⚠️ ERROR AL BORRAR VIDEONOTAS
+
 delete_note_page: |
   🚨️ ADVERTENCIA: ELIMINANDO VIDEONOTA (id #%{note_id})
 
@@ -60,7 +73,7 @@ success_delete_note_page: |
   ✅️ VIDEONOTA ELIMINADA CON ÉXITO
 
 error_delete_note_page: |
-  ⚠️ ERROR DELETING VIDEONOTE
+  ⚠️ ERROR AL BORRAR VIDEONOTA
 
 credits_page: |
   <b>Créditos 🧬️</b>
@@ -122,7 +135,11 @@ buttons.ask_friend: 💛️ PEDIR UN AMIGO 💙️
 
 buttons.list_notes: 🔥️ LISTAR TODAS LAS VIDEONOTAS 🔥️
 
+buttons.erase_all_notes: ☢️ BORRAR TODO ☢️
+
 buttons.delete_note: 🗑️ BORRAR
+
+buttons.confirm: ✅️ CONFIRMAR
 
 buttons.go_home: ↩️ REGRESAR A INICIO
 

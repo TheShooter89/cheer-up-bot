@@ -35,6 +35,21 @@ pub fn list_all_notes_button(payload: Option<Payload>, locale: &Locale) -> Inlin
     )
 }
 
+pub fn erase_all_notes_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
+    let query_data = QueryData {
+        topic: Topic::EraseAllNotes,
+        payload,
+    };
+
+    make_button(
+        &t!(
+            "buttons.erase_all_notes",
+            locale = locale.to_string().as_str()
+        ),
+        &query_data,
+    )
+}
+
 pub fn delete_note_button(payload: Option<Payload>, locale: &Locale) -> InlineKeyboardButton {
     let query_data = QueryData {
         topic: Topic::DeleteNote,
@@ -54,7 +69,7 @@ pub fn confirm_delete_button(payload: Option<Payload>, locale: &Locale) -> Inlin
     };
 
     make_button(
-        &t!("buttons.delete_note", locale = locale.to_string().as_str()),
+        &t!("buttons.confirm", locale = locale.to_string().as_str()),
         &query_data,
     )
 }

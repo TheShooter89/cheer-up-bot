@@ -275,6 +275,129 @@ pub async fn confirm_delete_command(
     Ok(())
 }
 
+pub async fn erase_all_notes_command(
+    bot: &Bot,
+    msg: Message,
+    query_data: Option<Payload>,
+) -> ResponseResult<()> {
+    let data = query_data.unwrap_or(Payload::Text("none".to_string()));
+    info!("[erase_all_notes_COMMAND] data is: {:?}", data);
+
+    let user = get_user(&msg.chat).await?;
+    info!("[erase_all_notes_COMMAND] user is: {:?}", user);
+
+    let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!(
+        "[erase_all_notes_COMMAND] remote_locale is: {:?}",
+        remote_locale
+    );
+
+    let locale_str = remote_locale.to_string();
+
+    info!(
+        "[erase_all_notes_COMMAND] deleting vnote with data: {:?}",
+        &data
+    );
+
+    let template = Templates::EraseAllNotesPage(data.to_string());
+
+    let keyboard = keyboards::erase_all_notes_page(Some(data), &remote_locale);
+
+    // bot.send_message(msg.chat.id, template.render())
+    bot.send_message(msg.chat.id, template.render(&locale_str))
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
+    Ok(())
+}
+
+pub async fn confirm_erase_all_notes_command(
+    bot: &Bot,
+    msg: Message,
+    query_data: Option<Payload>,
+) -> ResponseResult<()> {
+    let user = get_user(&msg.chat).await?;
+    info!("[CONFIRM_DELETE_COMMAND] user is: {:?}", user);
+
+    let remote_locale = get_user_locale_by_user_id(&user.id).await?;
+    info!(
+        "[CONFIRM_DELETE_COMMAND] remote_locale is: {:?}",
+        remote_locale
+    );
+
+    let locale_str = remote_locale.to_string();
+
+    if query_data.is_none() {
+        let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
+        bot.send_message(
+            msg.chat.id,
+            Templates::ErrorEraseAllNotesPage.render(&locale_str),
+        )
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
+        return Ok(());
+    }
+
+    let data = query_data.unwrap();
+
+    let template = Templates::LoadingPage;
+
+    bot.send_message(msg.chat.id, template.render(&locale_str))
+        .parse_mode(ParseMode::Html)
+        .await?;
+
+    info!("[CONFIRM_DELETE_COMMAND] deleting vnote with id: {}", &data);
+
+    let parsed_data = data.to_string().parse::<i64>();
+    if parsed_data.is_err() {
+        let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
+        bot.send_message(
+            msg.chat.id,
+            Templates::ErrorEraseAllNotesPage.render(&locale_str),
+        )
+        .parse_mode(ParseMode::Html)
+        .reply_markup(keyboard)
+        .await?;
+        return Ok(());
+    }
+    let vnote_id = parsed_data.unwrap();
+    // let deleted_note = delete_vnote_from_db(&vnote_id).await?;
+    debug!("vnote_id is : {}", vnote_id);
+
+    Ok(())
+    // let deleted_note = delete_vnote_from_db(&vnote_id).await;
+    //
+    // if deleted_note.is_err() {
+    //     info!(
+    //         "[CONFIRM_DELETE_COMMAND] error deleting vnote with id: {}",
+    //         &vnote_id
+    //     );
+    //     let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
+    //     bot.send_message(
+    //         msg.chat.id,
+    //         Templates::ErrorDeleteNotePage.render(&locale_str),
+    //     )
+    //     .parse_mode(ParseMode::Html)
+    //     .reply_markup(keyboard)
+    //     .await?;
+    //     return Ok(());
+    // }
+    //
+    // let unwrapped_deleted_note = deleted_note.unwrap();
+    //
+    // let template = Templates::SuccessDeleteNotePage(unwrapped_deleted_note.note);
+    //
+    // let keyboard = keyboards::erase_all_notes_result_page(&remote_locale);
+    //
+    // // bot.send_message(msg.chat.id, template.render())
+    // bot.send_message(msg.chat.id, template.render(&locale_str))
+    //     .parse_mode(ParseMode::Html)
+    //     .reply_markup(keyboard)
+    //     .await?;
+    // Ok(())
+}
+
 pub async fn extra_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
     let user = get_user(&msg.chat).await?;
     info!("[EXTRA_COMMAND] user is: {:?}", user);
@@ -377,7 +500,7 @@ pub async fn list_command(bot: &Bot, msg: Message) -> ResponseResult<()> {
 
     let template = Templates::ListPage(vnote_list.len().to_string());
 
-    let keyboard = keyboards::list_notes_page(None, None, &remote_locale);
+    let keyboard = keyboards::list_notes_page(Some(Payload::UserId(user.id)), None, &remote_locale);
 
     bot.send_message(msg.chat.id, template.render(&locale_str))
         .parse_mode(ParseMode::Html)
